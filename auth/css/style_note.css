@@ -5,9 +5,10 @@
 nav {
     display: flex;
     align-items: center;
-    background: skyblue;
+    /* background: skyblue; */
     height: 10%;
     position: relative;
+    background-color: rgb(236, 243, 255);
 }
 .icon {
     cursor: pointer;
