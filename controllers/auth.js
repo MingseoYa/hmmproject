@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -143,6 +143,22 @@ exports.videolist = (req, res) => {
         })
     })
 }
+
+exports.mypage = (req, res) => {
+    return res.render('mypage')
+
+}
+
+exports.map = (req, res) => {
+    return res.render('map')
+
+}
+
+exports.settings = (req, res) => {
+    return res.render('settings')
+
+}
+
 //공유버튼 눌렀을 때 
 //var fs = require('fs');
 // exports.play = (req, res, next) => {

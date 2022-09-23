@@ -22,9 +22,11 @@
   "name": "Node-JS-Streams-main",
   "version": "1.0.0",
   "main": "http.js",
+
   "devDependencies": {
     "nodemon": "^2.0.20"
   },
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
