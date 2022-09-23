@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "controls": "^0.7.5",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.2",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "firebase": "^9.9.1",
+    "hbs": "^4.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "loop": "^3.3.6",
+    "multer": "^1.4.5-lts.1",
+    "multipart-parser": "0.0.2",
+    "multiparty": "^4.2.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.19",
+    "oracledb": "^5.4.0",
+    "simple-exiftool": "^1.1.0"
+  },
+  "name": "Node-JS-Streams-main",
+  "version": "1.0.0",
+  "main": "http.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

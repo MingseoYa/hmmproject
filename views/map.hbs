@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<head>
+  <meta charset = 'utf-8'>
+
+  <title>Local Shorts'</title>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAg3D4VbAeJTSlv3ar8Z1nRDJfeG--AJY&callback=initMap&libraries=&v=weekly"
+    defer
+  ></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+      #ok{
+        font-family: 'Playfair Display', serif;
+        font-size:100px;
+        color:#6799FF;
+      }
+    
+      .upButton{
+        color:skyblue;
+        border:1px solid skyblue;
+        background-color:white;
+        border-radius:10px;
+        width:200px;
+        height:80px;
+        font-size:30px;
+        padding: 0;
+      }
+
+
+      #camInput {
+        position: absolute;
+        border: 1px solid skyblue;
+        border-radius: 50%;
+        height: 100px; width: 100px;
+        padding: 0;
+        border: 0;
+        bottom:2%;
+        display: none;
+      }
+
+      #camInputLabel {
+        position: absolute;
+        border: 1px solid skyblue;
+        border-radius: 50%;
+        background: white;
+        color: skyblue;
+        background-color: white;
+        cursor: pointer;
+        display: inline-block;
+        height: 100px; width: 100px;
+        line-height: 100px;
+        text-align: center;
+        font-size: 30px;
+        bottom:2%;
+      }
+      .div1{
+        width: 100px;
+        margin: 0 auto;
+      }
+      
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #moreBtn{
+        border:none;
+        background-color: transparent;
+      }
+    </style>
+        <script>
+          function initMap() {
+              const myLatLng = {
+                lat: 37.6511988,
+                lng: 127.0161604
+              };
+        
+            var locations = [
+              ['차미리사기념관', 37.6532193, 127.0162689],
+              ['대강의동', 37.6537193, 127.0155467],
+              ['인문과학대학', 37.6532749, 127.0149912],
+              ['도서관', 37.6524416, 127.0158245],
+              ['학생회관', 37.6521917, 127.0166022],
+              ['자연과학대학', 37.6513863, 127.0172688],
+              ['약학대학', 37.6513863, 127.0178521],
+              ['대학본부', 37.651414, 127.0150746],
+              ['예술대학', 37.6511085, 127.0166856],
+              ['유아교육관', 37.6493865, 127.0164634],
+              ['기숙사', 37.649331, 127.0217685],
+              ['언어교육원', 37.6498032, 127.0206297],
+              ['덕우당', 37.650303, 127.015519],
+              ['운동장', 37.6495809, 127.0176022],
+              ['스머프동산', 37.6523671, 127.0149322],
+              ['정보미디어대학', 37.6527533, 127.0165359],
+              ['영근터', 37.6510119, 127.0158278],
+              ['라온센터', 37.6500048, 127.0190873],
+              ['약학관아트홀', 37.6510458, 127.0182461],
+              ['하나누리관', 37.6502939, 127.0193974],
+              ['민주동산', 37.6517764, 127.0158171],
+            ];
+        
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 17,
+              center: myLatLng,
+            });
+        
+            var infowindow = new google.maps.InfoWindow();
+        
+            var marker, i;
+        
+            for (i = 0; i < locations.length; i++) {  
+              marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map
+              });
+        
+              // <p id="loca">C:/Users/msk99/Desktop/videoList/list.html</p>
+              google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                //var browse = '<br><a href="/videolist.html?'+locations[i][0]+'" style="color:blue">더보기</a>'
+                var location = locations[i][0];
+                //var browse = '<br><form action = "/auth/videolist?' + location + '" method = "POST"><input type="hidden" value="' + location + '" name = "location"/><button type = "submit" style="color:blue">더보기</button></form>'
+                var browse = '<br><form action = "/auth/videolist" method = "POST"><input type="hidden" value="' + location + '" name = "location"/><button id = "moreBtn" type = "submit" style="color:blue">더보기</button></form>'
+                
+                
+                return function() {
+                  // infowindow.setContent(locations[i][0]+'<br><a href="C:/Users/msk99/Desktop/videoList/list.html" style="color:blue" target="_blank">더보기</a>');
+                   infowindow.setContent(locations[i][0]+browse);
+                  // infowindow.setContent(locations[i][0]+browser+'<br><a href="#browser" style="color:blue" target="_blank">더보기</a>');
+                  infowindow.open(map, marker);
+                }
+              })(marker, i));
+            }    
+          }
+            
+          </script>
+
+<article
+id="buildingLoca"
+building=locations[i][0]>
+</article>
+
+
+</head>
+<body>
+<!-- map -->
+    {{!-- <script>
+      $("#map").load("map.html");
+    </script> --}}
+    <div id="map"></div>
+
+<!-- video upload -->
+    <!-- <form enctype="multipart/form-data" method="POST" action="/">
+      <div class="div1">
+      <label for="camInput" id="camInputLabel">+</label>
+      <input type="file" name="upload-file" accept="video/*";capture="camera" id="camInput">
+      </div>
+      <button class="upButton">Upload File</button> </form>-->
+      
+        <div class="div1">
+          <form action="/auth/upload" method = "POST">
+          <button type= "submit" id="camInputLabel">+</button>
+          </form>
+        </div>
+      
+</body>
+</html>
