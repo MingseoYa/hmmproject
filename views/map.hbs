@@ -140,11 +140,16 @@
             var infowindow = new google.maps.InfoWindow();
         
             var marker, i;
-        
+            var myIcon = {
+                url: "../image/pink.png", // url
+                scaledSize: new google.maps.Size(30, 40), // scaled size
+            };
+
             for (i = 0; i < locations.length; i++) {  
               marker = new google.maps.Marker({
                 position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map
+                map: map,
+                icon:myIcon
               });
         
               google.maps.event.addListener(marker, 'click', (function(marker, i) {
