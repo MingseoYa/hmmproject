@@ -23,6 +23,9 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.post('/upload', authController.upload);
 router.post('/videolist', authController.videolist);
+router.post('/mypage', authController.mypage);
+router.post('/map', authController.map);
+router.post('/settings', authController.settings);
 //업로드 페이지에서 공유버튼 눌렀을 때
 //router.post('/play', mul.single('uploadfile'), authController.play);
 //play버튼누르면
