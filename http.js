@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 
 //app.js랑 합침
 const path = require("path");
-const mysql = require("mysql2");
+const mysql = require("mysql");
 const dotenv = require("dotenv");
 dotenv.config({path : './.env'});
 
