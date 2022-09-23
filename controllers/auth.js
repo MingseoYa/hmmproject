@@ -1,3 +1,4 @@
+
 const mysql = require("mysql");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
@@ -7,6 +8,7 @@ const {promisify} = require('util');
 const multiparty = require('multiparty');
 const bodyParser = require('body-parser');
 
+var users = [];
 
 const db = mysql.createConnection({
     host : process.env.DATABASE_HOST,
@@ -64,6 +66,7 @@ exports.login = (req, res) => {
 
     const { email, password } = req.body;
 
+
     db.query('select Email from users where Email = ?', [email], async(error, results) => {
         if(error){
             console.log(error);
@@ -79,11 +82,19 @@ exports.login = (req, res) => {
             db.query('select Pwd from users where Email = ? and Pwd = ?', [email, password], async(error, results) => {
                 
                 
-                if(results.length > 0){ //비밀번호도 동일하면
-                    // return res.render('map', { //로그인성공
-
-                    //     // message: '로그인되었습니다'
-                    // });
+                if(results.length > 0){ //비밀번호도 동일하면 로그인 성공
+                    db.query('select Nickname from users where Email = ?', [email], async(error, resultss) => {
+                        usernick = [];
+                        for(var data of resultss){
+                            usernick.push(data.Nickname);
+                        }
+                        var user = {
+                            useremail : email,
+                            userpassword : password,
+                            username : usernick[0]
+                        }
+                        
+                    })
                     return res.render('map');
                 }else{//비밀번호 불일치
                     
@@ -98,15 +109,13 @@ exports.login = (req, res) => {
             return res.render('login', {
                 message: '일치하는 이메일이 없습니다'
             })
-
         }
-
     });
-
 }
 
 //when click + button
 exports.upload = (req, res) => {
+    console.log(username);
 
     db.query('select Name from buildingloc', async(error, results) => {
 
@@ -168,3 +177,6 @@ exports.videolist = (req, res) => {
 //         })
 //     })
 // }
+//exports.mypage = (req, res) => {
+//    res.render('mypage');
+//}

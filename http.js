@@ -6,7 +6,6 @@ const multiparty = require('multiparty');
 //const multipartparser = require('multipart-parser');
 const bodyParser = require('body-parser');
 
-
 //app.js랑 합침
 const path = require("path");
 const mysql = require("mysql");
@@ -81,6 +80,7 @@ var fs = require('fs');
 
 //video로 영상저장
 app.post('/play', mul.single('uploadfile'), function (req, res, next){
+  //console.log(controlauth.username);
 
   // let today = new Date();   
   // let year = today.getFullYear(); // 년도
@@ -109,9 +109,10 @@ app.post('/play', mul.single('uploadfile'), function (req, res, next){
   //     })
   // })
   // form.parse(req);
+  
     const location = req.body.loc;
     const insertpath = "/video/" + req.file.filename; 
-    filename = "./"+ insertpath;//전역변수에 저장...
+    filename = "./"+ insertpath;
     console.log(location, insertpath);
     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
         var pkey=[];
