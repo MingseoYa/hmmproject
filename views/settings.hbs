@@ -7,11 +7,10 @@
     <title>Document</title>
 </head>
 <style>
-body {
-    margin: 0px;
-    display: block;
-}
 
+    body {
+      margin: 0;
+    } 
     header {  
         height: 9%;
         /* padding: 1rem; */
@@ -45,8 +44,8 @@ body {
       }
       #logout {
         /* position: absolute; */
-        border: 1px solid rgb(236, 243, 255);;
-        background-color: rgb(236, 243, 255);
+        border: 1px solid white;;
+        background-color: white;
         color: rgb(135, 177, 235);
         cursor: pointer;
         display: inline-block;
@@ -58,7 +57,7 @@ body {
         position: absolute;
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 100%;
-        color: skyblue;
+        color: rgb(135, 177, 235);
         background-color: rgb(236, 243, 255);
         cursor: pointer;
         display: inline-block;
@@ -80,9 +79,9 @@ body {
 <body>
     <ul class="mylist">
         <li class="listing">
-        <form action="/auth/register" method = "POST">
-        <button id="logout" >로그아웃</button>
-        </form>
+        <!--<form action="/login" method = "POST">-->
+          <a href = "/login"><button id="logout" >로그아웃</button></a>
+        <!--</form>-->
           </li>
         <li class="listing">개인정보변경</li>
     </ul>

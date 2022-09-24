@@ -8,9 +8,10 @@
 </head>
 
 <style>
-    body{
+
+    body {
       margin: 0;
-    }
+    } 
     .video{
     display: flex;
     margin: 2%;
@@ -72,7 +73,7 @@
   <button id="bbaek" >&lt;</button>
   </form>
   </div>
-    <h1>Nickname</h1>
+    <h1>{{username}}</h1>
     <nav>
         <div>
         <form action="/auth/settings" method = "POST">
@@ -92,10 +93,10 @@
             for (var i = 0; i < a-1; i+=2){
                 document.write('<div class="video"> \
                     <video class="video" width="48%"loop controls> \
-                    <source src="video/차미리'+(i+1)+'.mp4" \
+                    <source src="video/cha'+(i+1)+'.mp4" \
                     type="video/mp4"></video>\
                     <video class="video" width="48%" loop controls> \
-                    <source src="video/차미리'+(i+2)+'.mp4" \
+                    <source src="video/cha'+(i+2)+'.mp4" \
                     type="video/mp4"></video></div>')
             }
         }
@@ -103,15 +104,15 @@
             for(var i = 0; i < a-1; i+=2){
                 document.write('<div class="video"> \
                     <video class="video" width="48%"loop controls> \
-                    <source src="video/차미리'+(i+1)+'.mp4" \
+                    <source src="video/cha'+(i+1)+'.mp4" \
                     type="video/mp4"></video>\
                     <video class="video" width="48%" loop controls> \
-                    <source src="video/차미리'+(i+2)+'.mp4" \
+                    <source src="video/cha'+(i+2)+'.mp4" \
                     type="video/mp4"></video></div>')
             }
             document.write('<div class="video"> \
                     <video class="video" width="48%"loop controls> \
-                    <source src="video/차미리'+a+'.mp4" \
+                    <source src="video/cha'+a+'.mp4" \
                     type="video/mp4"></video>')
         }
                

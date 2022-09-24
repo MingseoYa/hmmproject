@@ -49,9 +49,9 @@
         position: absolute;
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
-        background: rgb(236, 243, 255);
+        background: white;
         color: rgb(135, 177, 235);
-        background-color: rgb(236, 243, 255);
+        background-color: white;
         cursor: pointer;
         display: inline-block;
         height: 100px; width: 100px;
@@ -142,11 +142,12 @@
             var infowindow = new google.maps.InfoWindow();
         
             var marker, i;
-            var myIcon = {
-                url: "../image/pink.png", // url
-                scaledSize: new google.maps.Size(30, 40), // scaled size
-            };
 
+            var myIcon = {
+              url: "../image/pink.png", // url
+              scaledSize: new google.maps.Size(30, 40), // scaled size
+            };
+        
             for (i = 0; i < locations.length; i++) {  
               marker = new google.maps.Marker({
                 position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -185,7 +186,7 @@ building=locations[i][0]>
     </div>
     <div class="myPage">
       <form action="/auth/mypage" method = "POST">
-      <button id="myPageMove" >My Page</button>
+      <button id="myPageMove" type = "submit">My Page</button>
       </form>
     </div>
     <div class="notifi-box" id="box">
