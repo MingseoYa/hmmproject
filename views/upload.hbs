@@ -35,6 +35,13 @@
             width: 130px; height:25px;
             border: none
         }
+        .select2{
+            padding: 0;
+            background: transparent;
+            color:rgb(78, 130, 203);
+            border: none;
+            
+        }
         .div1{
             float:left;
         }
@@ -108,6 +115,7 @@
         line-height: 30px;
         border-radius: 5px;
         font-size: 15px;
+        text-align: center;
         }
         /* fieldset{
         width: 80%;
@@ -126,6 +134,9 @@
         }
         #videoSub{
         text-align: center;
+        }
+        #id{
+            display: block;
         }
     </style>
 
@@ -167,8 +178,31 @@
                     
                 </script>
 
-            </select>
-
+            </select><br>
+            <a>직접 선택: </a>
+            <select name="loc2" id="loc2">
+            <option value="1">대강의동</option>
+            <option value="2">차미리사기념관</option>
+            <option value="3">인문과학대학</option>
+            <option value="4">도서관</option>
+            <option value="5">학생회관</option>
+            <option value="6">자연과학대학</option>
+            <option value="7">약학대학</option>
+            <option value="8">대학본부</option>
+            <option value="9">예술대학</option>
+            <option value="10">유아교육관</option>
+            <option value="11">기숙사</option>
+            <option value="12">언어교육원</option>
+            <option value="13">덕우당</option>
+            <option value="14">운동장</option>
+            <option value="15">스머프동산</option>
+            <option value="16">정보미디어대학</option>
+            <option value="17">영근터</option>
+            <option value="18">라온센터</option>
+            <option value="19">약학관아트홀</option>
+            <option value="20">하나누리관</option>
+            <option value="21">민주동산</option>
+        </select>
                 {{!-- <input id="selectLoc" type='submit'> --}}
                 {{!-- <iframe id="iframe1" name="iframe1" style="display:none"></iframe> --}}
             {{!-- </form> --}}

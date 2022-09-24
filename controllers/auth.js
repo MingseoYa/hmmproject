@@ -1,4 +1,3 @@
-
 const mysql = require("mysql");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
@@ -8,7 +7,6 @@ const {promisify} = require('util');
 const multiparty = require('multiparty');
 const bodyParser = require('body-parser');
 
-var users = [];
 
 const db = mysql.createConnection({
     host : process.env.DATABASE_HOST,
@@ -17,6 +15,7 @@ const db = mysql.createConnection({
     database : process.env.DATABASE
 });
 
+var username;
 
 //회원가입버튼 눌렀을 때
 exports.register = (req, res) => {
@@ -88,11 +87,7 @@ exports.login = (req, res) => {
                         for(var data of resultss){
                             usernick.push(data.Nickname);
                         }
-                        var user = {
-                            useremail : email,
-                            userpassword : password,
-                            username : usernick[0]
-                        }
+                        username = usernick[0];
                         
                     })
                     return res.render('map');
@@ -177,6 +172,16 @@ exports.videolist = (req, res) => {
 //         })
 //     })
 // }
-//exports.mypage = (req, res) => {
-//    res.render('mypage');
-//}
+exports.mypage = (req, res) => {
+    const {location} = req.body;
+    db.query('select NickName from buildingloc where Name = ?', [location], async(error, result) => {
+    })
+    return res.render('mypage');
+}
+exports.map = (req, res) => {
+
+}
+exports.settings = (req, res) => {
+    res.render('settings');
+
+}

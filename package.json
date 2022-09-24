@@ -16,14 +16,17 @@
     "multipart-parser": "0.0.2",
     "multiparty": "^4.2.3",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.19",
     "oracledb": "^5.4.0",
     "simple-exiftool": "^1.1.0"
   },
   "name": "Node-JS-Streams-main",
   "version": "1.0.0",
   "main": "http.js",
-  "devDependencies": {},
+
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
