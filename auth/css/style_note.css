@@ -8,7 +8,8 @@ nav {
     /* background: skyblue; */
     height: 10%;
     position: relative;
-    background-color: rgb(236, 243, 255);
+    background-color: white;
+    border-bottom: solid 1.5px rgb(218, 218, 218);
 }
 .icon {
     cursor: pointer;
@@ -17,15 +18,15 @@ nav {
 }
 .icon span {
     background: #f00;
-    padding: 7px;
+    padding: 5px;
     border-radius: 50%;
     color: #fff;
     vertical-align: top;
-    margin-left: -25px;
+    margin-left: -17px;
 }
 .icon img {
     display: inline-block;
-    width: 40px;
+    width: 30px;
     margin-top: 20px;
 }
 .icon:hover {

@@ -8,10 +8,13 @@
 </head>
 
 <style>
-
-    body {
-      margin: 0;
-    } 
+  html{
+    height: 100%;
+  }
+  body{
+    margin: 0;
+        height: 100%;
+  }
     .video{
     display: flex;
     margin: 2%;
@@ -48,10 +51,9 @@
         color: skyblue;
       } */
       header {  
-
-        height: 9%;
+        height: 10%;
         color: rgb(135, 177, 235);
-        background-color: rgb(236, 243, 255);
+        background-color: white
         font-weight: bold;
         display: flex;
         justify-content: space-between;
@@ -92,10 +94,10 @@
         if (a%2==0){
             for (var i = 0; i < a-1; i+=2){
                 document.write('<div class="video"> \
-                    <video class="video" width="48%"loop controls> \
+                    <video class="video" height="48%" width="48%"loop controls> \
                     <source src="video/cha'+(i+1)+'.mp4" \
                     type="video/mp4"></video>\
-                    <video class="video" width="48%" loop controls> \
+                    <video class="video" height="48%" width="48%" loop controls> \
                     <source src="video/cha'+(i+2)+'.mp4" \
                     type="video/mp4"></video></div>')
             }
@@ -103,15 +105,15 @@
         else{
             for(var i = 0; i < a-1; i+=2){
                 document.write('<div class="video"> \
-                    <video class="video" width="48%"loop controls> \
+                    <video class="video" height="48%" width="48%"loop controls> \
                     <source src="video/cha'+(i+1)+'.mp4" \
                     type="video/mp4"></video>\
-                    <video class="video" width="48%" loop controls> \
+                    <video class="video" height="48%" width="48%" loop controls> \
                     <source src="video/cha'+(i+2)+'.mp4" \
                     type="video/mp4"></video></div>')
             }
             document.write('<div class="video"> \
-                    <video class="video" width="48%"loop controls> \
+                    <video class="video" height="48%" width="48%"loop controls> \
                     <source src="video/cha'+a+'.mp4" \
                     type="video/mp4"></video>')
         }
