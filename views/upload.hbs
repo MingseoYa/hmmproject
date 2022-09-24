@@ -8,17 +8,19 @@
     <!-- <link rel="stylesheet" href="./css/upload.css"> -->
 
     <style>
-
+        html{
+            height: 100%;
+        }
         body{
             background-color: rgb(236, 243, 255);
             margin: 0 auto;
+            height: 100%;
         }
         header {  
-            height: 9%;
-            padding-left: 1rem;
-            color: rgb(160, 195, 255);
+            height: 10%;
+        color: rgb(135, 177, 235);
             background: white;
-            font-weight: bold;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -91,6 +93,7 @@
         font-size:15px;
         padding: 0;
         border-radius: 5px;
+        margin-top: 5px;
 
         }
 
@@ -138,6 +141,10 @@
         #id{
             display: block;
         }
+        #nam{
+            margin-left: 3%;
+            font-size: 1.5em;
+        }
     </style>
 
 
@@ -147,7 +154,7 @@
 
 <body>
     <header>
-        <h1>Local Shorts'</h1>
+        <h1 id="nam">Local Shorts'</h1>
       </header>
     <form id ="form1" enctype="multipart/form-data" method="POST" action="/play" id="videoSub">
         <div class="div2"><button id = "upButton" class="upButton" type = "submit">공유</button></div>
