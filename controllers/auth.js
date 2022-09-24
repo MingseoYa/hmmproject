@@ -147,6 +147,25 @@ exports.videolist = (req, res) => {
         })
     })
 }
+
+exports.mypage = (req, res) => {
+    const {location} = req.body;
+    db.query('select NickName from buildingloc where Name = ?', [location], async(error, result) => {
+    })
+    return res.render('mypage');
+
+}
+
+exports.map = (req, res) => {
+    return res.render('map')
+
+}
+
+exports.settings = (req, res) => {
+    return res.render('settings')
+
+}
+
 //공유버튼 눌렀을 때 
 //var fs = require('fs');
 // exports.play = (req, res, next) => {
@@ -173,12 +192,14 @@ exports.videolist = (req, res) => {
 //     })
 // }
 exports.mypage = (req, res) => {
-    const {location} = req.body;
-    db.query('select NickName from buildingloc where Name = ?', [location], async(error, result) => {
-    })
-    return res.render('mypage');
+    //db.query('select NickName from buildingloc where Name = ?', [location], async(error, result) => {
+    //})
+    return res.render('mypage', {
+        username : username
+    });
 }
 exports.map = (req, res) => {
+    res.render('map');
 
 }
 exports.settings = (req, res) => {

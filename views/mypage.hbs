@@ -8,15 +8,19 @@
 </head>
 
 <style>
+
+    body {
+      margin: 0;
+    } 
     .video{
     display: flex;
     margin: 2%;
     }
     #settingsMove {
-        border: 1px solid white;
-        background: white;
-        color: skyblue;
-        background-color: white;
+        border: 1px solid rgb(236, 243, 255);
+        background: rgb(236, 243, 255);
+        color: rgb(135, 177, 235);
+        background-color: rgb(236, 243, 255);
         cursor: pointer;
         display: inline-block;
         text-align: center;
@@ -24,10 +28,10 @@
         top:1%;
       }
       #bbaek {
-        border: 1px solid white;
-        background: white;
-        color: skyblue;
-        background-color: white;
+        border: 1px solid rgb(236, 243, 255);
+        background: rgb(236, 243, 255);
+        color: rgb(135, 177, 235);
+        background-color: rgb(236, 243, 255);
         cursor: pointer;
         display: inline-block;
         text-align: center;
@@ -44,8 +48,8 @@
       } */
       header {  
         height: 9%;
-        color: skyblue;
-        background: white;
+        color: rgb(135, 177, 235);
+        background-color: rgb(236, 243, 255);
         font-weight: bold;
         display: flex;
         justify-content: space-between;
@@ -56,14 +60,15 @@
         width: 100px;
         margin: 0 auto;
       }
+
 </style>
 <header>
   <div>
   <form action="/auth/map" method = "POST">
-  <button id="bbaek" >-</button>
+  <button id="bbaek" type = "submit" >-</button>
   </form>
   </div>
-    <h1>Nickname</h1>
+    <h1>{{username}}</h1>
     <nav>
         <div>
         <form action="/auth/settings" method = "POST">
