@@ -8,6 +8,10 @@
 </head>
 
 <style>
+
+    body {
+      margin: 0;
+    } 
     .video{
     display: flex;
     margin: 2%;
@@ -56,14 +60,15 @@
         width: 100px;
         margin: 0 auto;
       }
+
 </style>
 <header>
   <div>
   <form action="/auth/map" method = "POST">
-  <button id="bbaek" >-</button>
+  <button id="bbaek" type = "submit" >-</button>
   </form>
   </div>
-    <h1>Nickname</h1>
+    <h1>{{username}}</h1>
     <nav>
         <div>
         <form action="/auth/settings" method = "POST">

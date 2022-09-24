@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <style>
+
+    body {
+      margin: 0;
+    } 
     header {  
         height: 9%;
         /* padding: 1rem; */
@@ -75,9 +79,9 @@
 <body>
     <ul class="mylist">
         <li class="listing">
-        <form action="/auth/register" method = "POST">
-        <button id="logout" >로그아웃</button>
-        </form>
+        <!--<form action="/login" method = "POST">-->
+          <a href = "/login"><button id="logout" >로그아웃</button></a>
+        <!--</form>-->
           </li>
         <li class="listing">개인정보변경</li>
     </ul>
