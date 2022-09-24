@@ -145,7 +145,10 @@ exports.videolist = (req, res) => {
 }
 
 exports.mypage = (req, res) => {
-    return res.render('mypage')
+    const {location} = req.body;
+    db.query('select NickName from buildingloc where Name = ?', [location], async(error, result) => {
+    })
+    return res.render('mypage');
 
 }
 

@@ -47,11 +47,11 @@
 
       #camInputLabel {
         position: absolute;
-        border: 1px solid skyblue;
+        border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
-        background: white;
-        color: skyblue;
-        background-color: white;
+        background: rgb(236, 243, 255);
+        color: rgb(135, 177, 235);
+        background-color: rgb(236, 243, 255);
         cursor: pointer;
         display: inline-block;
         height: 100px; width: 100px;
@@ -63,8 +63,9 @@
       #myPageMove {
         border: 1px solid white;
         /* border-radius: 10%; */
-        background: white;
-        color: skyblue;
+        /*background: white;*/
+        background-color: rgb(236, 243, 255);
+        color:#6799FF;
         cursor: pointer;
         display: inline-block;
         height: 45px; width: 100px;
@@ -98,6 +99,7 @@
       }
       .nam{
         margin-left: 3%;
+        color: rgb(135, 177, 235);
       }
     </style>
         <script>
@@ -184,7 +186,7 @@ building=locations[i][0]>
       <form action="/auth/mypage" method = "POST">
       <button id="myPageMove" >My Page</button>
       </form>
-      </div>
+    </div>
     <div class="notifi-box" id="box">
         <h2>Notification <span>5</span></h2>
         <script>
