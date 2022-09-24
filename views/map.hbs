@@ -10,7 +10,7 @@
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAg3D4VbAeJTSlv3ar8Z1nRDJfeG--AJY&callback=initMap&libraries=&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJp8k24XJtMj-2N-ZmkmacLT1mObugGs8&callback=initMap&libraries=&v=weekly"
     defer
   ></script>
   <link rel="stylesheet" href="css/style_note.css">
@@ -61,19 +61,22 @@
         bottom:2%;
       }
       #myPageMove {
-        border: 1px solid white;
-        /* border-radius: 10%; */
-        /*background: white;*/
-        background-color: rgb(236, 243, 255);
-        color:#6799FF;
+        background-color: rgb(244, 244, 244);
+        border: solid 1.5px rgb(143, 143, 143);
         cursor: pointer;
         display: inline-block;
-        height: 45px; width: 100px;
+        height: 35px; width: 35px;
+        border-radius: 50%;
         line-height: 40px;
         text-align: center;
         font-size: 20px;
         top: 1%;
         margin-right: 20px;
+      }
+      #mp{
+        width: 25px;
+        line-height: 40px;
+        margin: 0 auto;
       }
       .div1{
         width: 100px;
@@ -98,6 +101,7 @@
         background-color: transparent;
       }
       .nam{
+        font-size: 1.2em;
         margin-left: 3%;
         color: rgb(135, 177, 235);
       }
@@ -144,7 +148,7 @@
             var marker, i;
 
             var myIcon = {
-              url: "../image/pink.png", // url
+              url: "../image/pink1.png", // url
               scaledSize: new google.maps.Size(30, 40), // scaled size
             };
         
@@ -178,18 +182,19 @@ building=locations[i][0]>
 
 </head>
 <body>
+
   <nav>
     <div class="logo"><h1 class="nam">Local Shorts'</h1></div>
     <div class="icon" onclick="toggleNotifi()">
-        <img src="img/bell.png" alt=""> <span>5</span>
+        <img src="img/bell2.png" alt=""> <span>5</span>
     </div>
     <div class="myPage">
       <form action="/auth/mypage" method = "POST">
-      <button id="myPageMove" type = "submit">My Page</button>
+      <button id="myPageMove" type = "submit"><img id="mp" src="../auth/img/mypage.png" alt=""></button>
       </form>
     </div>
     <div class="notifi-box" id="box">
-        <h2>Notification <span>5</span></h2>
+        <h2>Notification <span><div id="sum">5</div></span></h2>
         <script>
           for(var i = 0; i< 5; i++){
             var a = i + 1
@@ -205,6 +210,7 @@ building=locations[i][0]>
 </nav> 
 <script src="notification.js"></script>
 <!-- map -->
+
     <div id="map"></div>
 
 <!-- video upload -->
