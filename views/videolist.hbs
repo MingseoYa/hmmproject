@@ -10,11 +10,31 @@
         color: skyblue;
         margin-left: 5%;
         }
+        header {  
+            height: 10%;
+            color: rgb(135, 177, 235);
+            background-color: white;
+            font-weight: bold;
+            /*display: flex;*/
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: solid;
+            position : sticky;
+            top : 0;
+        }
+        body{
+            margin: 0;
+            height: 100%;
+        }
         
     </style>
 </head>
 <body>
-    <h4 class="naming">{{location}}</h4>
+    <header>
+        <h4 class="naming">{{location}}</h4>
+
+    </header>
+    
 
     <script>
         
