@@ -1,14 +1,17 @@
 var box = document.getElementById('box');
+// var map = document.getElementById('map');
 var down = false;
 
 function toggleNotifi(){
     if (down) {
         box.style.height = '0px';
+        box.style.zIndex = -1;
         box.style.opacity = 0;
         down = false;
     }else {
         box.style.height = '510px';
         box.style.opacity = 1;
+        box.style.zIndex = 2;
         down = true;
     }
 }
