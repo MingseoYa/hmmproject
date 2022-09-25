@@ -5,6 +5,8 @@ const express = require('express');
 const multiparty = require('multiparty');
 //const multipartparser = require('multipart-parser');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 //app.js랑 합침
 const path = require("path");
@@ -34,6 +36,7 @@ const mul = multer({
 
 
 var fileName;
+var username;
 
 // const fs = require('fs');
 
@@ -80,7 +83,6 @@ var fs = require('fs');
 
 //video로 영상저장
 app.post('/play', mul.single('uploadfile'), function (req, res, next){
-  //console.log(controlauth.username);
 
   // let today = new Date();   
   // let year = today.getFullYear(); // 년도
@@ -109,18 +111,26 @@ app.post('/play', mul.single('uploadfile'), function (req, res, next){
   //     })
   // })
   // form.parse(req);
-  
+    username = req.body.username;
     const location = req.body.loc;
+    console.log(location);
     const insertpath = "/video/" + req.file.filename; 
     filename = "./"+ insertpath;
     console.log(location, insertpath);
+    var upkey=[];
+    //사용자 pkey가져오기
+    db.query('select PKey from users where Nickname = ?', [username], async(error, result) => {
+      for(var data of result){
+        upkey.push(data.PKey);
+      }
+    })
     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
         var pkey=[];
         for(var data of result){
             pkey.push(data.PKey);
         }
         console.log(pkey);
-        db.query('insert into Video(BuildingLocPKey, Path) values(?,?)', [pkey, insertpath], async(error, results) => {
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
             // var res = {size : req.file.size};
             // res.json(size);
             //console.log(req.file);
