@@ -145,6 +145,10 @@
             margin-left: 3%;
             font-size: 1.5em;
         }
+        #username{
+            visibility: collapse;
+   
+        }
     </style>
 
 
@@ -163,8 +167,16 @@
         <div class="div1">
         <label for="camInput" id="camInputLabel">동영상 선택</label>
         <input type="file" name="uploadfile" accept="video/*";capture="camera" id="camInput">
+                
+        <script>
+                const username = "{{username}}";
+                console.log(username);
+                stri = '<input id = "username" name = "username" value ="' + username + '" ></input>';
+                document.write(stri);
+
+        </script>
+    
         </div></fieldset>
-        
         <fieldset>
             <label><input type="checkbox" name="post" checked>게시물</label><p></p>
             <a>위치: </a>
@@ -173,16 +185,18 @@
 
             <select id="select" id = "loc" name="loc">
                 <script>
+                    
                     const b_name = "{{buildingname}}".split(',');
                     str = "";
                     for (var name of b_name){
-                        str += '<option value = "' + name + '">' + name + '</option> </br>'
+                        str += '<option value = "' + name +'">' + name + '</option> </br>'
 
                     }
                     console.log(str);
                     
                     document.write(str);
                     
+                            
                 </script>
 
             </select><br>

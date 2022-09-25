@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -120,14 +120,23 @@ exports.upload = (req, res) => {
         }
         //console.log(buildingname);
         res.render('upload', 
-            {buildingname : buildingname});
+            //{buildingname : buildingname}
+            {buildingname : buildingname, username : username});
     })
     
 }
 
 //마커 더보기 눌렀을 때 
+
 exports.videolist = (req, res) => {
 
+    // var videopath=[]; 
+    // var videoowner=[];
+    // var owner;
+
+    var pnu = [];//비디오 경로랑 계정주 같이 저장
+    var datapath;
+    var datanickname;
     const {location} = req.body;
     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
         var pkey=[];
@@ -135,15 +144,38 @@ exports.videolist = (req, res) => {
             pkey.push(data.PKey);
         }
 
-        db.query('select Path from Video where BuildingLocPKey = ?', [pkey], async(error, results) => {
-            
-            var videopath=[]; 
+        db.query('select Path,UserPKey from Video where BuildingLocPKey = ?', [pkey], async(error, results) => {
+        
+       
             for(var data of results){
-                videopath.push(data.Path);
+                //pnu.push([data.Path, data.UserPKey]); //경로저장하고..
+                datapath = data.Path;
+                if(data.UserPKey != null){
+                
+                    db.query('select Nickname from users where PKey = ?', [data.UserPKey], async(error, res) => {
+                        for(var data2 of res){
+                            
+                            datanickname = data2.Nickname;
+                            console.log(datapath, datanickname);
+                            pnu.push([datanickname, datapath]);
+                            console.log(pnu);
+                            
+                        }
+                        //console.log(owner, location);
+                    
+                    })
+
+                }else{
+                    datanickname = ""
+                    pnu.push([datanickname, datapath]);
+                }
+                
             }
+            //console.log(pnu);
             //console.log(videopath, location);
+            console.log(pnu);
             return res.render('videolist', 
-                {videopath : videopath, location : location});
+                {location : location, pnu : pnu});
         })
     })
 }
