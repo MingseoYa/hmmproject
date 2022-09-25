@@ -61,29 +61,29 @@
         font-weight: bold;
       }
       #camInputLabel {
-        position: fixed;
-        border: 1px solid rgb(135, 177, 235);;
-        border-radius: 100%;
+        border: none;
         color: rgb(135, 177, 235);
         background-color: white;
         cursor: pointer;
-        display: inline-block;
-        height: 70px; width: 70px;
-        line-height: 70px;
+        display:block;
+        height: 10%; width: 70px;
+        line-height: 100%;
         text-align: center;
         font-size: 30px;
         bottom: 2%;
         margin: 0 auto;
       }
-      .div1{
-        width: 100px;
-        margin: 0 auto;
+      .div form{
+        height:10px;
       }
-      
 </style>
 <header>
     <h1>Settings</h1>
-
+    <div class="div1">
+      <form id = "form" action="/auth/mypage" method = "POST">
+        <button id="camInputLabel" >X</button>
+      </form>
+    </div>
   </header>
 <body>
     <ul class="mylist">
@@ -95,10 +95,6 @@
         <li class="listing">개인정보변경</li>
     </ul>
 
-    <div class="div1">
-      <form action="/auth/mypage" method = "POST">
-        <button id="camInputLabel" >X</button>
-        </form>
-      </div>
+
 </body>
 </html>
