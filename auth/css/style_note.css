@@ -46,7 +46,7 @@ nav {
     opacity: 0;
     position: absolute;
     background-color: white;
-    z-index: 1;
+    /* z-index: 1; */
     top: 63px;
     right: 35px;
     transition: 1s opacity, 250ms height;
