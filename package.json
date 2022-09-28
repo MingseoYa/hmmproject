@@ -16,6 +16,7 @@
     "multipart-parser": "0.0.2",
     "multiparty": "^4.2.3",
     "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "oracledb": "^5.4.0",
     "simple-exiftool": "^1.1.0"
   },

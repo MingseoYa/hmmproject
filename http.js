@@ -5,7 +5,8 @@ const express = require('express');
 const multiparty = require('multiparty');
 //const multipartparser = require('multipart-parser');
 const bodyParser = require('body-parser');
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 //app.js랑 합침
 const path = require("path");
@@ -13,20 +14,20 @@ const mysql = require("mysql");
 const dotenv = require("dotenv");
 dotenv.config({path : './.env'});
 
-const multer = require('multer');
-const mul = multer({
-    storage : multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, 'video/');
-        },
-        filename : function (req, file, cb) {
-            let today = new Date();
-            let milliseconds = today.getMilliseconds();
-            cb(null, milliseconds + ".mp4");
-            // insertpath = "/video/" + milliseconds + ".mp4";
-        }
-    })
-});
+// const multer = require('multer');
+// const mul = multer({
+//     storage : multer.diskStorage({
+//         destination: function (req, file, cb) {
+//             cb(null, 'video/');
+//         },
+//         filename : function (req, file, cb) {
+//             let today = new Date();
+//             let milliseconds = today.getMilliseconds();
+//             cb(null, milliseconds + ".mp4");
+//             // insertpath = "/video/" + milliseconds + ".mp4";
+//         }
+//     })
+// });
 
 
 // //gps
@@ -35,6 +36,7 @@ const mul = multer({
 
 
 var fileName;
+var username;
 
 // const fs = require('fs');
 
@@ -80,55 +82,64 @@ var fs = require('fs');
 
 
 //video로 영상저장
-app.post('/play', mul.single('uploadfile'), function (req, res, next){
+// app.post('/play', mul.single('uploadfile'), function (req, res, next){
 
-  // let today = new Date();   
-  // let year = today.getFullYear(); // 년도
-  // let month = today.getMonth() + 1;  // 월
-  // let date = today.getDate();  // 날짜
-  // // let day = today.getDay();  
-  // let hours = today.getHours(); // 시
-  // let minutes = today.getMinutes();  // 분
-  // let seconds = today.getSeconds();  // 초
-  // let milliseconds = today.getMilliseconds(); // 밀리초
+//   // let today = new Date();   
+//   // let year = today.getFullYear(); // 년도
+//   // let month = today.getMonth() + 1;  // 월
+//   // let date = today.getDate();  // 날짜
+//   // // let day = today.getDay();  
+//   // let hours = today.getHours(); // 시
+//   // let minutes = today.getMinutes();  // 분
+//   // let seconds = today.getSeconds();  // 초
+//   // let milliseconds = today.getMilliseconds(); // 밀리초
 
-  // let form = new multiparty.Form();
+//   // let form = new multiparty.Form();
 
-  // fileName = "./video/" + milliseconds + ".mp4";
-  // filename = fileName;
-  // form.on('part', (part) =>{
-  //   part
-  //     // .pipe(createWriteStream(`./copy/${part.filename}`))
-  //     // .pipe(createWriteStream('./copy/'+year+month+date+hours+minutes + '_' + seconds + '_' + milliseconds+'.mp4'))
-  //     .pipe(createWriteStream(fileName))
-  //     .on('close', () => {
-  //       fs.readFile('./play.html', function(err, data) {
-  //         res.writeHead(200, {'Content-Type': 'text/html'});
-  //         return res.end(data);
-  //     });
-  //     })
-  // })
-  // form.parse(req);
-    const location = req.body.loc;
-    const insertpath = "/video/" + req.file.filename; 
-    filename = "./"+ insertpath;//전역변수에 저장...
-    console.log(location, insertpath);
-    db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
-        var pkey=[];
-        for(var data of result){
-            pkey.push(data.PKey);
-        }
-        console.log(pkey);
-        db.query('insert into Video(BuildingLocPKey, Path) values(?,?)', [pkey, insertpath], async(error, results) => {
-            // var res = {size : req.file.size};
-            // res.json(size);
-            //console.log(req.file);
-            //res.set(‘Content-Type’, ‘text/plain’)
-            //console.log(type(req.file));
-            res.render('play');
-        })
-    })
-});
+//   // fileName = "./video/" + milliseconds + ".mp4";
+//   // filename = fileName;
+//   // form.on('part', (part) =>{
+//   //   part
+//   //     // .pipe(createWriteStream(`./copy/${part.filename}`))
+//   //     // .pipe(createWriteStream('./copy/'+year+month+date+hours+minutes + '_' + seconds + '_' + milliseconds+'.mp4'))
+//   //     .pipe(createWriteStream(fileName))
+//   //     .on('close', () => {
+//   //       fs.readFile('./play.html', function(err, data) {
+//   //         res.writeHead(200, {'Content-Type': 'text/html'});
+//   //         return res.end(data);
+//   //     });
+//   //     })
+//   // })
+//   // form.parse(req);
+//     username = req.body.username;
+//     const location = req.body.loc;
+//     console.log(location);
+//     const insertpath = "/video/" + req.file.filename; 
+//     filename = "./"+ insertpath;
+//     console.log(location, insertpath);
+//     var upkey=[];
+//     //사용자 pkey가져오기
+//     db.query('select PKey from users where Nickname = ?', [username], async(error, result) => {
+//       for(var data of result){
+//         upkey.push(data.PKey);
+//       }
+//     })
+//     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
+//         var pkey=[];
+//         for(var data of result){
+//             pkey.push(data.PKey);
+//         }
+//         console.log(pkey);
+//         db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
+//             // var res = {size : req.file.size};
+//             // res.json(size);
+//             //console.log(req.file);
+//             //res.set(‘Content-Type’, ‘text/plain’)
+//             //console.log(type(req.file));
+//             res.render('play');
+//         })
+//     })
+// });
 
 
 

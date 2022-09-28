@@ -15,6 +15,7 @@ const db = mysql.createConnection({
     database : process.env.DATABASE
 });
 
+var username;
 
 //회원가입버튼 눌렀을 때
 exports.register = (req, res) => {
@@ -64,6 +65,7 @@ exports.login = (req, res) => {
 
     const { email, password } = req.body;
 
+
     db.query('select Email from users where Email = ?', [email], async(error, results) => {
         if(error){
             console.log(error);
@@ -79,11 +81,15 @@ exports.login = (req, res) => {
             db.query('select Pwd from users where Email = ? and Pwd = ?', [email, password], async(error, results) => {
                 
                 
-                if(results.length > 0){ //비밀번호도 동일하면
-                    // return res.render('map', { //로그인성공
-
-                    //     // message: '로그인되었습니다'
-                    // });
+                if(results.length > 0){ //비밀번호도 동일하면 로그인 성공
+                    db.query('select Nickname from users where Email = ?', [email], async(error, resultss) => {
+                        usernick = [];
+                        for(var data of resultss){
+                            usernick.push(data.Nickname);
+                        }
+                        username = usernick[0];
+                        
+                    })
                     return res.render('map');
                 }else{//비밀번호 불일치
                     
@@ -98,15 +104,13 @@ exports.login = (req, res) => {
             return res.render('login', {
                 message: '일치하는 이메일이 없습니다'
             })
-
         }
-
     });
-
 }
 
 //when click + button
 exports.upload = (req, res) => {
+    console.log(username);
 
     db.query('select Name from buildingloc', async(error, results) => {
 
@@ -116,14 +120,19 @@ exports.upload = (req, res) => {
         }
         //console.log(buildingname);
         res.render('upload', 
-            {buildingname : buildingname});
+            //{buildingname : buildingname}
+            {buildingname : buildingname, username : username});
     })
     
 }
 
 //마커 더보기 눌렀을 때 
+
 exports.videolist = (req, res) => {
 
+    var pnu = [];//비디오 경로랑 계정주 같이 저장
+    //var datapath;
+    var datanickname;
     const {location} = req.body;
     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
         var pkey=[];
@@ -131,18 +140,53 @@ exports.videolist = (req, res) => {
             pkey.push(data.PKey);
         }
 
+
+
+
         db.query('select Path from Video where BuildingLocPKey = ?', [pkey], async(error, results) => {
-            
-            var videopath=[]; 
-            for(var data of results){
-                videopath.push(data.Path);
+            for (var data of results){
+                pnu.push(data.Path);
             }
+       
+            // for(var data of results){//한줄만 뽑히잖니:경로, 유저키
+            //     //pnu.push([data.Path, data.UserPKey]); //경로저장하고..
+                
+            //     if(data.UserPKey != null){
+            //         //datapath = data.Path;
+            //         db.query('select Nickname from users where PKey = ?', [data.UserPKey], async(error, res) => {
+            //             datapath = data.Path;
+            //             for(var data2 of res){
+                            
+            //                 datanickname = data2.Nickname;
+            //                 console.log(datanickname);
+            //                 //datapath = data.Path;
+            //                 console.log(datapath);
+            //                 //console.log(datapath, datanickname);
+            //                 pnu.push([datanickname, datapath]);
+            //                 //console.log(pnu);
+                            
+            //             }
+            //             //console.log(owner, location);
+                    
+            //         })
+
+            //     }else{
+            //         datanickname = ""
+            //         pnu.push([datanickname, datapath]);
+            //     }
+                
+            // }
+
+            //console.log(pnu);
             //console.log(videopath, location);
+            console.log(pnu);
             return res.render('videolist', 
-                {videopath : videopath, location : location});
+                {location : location, pnu : pnu});
         })
     })
 }
+
+
 //공유버튼 눌렀을 때 
 //var fs = require('fs');
 // exports.play = (req, res, next) => {
@@ -168,3 +212,17 @@ exports.videolist = (req, res) => {
 //         })
 //     })
 // }
+exports.mypage = (req, res) => {
+
+    return res.render('mypage', {
+        username : username
+    });
+}
+exports.map = (req, res) => {
+    res.render('map');
+
+}
+exports.settings = (req, res) => {
+    res.render('settings');
+
+}

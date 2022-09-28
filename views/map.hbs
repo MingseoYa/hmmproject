@@ -10,9 +10,10 @@
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAg3D4VbAeJTSlv3ar8Z1nRDJfeG--AJY&callback=initMap&libraries=&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJp8k24XJtMj-2N-ZmkmacLT1mObugGs8&callback=initMap&libraries=&v=weekly"
     defer
   ></script>
+  <link rel="stylesheet" href="css/style_note.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
       #ok{
@@ -46,10 +47,10 @@
 
       #camInputLabel {
         position: absolute;
-        border: 1px solid skyblue;
+        border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
         background: white;
-        color: skyblue;
+        color: rgb(135, 177, 235);
         background-color: white;
         cursor: pointer;
         display: inline-block;
@@ -59,13 +60,33 @@
         font-size: 30px;
         bottom:2%;
       }
+      #myPageMove {
+        background-color: rgb(244, 244, 244);
+        border: solid 1.5px rgb(143, 143, 143);
+        cursor: pointer;
+        display: inline-block;
+        height: 35px; width: 35px;
+        border-radius: 50%;
+        line-height: 40px;
+        text-align: center;
+        font-size: 20px;
+        top: 1%;
+        margin-right: 20px;
+      }
+      #mp{
+        width: 25px;
+        line-height: 40px;
+        margin: 0 auto;
+      }
       .div1{
         width: 100px;
         margin: 0 auto;
       }
       
       #map {
-        height: 100%;
+        height: 89.8%;
+        position: fixed;
+        
       }
 
       /* Optional: Makes the sample page fill the window. */
@@ -79,6 +100,11 @@
         border:none;
         background-color: transparent;
       }
+      .nam{
+        font-size: 1.2em;
+        margin-left: 3%;
+        color: rgb(135, 177, 235);
+      }
     </style>
         <script>
           function initMap() {
@@ -90,7 +116,7 @@
             var locations = [
               ['차미리사기념관', 37.6532193, 127.0162689],
               ['대강의동', 37.6537193, 127.0155467],
-              ['인문과학대학', 37.6532749, 127.0149912],
+              ['인문사회대학', 37.6532749, 127.0149912],
               ['도서관', 37.6524416, 127.0158245],
               ['학생회관', 37.6521917, 127.0166022],
               ['자연과학대학', 37.6513863, 127.0172688],
@@ -109,6 +135,7 @@
               ['약학관아트홀', 37.6510458, 127.0182461],
               ['하나누리관', 37.6502939, 127.0193974],
               ['민주동산', 37.6517764, 127.0158171],
+              ['서울창업허브창동', 37.65549, 127.0481921]
             ];
         
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -119,11 +146,12 @@
             var infowindow = new google.maps.InfoWindow();
         
             var marker, i;
-            var myIcon = {
-                url: "../image/pink.png", // url
-                scaledSize: new google.maps.Size(30, 40), // scaled size
-            };
 
+            var myIcon = {
+              url: "../image/pink1.png", // url
+              scaledSize: new google.maps.Size(30, 40), // scaled size
+            };
+        
             for (i = 0; i < locations.length; i++) {  
               marker = new google.maps.Marker({
                 position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -131,18 +159,13 @@
                 icon:myIcon
               });
         
-              // <p id="loca">C:/Users/msk99/Desktop/videoList/list.html</p>
               google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                //var browse = '<br><a href="/videolist.html?'+locations[i][0]+'" style="color:blue">더보기</a>'
                 var location = locations[i][0];
-                //var browse = '<br><form action = "/auth/videolist?' + location + '" method = "POST"><input type="hidden" value="' + location + '" name = "location"/><button type = "submit" style="color:blue">더보기</button></form>'
                 var browse = '<br><form action = "/auth/videolist" method = "POST"><input type="hidden" value="' + location + '" name = "location"/><button id = "moreBtn" type = "submit" style="color:blue">더보기</button></form>'
                 
                 
                 return function() {
-                  // infowindow.setContent(locations[i][0]+'<br><a href="C:/Users/msk99/Desktop/videoList/list.html" style="color:blue" target="_blank">더보기</a>');
                    infowindow.setContent(locations[i][0]+browse);
-                  // infowindow.setContent(locations[i][0]+browser+'<br><a href="#browser" style="color:blue" target="_blank">더보기</a>');
                   infowindow.open(map, marker);
                 }
               })(marker, i));
@@ -159,20 +182,39 @@ building=locations[i][0]>
 
 </head>
 <body>
+
+  <nav>
+    <div class="logo"><h1 class="nam">Local Shorts'</h1></div>
+    <div class="icon" onclick="toggleNotifi()">
+        <img src="img/bell2.png" alt=""> <span>5</span>
+    </div>
+    <div class="myPage">
+      <form action="/auth/mypage" method = "POST">
+      <button id="myPageMove" type = "submit"><img id="mp" src="../auth/img/mypage.png" alt=""></button>
+      </form>
+    </div>
+    <div class="notifi-box" id="box">
+        <h2>Notification <span><div id="sum">5</div></span></h2>
+        <script>
+          for(var i = 0; i< 5; i++){
+            var a = i + 1
+            document.write('<div class="notifi-item">');
+            document.write('<img src="img/avatar'+ a +'.jpg" alt="img">');
+            document.write('<div class="text"><h4>avatar'+ a +'</h4>');
+            document.write('<p>avatar'+ a +'님이 공유한 영상을 확인하세요');
+            document.write('</p></div></div>');
+          }
+        </script>
+        
+    </div>
+</nav> 
+<script src="notification.js"></script>
 <!-- map -->
-    {{!-- <script>
-      $("#map").load("map.html");
-    </script> --}}
+
     <div id="map"></div>
 
 <!-- video upload -->
-    <!-- <form enctype="multipart/form-data" method="POST" action="/">
-      <div class="div1">
-      <label for="camInput" id="camInputLabel">+</label>
-      <input type="file" name="upload-file" accept="video/*";capture="camera" id="camInput">
-      </div>
-      <button class="upButton">Upload File</button> </form>-->
-      
+     
         <div class="div1">
           <form action="/auth/upload" method = "POST">
           <button type= "submit" id="camInputLabel">+</button>
