@@ -45,10 +45,10 @@
         console.log(pnu);
         str = "";
         
-        for (var pu of pnu){
-            str += '<div id = "videos"><video class="video" width="100%" loop controls><source src ="' + pu + '" type = "video/mp4"></br></video></br></div>'
-            //console.log(pu);
-        }
+        for (let i = pnu.length; i > 0; i -= 1){
+            str += '<div id = "videos"><h4>' + pnu[i-1] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i-1] + '" type = "video/mp4"></br></video></br></div>'
+            console.log(pnu[i]);
+        } 
 
         /*for (let i = 0 ; i < pnu.length ; i += 2){
             str += '<div id = "videos"><h4>' + pnu[i] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i+1] + '" type = "video/mp4"></br></video></br></div>'
