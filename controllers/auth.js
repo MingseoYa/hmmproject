@@ -244,7 +244,11 @@ exports.map = (req, res) => {
     res.render('map');
 
 }
-exports.settings = (req, res) => {
-    res.render('settings');
+exports.revise =(req, res) => {
+    res.render('revise');
+}
+exports.mypagere = (req, res) => {
+    
+    res.render('mypagere');
 
 }
