@@ -7,6 +7,20 @@ const {promisify} = require('util');
 const multiparty = require('multiparty');
 const bodyParser = require('body-parser');
 
+// const multer = require('multer');
+// const mul = multer({
+//     storage : multer.diskStorage({
+//         destination: function (req, file, cb) {
+//             cb(null, 'video/');//계정 다시 한번 보기
+//         },
+//         filename : function (req, file, cb) {
+//             let today = new Date();
+//             let milliseconds = today.getMilliseconds();
+//             cb(null, milliseconds + ".mp4");
+//             // insertpath = "/video/" + milliseconds + ".mp4";
+//         }
+//     })
+// });
 
 const db = mysql.createConnection({
     host : process.env.DATABASE_HOST,
@@ -16,6 +30,7 @@ const db = mysql.createConnection({
 });
 
 var username;
+var filename;
 
 //회원가입버튼 눌렀을 때
 exports.register = (req, res) => {
@@ -189,29 +204,37 @@ exports.videolist = (req, res) => {
 
 //공유버튼 눌렀을 때 
 //var fs = require('fs');
-// exports.play = (req, res, next) => {
-    
-//     const location = req.body.loc;
-//     const insertpath = "/video/" + req.file.filename; 
-//     const filename = "./"+ insertpath;//전역변수에 저장...
-//     module.exports = filename;
-//     console.log(location, insertpath);
-//     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
-//         var pkey=[];
-//         for(var data of result){
-//             pkey.push(data.PKey);
-//         }
-//         console.log(pkey);
-//         db.query('insert into Video(BuildingLocPKey, Path) values(?,?)', [pkey, insertpath], async(error, results) => {
-//             // var res = {size : req.file.size};
-//             // res.json(size);
-//             //console.log(req.file);
-//             //res.set(‘Content-Type’, ‘text/plain’)
-//             //console.log(type(req.file));
-//             res.render('play'); //이렇게 말고 뒤로가기해서 지도로 가고 싶은데 이거는 어케함?ㅋㅋㅋㅋ
-//         })
-//     })
-// }
+exports.mapp = (req, res, next) => {
+    //username = req.body.username;
+    var location = req.body.loc;
+    console.log(location);
+    var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
+    filename = "./"+ insertpath;
+
+    //사용자key
+    var upkey=[];
+    console.log(username, insertpath, location);
+    db.query('select PKey from users where Nickname = ?', [username], async(error, result) => {
+      for(var data of result){
+        upkey.push(data.PKey);
+      }
+    })
+    db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
+        var pkey=[];
+        for(var data of result){
+            pkey.push(data.PKey);
+        }
+        console.log(pkey);
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
+            // var res = {size : req.file.size};
+            // res.json(size);
+            //console.log(req.file);
+            //res.set(‘Content-Type’, ‘text/plain’)
+            //console.log(type(req.file));
+            res.render('map');
+        })
+    })
+}
 
 exports.mypage = (req, res) => {
 
