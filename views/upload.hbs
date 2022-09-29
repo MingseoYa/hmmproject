@@ -153,10 +153,40 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+<script>
 
+function successCallback(position) {
+
+	alert(position.coords.latitude + " : " + position.coords.longitude);	
+
+}
+
+
+function errorCallback(error) {
+
+	alert(error.message);
+
+}
+
+
+function load(){ 
+
+	if ( navigator.geolocation ) {
+
+		navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+	} else {
+
+		alert("geolocation not supported");
+
+	}
+
+}
+
+</script>
 </head>
 
-<body>
+<body onload="load()">
     <header>
         <h1 id="nam">Local Shorts'</h1>
       </header>
