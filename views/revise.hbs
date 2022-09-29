@@ -36,6 +36,16 @@
             font-weight: bold;
             
         }
+        #camInput {
+        position: absolute;
+        border: 1px solid skyblue;
+        border-radius: 50%;
+        height: 100px; width: 100px;
+        padding: 0;
+        border: 0;
+        bottom:2%;
+        display: none;
+      }
     </style>
 <head>
     <meta charset="UTF-8">
@@ -45,7 +55,9 @@
 </head>
 <body>
     <div class="lay">
-        <img class="prof_img" src="../auth/img/profile.jpg">
+        {{!-- <button><img class="prof_img" src="../auth/img/profile.jpg"></button> --}}
+        <label for="camInput" id="camInputLabel"><img class="prof_img" src="../auth/img/profile.jpg"></label>
+        <input type="file" name="uploadfile" accept="image/*";capture="camera" id="camInput">
 
         <form action="/auth/mypagere" method="POST">
         
