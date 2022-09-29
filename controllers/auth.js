@@ -214,15 +214,40 @@ exports.mapp = (req, res, next) => {
 
 exports.mypage = (req, res) => {
 
+
+    var paths=[];
+    db.query('select PKey from users where NickName = ?', [username], async(error, result) => {
+        var pkey2=[];
+        for(var data of result){
+            pkey2.push(data.PKey);
+        }
+        console.log(pkey2);
+        db.query('select Path from video where UserPKey = ?', [pkey2], async(error, result) => {
+        
+            for(var data2 of result){
+                paths.push(data2.Path);
+            }
+            console.log(paths);
+        });
+    });
+    
+
+    
+    
     return res.render('mypage', {
-        username : username
+        username : username, paths : paths
     });
 }
+
 exports.map = (req, res) => {
     res.render('map');
 
 }
-exports.settings = (req, res) => {
-    res.render('settings');
+exports.revise =(req, res) => {
+    res.render('revise');
+}
+exports.mypagere = (req, res) => {
+    
+    res.render('mypagere');
 
 }

@@ -43,7 +43,7 @@ router.post('/upload', authController.upload);
 router.post('/videolist', authController.videolist);
 router.post('/mypage', authController.mypage);
 router.post('/map', authController.map);
-router.post('/settings', authController.settings);
+router.post('/revise', authController.revise);
 router.post('/mapp' ,mul.single('uploadfile'), authController.mapp);
     // username = req.body.username;
     // const location = req.body.loc;
