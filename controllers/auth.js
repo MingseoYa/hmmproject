@@ -142,78 +142,54 @@ exports.upload = (req, res) => {
 }
 
 //마커 더보기 눌렀을 때 
-
 exports.videolist = (req, res) => {
 
-    var pnu = [];//비디오 경로랑 계정주 같이 저장
+    //var pnu = [];//비디오 경로랑 계정주 같이 저장하려고
     //var datapath;
+    //var datanickname;
+    var {location} = req.body; //건물정보 가져오기
+
+    var bpkey = []; //해당건물이름 하나 저장
+    var datapath;
     var datanickname;
-    const {location} = req.body;
+    var pnu = [];//경로랑 유저닉네임 같이 저장
+
     db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
-        var pkey=[];
         for(var data of result){
-            pkey.push(data.PKey);
+            bpkey.push(data.PKey);
         }
 
+        db.query('select Nickname, Path from Video,users where Video.UserPKey = users.Pkey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
+            for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
+                //console.log(data);
+                datapath = data.Path;
+                datanickname = data.Nickname;
+                pnu.push(datanickname, datapath);
 
-
-        db.query('select Path from Video where BuildingLocPKey = ?', [pkey], async(error, results) => {
-            for (var data of results){
-                pnu.push(data.Path);
             }
-       
-            // for(var data of results){//한줄만 뽑히잖니:경로, 유저키
-            //     //pnu.push([data.Path, data.UserPKey]); //경로저장하고..
-                
-            //     if(data.UserPKey != null){
-            //         //datapath = data.Path;
-            //         db.query('select Nickname from users where PKey = ?', [data.UserPKey], async(error, res) => {
-            //             datapath = data.Path;
-            //             for(var data2 of res){
-                            
-            //                 datanickname = data2.Nickname;
-            //                 console.log(datanickname);
-            //                 //datapath = data.Path;
-            //                 console.log(datapath);
-            //                 //console.log(datapath, datanickname);
-            //                 pnu.push([datanickname, datapath]);
-            //                 //console.log(pnu);
-                            
-            //             }
-            //             //console.log(owner, location);
-                    
-            //         })
-
-            //     }else{
-            //         datanickname = ""
-            //         pnu.push([datanickname, datapath]);
-            //     }
-                
-            // }
-
-            //console.log(pnu);
-            //console.log(videopath, location);
             console.log(pnu);
+
             return res.render('videolist', 
                 {location : location, pnu : pnu});
+
         })
     })
+    
 }
 
 
 //공유버튼 눌렀을 때 
-//var fs = require('fs');
 exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
-    console.log(location);
+    //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
 
     //사용자key
     var upkey=[];
-    console.log(username, insertpath, location);
+    //console.log(username, insertpath, location);
     db.query('select PKey from users where Nickname = ?', [username], async(error, result) => {
       for(var data of result){
         upkey.push(data.PKey);
@@ -224,7 +200,7 @@ exports.mapp = (req, res, next) => {
         for(var data of result){
             pkey.push(data.PKey);
         }
-        console.log(pkey);
+        //console.log(pkey);
         db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
             // var res = {size : req.file.size};
             // res.json(size);
