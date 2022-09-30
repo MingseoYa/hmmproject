@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <style>
+<style>
+    html{
+    height: 100%;
+    }
+    body{
+    margin: 0;
+    height: 100%;
+    
+    justify-content: center;
+    }
         .prof_img{
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            margin: 50px;
-        }
-        .lay{
-            margin: 0;
-            text-align: center;
-        }
-        body{
             display: flex;
-            justify-content: center;
+            margin: 50px auto;
         }
+
+
         .des{
-            font-size: 14px;
+            font-size: 20px;
             margin-bottom: 20px;
             border: none;
             border-bottom: solid 2px rgb(143, 143, 143);
             border-radius: 5px;
             padding: 10px;
-            width: 100%;
+            width: 70%;
         }
         .bt{
             margin-top: 30px;
@@ -36,22 +40,59 @@
             font-weight: bold;
             
         }
+        #camInput {
+        
+        border: 1px solid skyblue;
+        border-radius: 50%;
+        height: 100px; 
+        width: 100px;
+        border: 0;
+        justify-content: center;
+        display: none;
+      }
+        h1{
+    width: 151;
+    margin: 0 auto;
+    display: block;
+  }
+    header {  
+    height: 10%;
+    color: rgb(135, 177, 235);
+    background-color: white;
+    font-weight: bold;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1.5px rgb(218, 218, 218);
+    top : 0;
+    display: flex;
+  }
+  .lay{
+    height: 90%;
+    margin: 0;
+    text-align: center;
+  }
     </style>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revise</title>
 </head>
+<header>
+
+ 
+    <h1>Profile</h1>
+  </header>
 <body>
     <div class="lay">
-        <img class="prof_img" src="../auth/img/profile.jpg">
+        {{!-- <button><img class="prof_img" src="../auth/img/profile.jpg"></button> --}}
+        <label for="camInput" id="camInputLabel"><img class="prof_img" src="../auth/img/profile.jpg"></label>
+        <input type="file" name="uploadfile" accept="image/*";capture="camera" id="camInput">
 
         <form action="/auth/mypagere" method="POST">
         
-            <input type="password" placeholder="Password..." id="password" class="des" name = "password"/>
-            <br>
-            <input type="text" placeholder="NickName..." id="nickname" class="des" name = "nickname"/>
+            <input type="text" placeholder="NickName..." id="nickname" class="des" name = "nickname" value="{{username}}"/>
             <br>
             <button class="bt" type="submit">변경하기</button>
         </form>

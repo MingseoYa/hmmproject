@@ -30,6 +30,9 @@
             padding : 3%;
 
         }
+        .grayish{
+            color: rgb(143, 143, 143);
+        }
         
     </style>
 </head>
@@ -54,7 +57,7 @@
 
 
         for (let i = 0 ; i < pnu.length ; i += 2){
-            str += '<div id = "videos"><h4>' + pnu[i] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i+1] + '" type = "video/mp4"></br></video></br></div>'
+            str += '<div id = "videos"><h4 class = grayish>' + pnu[i] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i+1] + '" type = "video/mp4"></br></video></br></div>'
             console.log(pnu[i], pnu[i+1]);
         }      
         document.write(str);
