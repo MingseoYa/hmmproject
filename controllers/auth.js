@@ -243,8 +243,11 @@ exports.map = (req, res) => {
     res.render('map');
 
 }
-exports.revise =(req, res) => {
-    res.render('revise');
+exports.revise = (req, res) => {
+
+    res.render('revise', {
+        username : username
+    });
 }
 exports.mypagere = (req, res) => {
     
