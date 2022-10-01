@@ -125,6 +125,8 @@ exports.login = (req, res) => {
 
 //when click + button
 exports.upload = (req, res) => {
+    //gps
+
     console.log(username);
 
     db.query('select Name from buildingloc', async(error, results) => {

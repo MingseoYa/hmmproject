@@ -50,35 +50,36 @@
 
         @media screen and (max-width:767px){
             fieldset{
-        width: 80%;
-        border: none;
-        border-radius: 10px;
-        margin: 10px auto;
-        background: white;
+                width: 80%;
+                border: none;
+                border-radius: 10px;
+                margin: 10px auto;
+                background: white;
+            }
+            .div2{
+                width:80%;
+                height: 30px;s
+                margin: 10px auto;
+                padding: 0;
+                line-height: 30px;
+            }
         }
-        .div2{
-            width:80%;
-            height: 30px;s
-            margin: 10px auto;
-            padding: 0;
-            line-height: 30px;
-        }
-        }
+
         @media screen and (min-width:768px){
             fieldset{
-        width: 50%;
-        border: none;
-        border-radius: 10px;
-        margin: 10px auto;
-        background: white;
-        }
-        .div2{
-            width:50%;
-            height: 30px;
-            margin: 10px auto;
-            padding: 0;
-            line-height: 30px;
-        }
+                width: 50%;
+                border: none;
+                border-radius: 10px;
+                margin: 10px auto;
+                background: white;
+            }
+            .div2{
+                width:50%;
+                height: 30px;
+                margin: 10px auto;
+                padding: 0;
+                line-height: 30px;
+            }
         }
 
         .upButton{
@@ -153,43 +154,13 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
-<script>
-
-function successCallback(position) {
-
-	alert(position.coords.latitude + " : " + position.coords.longitude);	
-
-}
-
-
-function errorCallback(error) {
-
-	alert(error.message);
-
-}
-
-
-function load(){ 
-
-	if ( navigator.geolocation ) {
-
-		navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-
-	} else {
-
-		alert("geolocation not supported");
-
-	}
-
-}
-
-</script>
 </head>
 
-<body onload="load()">
+<body>
     <header>
         <h1 id="nam">Local Shorts'</h1>
       </header>
+      
     <form id ="form1" enctype="multipart/form-data" method="POST" action="/auth/mapp" id="videoSub">
         <div class="div2"><button id = "upButton" class="upButton" type = "submit">공유</button></div>
 
@@ -211,11 +182,8 @@ function load(){
             <label><input type="checkbox" name="post" checked>게시물</label><p></p>
             <a>위치: </a>
             {{!-- <form method="post" action="/auth/play" target="iframe1"> --}}
-            
-
-            <select id="select" id = "loc" name="loc">
+            <select id = "loc" name="loc">
                 <script>
-                    
                     const b_name = "{{buildingname}}".split(',');
                     str = "";
                     for (var name of b_name){

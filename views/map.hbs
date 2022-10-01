@@ -217,6 +217,30 @@ building=locations[i][0]>
      
         <div class="div1">
           <form action="/auth/upload" method = "POST">
+
+          <script>//gps 뽑기
+            var latitude;
+            var longitude;
+            function successCallback(position) {
+                alert(position.coords.latitude + " : " + position.coords.longitude);	
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+            }
+
+            function errorCallback(error) {
+                alert(error.message);
+            }
+
+            function load(){ 
+                if ( navigator.geolocation ) {
+                    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+                } else {
+                    alert("geolocation not supported");
+                }
+            }
+
+            load();
+          </script>
           <button type= "submit" id="camInputLabel">+</button>
           </form>
         </div>
