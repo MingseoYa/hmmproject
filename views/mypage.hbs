@@ -132,6 +132,8 @@ ul{
     <nav id="settingSpace">
       <div onclick="toggleSettings()">
         <img id = "setting" src="../auth/img/setting.png" alt="">
+        
+
       </div>
     </nav>
   </header>
@@ -149,7 +151,16 @@ ul{
   </div>
   <script src="settings.js"></script>
 <body>
-    <img class ="profile" src="img/avatar1.jpg"> 
+    {{!-- <img class ="profile" src="img/avatar1.jpg">  --}}
+    <script>
+      const insertimgpath = "{{insertimgpath}}";
+      str = "";
+      str = '<img class ="profile" src="' + insertimgpath + '">'
+      document.write(str);
+    </script>
+    
+
+    
     <script language = "javascript">
         // 경로를 받을 배열
         // var pathAry = new Array();
@@ -182,7 +193,6 @@ ul{
                     <source src="'+paths[0]+'" \
                     type="video/mp4"></video>')
         }
-               
         
     </script>
     <!-- <div class="div1"><button onclick = "location.href='map.html'" id="camInputLabel" >X</button></div> -->
