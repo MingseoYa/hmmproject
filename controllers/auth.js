@@ -224,13 +224,17 @@ exports.mypage = (req, res) => {
 
 
     var paths=[];
+
     db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
+
         var pkey2=[];
         for(var data of result){
             pkey2.push(data.PKey);
         }
         console.log(pkey2);
+
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
+
         
             for(var data2 of result){
                 paths.push(data2.Path);
@@ -251,8 +255,12 @@ exports.map = (req, res) => {
     res.render('map');
 
 }
-exports.revise =(req, res) => {
-    res.render('revise');
+
+exports.revise = (req, res) => {
+
+    res.render('revise', {
+        username : username
+    });
 }
 exports.mypagere = (req, res) => {
     
