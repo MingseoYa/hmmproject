@@ -28,10 +28,6 @@
             /* border-style: solid; */
             border-bottom: solid 1.5px rgb(218, 218, 218);
         }
-        #selectLoc{
-            border-radius: 2px;
-            border: none;
-        }
         #select{
             border-radius: 10px;
             width: 130px; height:25px;
@@ -86,7 +82,7 @@
         justify-content: center;
         float:right;
         right:10px;
-        color:skyblue;
+        color:rgb(135, 177, 235);
         border:none;
         background-color:white;
         width:50px;
@@ -182,7 +178,9 @@
             <label><input type="checkbox" name="post" checked>게시물</label><p></p>
             <a>위치: </a>
             {{!-- <form method="post" action="/auth/play" target="iframe1"> --}}
-            <select id = "loc" name="loc">
+            
+
+            <select name="loc">
                 <script>
                     const b_name = "{{buildingname}}".split(',');
                     str = "";
@@ -233,7 +231,7 @@
         
         
         <fieldset>
-            <label><input type="checkbox" name="soundtag">사운드태그</label>
+            <label><input type="checkbox" name="soundtag">현재 공간에 영상 등록</label>
             <h4>공개범위</h4>
             <label><input type="radio" name="s_range" value="s_all">전체</label>
             <label><input type="radio" name="s_range" value="s_friend">친구</label>

@@ -31,12 +31,20 @@ const db = mysql.createConnection({
 
 var username;
 var filename;
+var insertimgpath;
 
 //회원가입버튼 눌렀을 때
-exports.register = (req, res) => {
+exports.register = (req, res, next) => {
     //console.log(req.body);
 
     const { email, password, nickname } = req.body;
+    if (!req.file){//사진선택을 안해줬다면 샘플프로필사진으로 넣어주기
+        insertimgpath = "/image/sample_profile.jpg";
+    }else{
+        insertimgpath = "/profileimg/" + req.file.filename; //데베에 들어갈 경로
+
+    }
+    //filename = "./"+ insertpath;
 
     if(!email || !password || !nickname) {
         return res.render('register', {
@@ -46,7 +54,7 @@ exports.register = (req, res) => {
 
 
 
-    db.query('select Email from users where Email = ?', [email], async(error, results) => {
+    db.query('select Email from Users where Email = ?', [email], async(error, results) => {
         if(error){
             console.log(error);
         }
@@ -61,7 +69,7 @@ exports.register = (req, res) => {
         // let hashedPassword = await bcrypt.hash(password, 8);
         // console.log(hashedPassword);
 
-        db.query('insert into users set ?', {Email : email, Pwd: password, Nickname: nickname}, (error, results) => {
+        db.query('insert into Users set ?', {Email : email, Pwd: password, NickName: nickname, ProfileImg : insertimgpath}, (error, results) => {
             if(error) {
                 console.log(error);
             }else {
@@ -81,7 +89,7 @@ exports.login = (req, res) => {
     const { email, password } = req.body;
 
 
-    db.query('select Email from users where Email = ?', [email], async(error, results) => {
+    db.query('select Email from Users where Email = ?', [email], async(error, results) => {
         if(error){
             console.log(error);
         }
@@ -93,14 +101,14 @@ exports.login = (req, res) => {
 
         if(results.length > 0){//이메일이 존재하면
 
-            db.query('select Pwd from users where Email = ? and Pwd = ?', [email, password], async(error, results) => {
+            db.query('select Pwd from Users where Email = ? and Pwd = ?', [email, password], async(error, results) => {
                 
                 
                 if(results.length > 0){ //비밀번호도 동일하면 로그인 성공
-                    db.query('select Nickname from users where Email = ?', [email], async(error, resultss) => {
+                    db.query('select NickName from Users where Email = ?', [email], async(error, resultss) => {
                         usernick = [];
                         for(var data of resultss){
-                            usernick.push(data.Nickname);
+                            usernick.push(data.NickName);
                         }
                         username = usernick[0];
                         
@@ -129,7 +137,7 @@ exports.upload = (req, res) => {
 
     console.log(username);
 
-    db.query('select Name from buildingloc', async(error, results) => {
+    db.query('select Name from BuildingLoc', async(error, results) => {
 
         var buildingname=[];
         for(var data of results){
@@ -144,89 +152,65 @@ exports.upload = (req, res) => {
 }
 
 //마커 더보기 눌렀을 때 
-
 exports.videolist = (req, res) => {
 
-    var pnu = [];//비디오 경로랑 계정주 같이 저장
+    //var pnu = [];//비디오 경로랑 계정주 같이 저장하려고
     //var datapath;
+    //var datanickname;
+    var {location} = req.body; //건물정보 가져오기
+
+    var bpkey = []; //해당건물이름 하나 저장
+    var datapath;
     var datanickname;
-    const {location} = req.body;
-    db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
-        var pkey=[];
+    var pnu = [];//경로랑 유저닉네임 같이 저장
+
+    db.query('select PKey from BuildingLoc where Name = ?', [location], async(error, result) => {
         for(var data of result){
-            pkey.push(data.PKey);
+            bpkey.push(data.PKey);
         }
 
+        db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
+            for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
+                //console.log(data);
+                datapath = data.Path;
+                datanickname = data.NickName;
+                pnu.push(datanickname, datapath);
 
-
-        db.query('select Path from Video where BuildingLocPKey = ?', [pkey], async(error, results) => {
-            for (var data of results){
-                pnu.push(data.Path);
             }
-       
-            // for(var data of results){//한줄만 뽑히잖니:경로, 유저키
-            //     //pnu.push([data.Path, data.UserPKey]); //경로저장하고..
-                
-            //     if(data.UserPKey != null){
-            //         //datapath = data.Path;
-            //         db.query('select Nickname from users where PKey = ?', [data.UserPKey], async(error, res) => {
-            //             datapath = data.Path;
-            //             for(var data2 of res){
-                            
-            //                 datanickname = data2.Nickname;
-            //                 console.log(datanickname);
-            //                 //datapath = data.Path;
-            //                 console.log(datapath);
-            //                 //console.log(datapath, datanickname);
-            //                 pnu.push([datanickname, datapath]);
-            //                 //console.log(pnu);
-                            
-            //             }
-            //             //console.log(owner, location);
-                    
-            //         })
-
-            //     }else{
-            //         datanickname = ""
-            //         pnu.push([datanickname, datapath]);
-            //     }
-                
-            // }
-
-            //console.log(pnu);
-            //console.log(videopath, location);
             console.log(pnu);
+
             return res.render('videolist', 
                 {location : location, pnu : pnu});
+
         })
     })
+    
 }
 
 
 //공유버튼 눌렀을 때 
-//var fs = require('fs');
 exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
-    console.log(location);
+    //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
 
     //사용자key
     var upkey=[];
-    console.log(username, insertpath, location);
-    db.query('select PKey from users where Nickname = ?', [username], async(error, result) => {
+    //console.log(username, insertpath, location);
+    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
       for(var data of result){
         upkey.push(data.PKey);
       }
     })
-    db.query('select PKey from buildingloc where Name = ?', [location], async(error, result) => {
+    db.query('select PKey from BuildingLoc where Name = ?', [location], async(error, result) => {
         var pkey=[];
         for(var data of result){
             pkey.push(data.PKey);
         }
-        console.log(pkey);
+        //console.log(pkey);
         db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
             // var res = {size : req.file.size};
             // res.json(size);
@@ -240,15 +224,48 @@ exports.mapp = (req, res, next) => {
 
 exports.mypage = (req, res) => {
 
+
+    var paths=[];
+
+    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
+
+        var pkey2=[];
+        for(var data of result){
+            pkey2.push(data.PKey);
+        }
+        console.log(pkey2);
+
+        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
+
+        
+            for(var data2 of result){
+                paths.push(data2.Path);
+            }
+            console.log(paths);
+        });
+    });
+    
+
+    
+    
     return res.render('mypage', {
-        username : username
+        username : username, paths : paths, insertimgpath : insertimgpath
     });
 }
+
 exports.map = (req, res) => {
     res.render('map');
 
 }
-exports.settings = (req, res) => {
-    res.render('settings');
+
+exports.revise = (req, res) => {
+
+    res.render('revise', {
+        username : username
+    });
+}
+exports.mypagere = (req, res) => {
+    
+    res.render('mypagere');
 
 }
