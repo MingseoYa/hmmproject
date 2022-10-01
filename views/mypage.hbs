@@ -132,6 +132,8 @@ ul{
     <nav id="settingSpace">
       <div onclick="toggleSettings()">
         <img id = "setting" src="../auth/img/setting.png" alt="">
+        
+
       </div>
     </nav>
   </header>
@@ -145,39 +147,48 @@ ul{
   </div>
   <script src="settings.js"></script>
 <body>
-    <img class ="profile" src="img/avatar1.jpg"> 
+    {{!-- <img class ="profile" src="img/avatar1.jpg">  --}}
+    <script>
+      const insertimgpath = "{{insertimgpath}}";
+      str = "";
+      str = '<img class ="profile" src="' + insertimgpath + '">'
+      document.write(str);
+    </script>
+    
+
+    
     <script language = "javascript">
         // 경로를 받을 배열
         // var pathAry = new Array();
-        var pathAry = 4
-        var a = 4
-        if (a%2==0){
-            for (var i = 0; i < a-1; i+=2){
+        const paths = "{{paths}}".split(',');
+        var a = paths
+        console.log(a);
+        if (a.length%2==0){
+            for (var i = paths.length-1; i > 0; i -= 2){
                 document.write('<div class="video"> \
                     <video class="video" width="46%"loop controls> \
-                    <source src="video/cha'+(i+1)+'.mp4" \
+                    <source src="'+paths[i]+'" \
                     type="video/mp4"></video>\
                     <video class="video" width="46%" loop controls> \
-                    <source src="video/cha'+(i+2)+'.mp4" \
+                    <source src="'+paths[i-1]+'" \
                     type="video/mp4"></video></div>')
             }
         }
         else{
-            for(var i = 0; i < a-1; i+=2){
+            for (var i = paths.length-1; i > 1; i -= 2){
                 document.write('<div class="video"> \
                     <video class="video" width="46%"loop controls> \
-                    <source src="video/cha'+(i+1)+'.mp4" \
+                    <source src="'+paths[i]+'" \
                     type="video/mp4"></video>\
                     <video class="video" width="46%" loop controls> \
-                    <source src="video/cha'+(i+2)+'.mp4" \
+                    <source src="'+paths[i-1]+'" \
                     type="video/mp4"></video></div>')
             }
             document.write('<div class="video"> \
                     <video class="video" width="46%"loop controls> \
-                    <source src="video/cha'+a+'.mp4" \
+                    <source src="'+paths[0]+'" \
                     type="video/mp4"></video>')
         }
-               
         
     </script>
     <!-- <div class="div1"><button onclick = "location.href='map.html'" id="camInputLabel" >X</button></div> -->
