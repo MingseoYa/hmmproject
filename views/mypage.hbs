@@ -121,6 +121,20 @@
 ul{
   padding: 0;
 }
+@media screen and (max-width:767px){
+    fieldset{
+border: none;
+margin: 0 auto;
+}
+}
+@media screen and (min-width:768px){
+fieldset{
+width: 50%;
+border: none;
+margin: 0 auto;
+}
+}
+
 </style>
 <header>
   <div>
@@ -151,6 +165,7 @@ ul{
     </ul>
   </div>
   <script src="settings.js"></script>
+  <fieldset>
 <body>
     {{!-- <img class ="profile" src="img/avatar1.jpg">  --}}
     <script>
@@ -197,5 +212,6 @@ ul{
         
     </script>
     <!-- <div class="div1"><button onclick = "location.href='map.html'" id="camInputLabel" >X</button></div> -->
+    </fieldset>
 </body>
 </html>

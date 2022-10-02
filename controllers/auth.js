@@ -221,7 +221,6 @@ exports.mapp = (req, res, next) => {
 
 exports.mypage = (req, res) => {
     var paths=[];
-    console.log(username)
     db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
 
         var pkey2=[];
@@ -256,7 +255,7 @@ exports.revise = (req, res) => {
 exports.mypagere = (req, res) => {
     const {nickname} = req.body;
     console.log(nickname)
-    db.query('update users set NickName = ? where Nickname = ?', [nickname, username], async(error, results) => {
+    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         
     });
     username = nickname
