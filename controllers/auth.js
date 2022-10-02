@@ -207,7 +207,6 @@ exports.videolist = (req, res) => {
                 pnu.push(datanickname, datapath);
 
             }
-            console.log(pnu);
 
             return res.render('videolist', 
                 {location : location, pnu : pnu});
@@ -252,30 +251,22 @@ exports.mapp = (req, res, next) => {
 }
 
 exports.mypage = (req, res) => {
-
-
     var paths=[];
-
+    console.log(username)
     db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
 
         var pkey2=[];
         for(var data of result){
             pkey2.push(data.PKey);
         }
-        console.log(pkey2);
 
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
-
         
             for(var data2 of result){
                 paths.push(data2.Path);
             }
-            console.log(paths);
         });
     });
-    
-
-    
     
     return res.render('mypage', {
         username : username, paths : paths, insertimgpath : insertimgpath
@@ -294,7 +285,31 @@ exports.revise = (req, res) => {
     });
 }
 exports.mypagere = (req, res) => {
+    const {nickname} = req.body;
+    console.log(nickname)
+    db.query('update users set NickName = ? where Nickname = ?', [nickname, username], async(error, results) => {
+        
+    });
+    username = nickname
+    var paths=[];
+    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
+        
+        var pkey2=[];
+        for(var data of result){
+            pkey2.push(data.PKey);
+        }
+
+        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
+        
+            for(var data2 of result){
+                paths.push(data2.Path);
+            }
+        });
+    });
     
-    res.render('mypagere');
+    console.log(username)
+    res.render('mypage', {
+        username : nickname, paths : paths, insertimgpath : insertimgpath
+    });
 
 }
