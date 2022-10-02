@@ -224,9 +224,32 @@ building=locations[i][0]>
      
         <div class="div1">
           <form action="/auth/upload" method = "POST">
+          <script>
+        var latitude;
+        var longitude;
+
+        if (navigator.geolocation) { // GPS를 지원하면
+          navigator.geolocation.getCurrentPosition(function(position) {
+              latitude = position.coords.latitude;
+              longitude = position.coords.longitude;
+              console.log(latitude + "_" + longitude);
+          }, function(error) {
+              console.error(error);
+          }, {
+              enableHighAccuracy: false,
+              maximumAge: 0,
+              timeout: Infinity
+          });
+        } else {
+            alert('GPS를 지원하지 않습니다');
+        }
+    </script>
+          <input type="hidden" name = "latitude" value="${latitude}"/>
+          <input type="hidden" name = "longitude" value="${longitude"/>
           <button type= "submit" id="camInputLabel">+</button>
           </form>
         </div>
+        
       
 </body>
 </html>

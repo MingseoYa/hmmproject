@@ -23,10 +23,10 @@ const bodyParser = require('body-parser');
 // });
 
 const db = mysql.createConnection({
-    host : process.env.DATABASE_HOST,
-    user : process.env.DATABASE_USER,
-    password : process.env.DATABASE_PASSWORD,
-    database : process.env.DATABASE
+    host : "localhost"
+    user : "root",
+    password : "0000",
+    database : "losho"
 });
 
 var username;
@@ -133,19 +133,33 @@ exports.login = (req, res) => {
 
 //when click + button
 exports.upload = (req, res) => {
+    const {latitude, longitude} = req.body;
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',[latitude, longitude], async(error, results) => {
+
+            var buildingname=[];
+            for(var data of results){
+                buildingname.push(data.Name);
+                console.log(data.Name);
+            }
+            //console.log(buildingname);
+            res.render('upload', 
+                //{buildingname : buildingname}
+                {buildingname : buildingname, username : username});
+        })
+
     console.log(username);
 
-    db.query('select Name from BuildingLoc', async(error, results) => {
+    // db.query('select Name from BuildingLoc', async(error, results) => {
 
-        var buildingname=[];
-        for(var data of results){
-            buildingname.push(data.Name);
-        }
-        //console.log(buildingname);
-        res.render('upload', 
-            //{buildingname : buildingname}
-            {buildingname : buildingname, username : username});
-    })
+    //     var buildingname=[];
+    //     for(var data of results){
+    //         buildingname.push(data.Name);
+    //     }
+    //     //console.log(buildingname);
+    //     res.render('upload', 
+    //         //{buildingname : buildingname}
+    //         {buildingname : buildingname, username : username});
+    // })
     
 }
 
