@@ -49,6 +49,8 @@ router.post('/videolist', authController.videolist);
 router.post('/mypage', authController.mypage);
 router.post('/map', authController.map);
 router.post('/mapp' , mul.single('uploadfile'), authController.mapp);
+router.post('/revise', authController.revise);
+router.post('/mypagere', authController.mypagere);
 
 //router.post('/settings', authController.settings);
 
