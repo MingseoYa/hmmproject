@@ -133,25 +133,8 @@ exports.login = (req, res) => {
 
 //when click + button
 exports.upload = (req, res) => {
-    var latitude;
-    var longitude;
-    if (navigator.geolocation) { // GPS를 지원하면
-        navigator.geolocation.getCurrentPosition(function(position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-        }, function(error) {
-            console.error(error);
-        }, {
-            enableHighAccuracy: false,
-            maximumAge: 0,
-            timeout: Infinity
-        });
-    } else {
-        alert('GPS를 지원하지 않습니다');
-        return;
-    }
-
-        db.query('select Name, ST_DISTANCE_SPHERE(POINT(127.0155467, 37.6537193), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 2', async(error, results) => {
+    const {latitude, longitude} = req.body;
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',[latitude, longitude], async(error, results) => {
 
             var buildingname=[];
             for(var data of results){
