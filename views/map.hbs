@@ -232,7 +232,8 @@ building=locations[i][0]>
           navigator.geolocation.getCurrentPosition(function(position) {
               latitude = position.coords.latitude;
               longitude = position.coords.longitude;
-              console.log(latitude + "_" + longitude);
+              console.log(latitude + ", " + longitude);
+              
           }, function(error) {
               console.error(error);
           }, {
