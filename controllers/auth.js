@@ -7,21 +7,6 @@ const {promisify} = require('util');
 const multiparty = require('multiparty');
 const bodyParser = require('body-parser');
 
-// const multer = require('multer');
-// const mul = multer({
-//     storage : multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, 'video/');//계정 다시 한번 보기
-//         },
-//         filename : function (req, file, cb) {
-//             let today = new Date();
-//             let milliseconds = today.getMilliseconds();
-//             cb(null, milliseconds + ".mp4");
-//             // insertpath = "/video/" + milliseconds + ".mp4";
-//         }
-//     })
-// });
-
 const db = mysql.createConnection({
     host : process.env.DATABASE_HOST,
     user : process.env.DATABASE_USER,
@@ -31,7 +16,7 @@ const db = mysql.createConnection({
 
 var username;
 var filename;
-var insertimgpath;
+//var insertimgpath;
 
 //회원가입버튼 눌렀을 때
 exports.register = (req, res, next) => {
@@ -191,6 +176,7 @@ exports.videolist = (req, res) => {
 exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
+    var comment = req.body.comment;
     //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
@@ -209,7 +195,7 @@ exports.mapp = (req, res, next) => {
             pkey.push(data.PKey);
         }
         //console.log(pkey);
-        db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment) values(?,?,?,?)', [upkey[0], pkey, insertpath, comment], async(error, results) => {
             // var res = {size : req.file.size};
             // res.json(size);
             //console.log(req.file);
@@ -224,14 +210,23 @@ exports.mypage = (req, res) => {
 
 
     var paths=[];
+    var imgpaths = [];
 
-    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
-
+    db.query('select PKey, ProfileImg from Users where NickName = ?', [username], async(error, result) => {
+        
         var pkey2=[];
         for(var data of result){
             pkey2.push(data.PKey);
+            if (data.ProfileImg == null){
+                imgpaths.push("/image/sample_profile.jpg");
+            }
+            else{
+                imgpaths.push(data.ProfileImg);
+            }
+            
         }
-        console.log(pkey2);
+        //console.log(pkey2);
+        //console.log(imgpaths);
 
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
 
@@ -241,13 +236,10 @@ exports.mypage = (req, res) => {
             }
             console.log(paths);
         });
-    });
-    
-
-    
+    });    
     
     return res.render('mypage', {
-        username : username, paths : paths, insertimgpath : insertimgpath
+        username : username, paths : paths, imgpaths : imgpaths
     });
 }
 
@@ -267,3 +259,26 @@ exports.mypagere = (req, res) => {
     res.render('mypagere');
 
 }
+
+//검색버튼 눌렀을 때
+// function searchvideo() {
+//     var searchword = document.getElementById("search-input").value;
+//     //str = ""
+//     videos.innerText = searchword;
+//     console.log(searchword);
+    
+//     db.query('select Path, Comment from Video' , async(error, result) => {
+//         var comment = "";
+//         var videopath = [];
+//         for(var data of result){
+//             comment.push(data.Comment.split('#'));
+//             if(comment.includes(searchword)){
+//                 videopath.push(data.Path);
+
+//             }
+//         }
+//         console.log(videopath);
+
+//     });
+
+// }

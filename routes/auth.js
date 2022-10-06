@@ -47,9 +47,10 @@ router.post('/login', authController.login);
 router.post('/upload', authController.upload);
 router.post('/videolist', authController.videolist);
 router.post('/mypage', authController.mypage);
+router.post('/revise', authController.revise);
 router.post('/map', authController.map);
 router.post('/mapp' , mul.single('uploadfile'), authController.mapp);
-
+//router.post('/search', authController.search);
 //router.post('/settings', authController.settings);
 
 //업로드 페이지에서 공유버튼 눌렀을 때

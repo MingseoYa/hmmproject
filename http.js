@@ -172,7 +172,9 @@ app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use(express.static('./'));
 
-
+app.get('/search', function(req, res){
+  searchvideo();
+});
 app.get('/og', function (req, res){
   sendOGVideo(req, res);
 });
