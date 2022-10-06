@@ -23,7 +23,7 @@ const bodyParser = require('body-parser');
 // });
 
 const db = mysql.createConnection({
-    host : "localhost"
+    host : "localhost",
     user : "root",
     password : "0000",
     database : "losho"
@@ -65,20 +65,33 @@ exports.register = (req, res, next) => {
             });
         }
 
+        db.query('select NickName from Users where NickName = ?', [nickname], async(error, results2) => {
+            if(error) {
+                console.log(error);
+            }
+            if(results2.length > 0){
+                return res.render('register', {
+                    message : '이미 사용되고 있는 닉네임입니다'
+                });
+            }
+            console.log(results2);
+            db.query('insert into Users set ?', {Email : email, Pwd: password, NickName: nickname, ProfileImg : insertimgpath}, (error, results) => {
+                if(error) {
+                    console.log(error);
+                }else {
+                    return res.render('register', {
+                        message: '회원가입 되었습니다'
+                    });
+                    
+                }
+            })
+        });
+
         //비밀번호 해쉬
         // let hashedPassword = await bcrypt.hash(password, 8);
         // console.log(hashedPassword);
 
-        db.query('insert into Users set ?', {Email : email, Pwd: password, NickName: nickname, ProfileImg : insertimgpath}, (error, results) => {
-            if(error) {
-                console.log(error);
-            }else {
-                return res.render('register', {
-                    message: '회원가입 되었습니다'
-                });
-                
-            }
-        })
+
     });
 
 }
@@ -235,7 +248,6 @@ exports.mapp = (req, res, next) => {
 
 exports.mypage = (req, res) => {
     var paths=[];
-    console.log(username)
     db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
 
         var pkey2=[];
@@ -270,7 +282,7 @@ exports.revise = (req, res) => {
 exports.mypagere = (req, res) => {
     const {nickname} = req.body;
     console.log(nickname)
-    db.query('update users set NickName = ? where Nickname = ?', [nickname, username], async(error, results) => {
+    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         
     });
     username = nickname
