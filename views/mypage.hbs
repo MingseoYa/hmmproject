@@ -181,17 +181,18 @@ margin: 0 auto;
         // 경로를 받을 배열
         // var pathAry = new Array();
         const paths = "{{paths}}".split(',');
-        var a = paths
-        console.log(a);
+        //document.write(paths[0]);///
+        var a = paths;
+
         if (a.length%2==0){
-            for (var i = paths.length-1; i > 0; i -= 2){
-                document.write('<div class="video"> \
-                    <video class="video" width="46%"loop controls> \
-                    <source src="'+paths[i]+'" \
-                    type="video/mp4"></video>\
-                    <video class="video" width="46%" loop controls> \
-                    <source src="'+paths[i-1]+'" \
-                    type="video/mp4"></video></div>')
+          for (var i = paths.length-1; i > 0; i -= 2){
+              document.write('<div class="video"> \
+                  <video class="video" width="46%"loop controls> \
+                  <source src="'+paths[i]+'" \
+                  type="video/mp4"></video>\
+                  <video class="video" width="46%" loop controls> \
+                  <source src="'+paths[i-1]+'" \
+                  type="video/mp4"></video></div>')
             }
         }
         else{
@@ -209,7 +210,9 @@ margin: 0 auto;
                     <source src="'+paths[0]+'" \
                     type="video/mp4"></video>')
         }
+       
         
+         
     </script>
     <!-- <div class="div1"><button onclick = "location.href='map.html'" id="camInputLabel" >X</button></div> -->
     </fieldset>
