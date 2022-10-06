@@ -169,9 +169,9 @@ margin: 0 auto;
 <body>
     {{!-- <img class ="profile" src="img/avatar1.jpg">  --}}
     <script>
-      const insertimgpath = "{{insertimgpath}}";
+      var imgpaths = "{{imgpaths}}";
       str = "";
-      str = '<img class ="profile" src="' + insertimgpath + '">'
+      str = '<img class ="profile" src="' + imgpaths + '">'
       document.write(str);
     </script>
     
@@ -180,7 +180,7 @@ margin: 0 auto;
     <script language = "javascript">
         // 경로를 받을 배열
         // var pathAry = new Array();
-        const paths = "{{paths}}".split(',');
+        var paths = "{{paths}}".split(',');
         //document.write(paths[0]);///
         var a = paths;
 
