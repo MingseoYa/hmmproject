@@ -29,42 +29,22 @@
         color:#6799FF;
       }
     
-      .upButton{
-        color:skyblue;
-        border:1px solid skyblue;
-        background-color:white;
-        border-radius:10px;
-        width:200px;
-        height:80px;
-        font-size:30px;
-        padding: 0;
-      }
 
-
-      #camInput {
-        position: absolute;
-        border: 1px solid skyblue;
-        border-radius: 50%;
-        height: 100px; width: 100px;
-        padding: 0;
-        border: 0;
-        bottom:2%;
-        display: none;
-      }
 
       #camInputLabel {
         position: absolute;
+        left:50%;
+        transform: translate(-50%,0);
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
         background: white;
         color: rgb(135, 177, 235);
         background-color: white;
         cursor: pointer;
-        display: inline-block;
-        height: 100px; width: 100px;
-        line-height: 100px;
+        height: 80px; width: 80px;
+        line-height: 80px;
         text-align: center;
-        font-size: 30px;
+        font-size: 50px;
         bottom:2%;
       }
       #myPageMove {
@@ -299,9 +279,32 @@ building=locations[i][0]>
      
         <div class="div1">
           <form action="/auth/upload" method = "POST">
+          <script>
+        var latitude;
+        var longitude;
+
+        if (navigator.geolocation) { // GPS를 지원하면
+          navigator.geolocation.getCurrentPosition(function(position) {
+              latitude = position.coords.latitude;
+              longitude = position.coords.longitude;
+              console.log(latitude + "_" + longitude);
+          }, function(error) {
+              console.error(error);
+          }, {
+              enableHighAccuracy: false,
+              maximumAge: 0,
+              timeout: Infinity
+          });
+        } else {
+            alert('GPS를 지원하지 않습니다');
+        }
+    </script>
+          <input type="hidden" name = "latitude" value="${latitude}"/>
+          <input type="hidden" name = "longitude" value="${longitude"/>
           <button type= "submit" id="camInputLabel">+</button>
           </form>
         </div>
+        
       
 </body>
 </html>

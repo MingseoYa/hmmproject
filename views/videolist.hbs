@@ -26,14 +26,22 @@
             margin: 0;
             height: 100%;
         }
-        #videos{
-            padding : 3%;
 
-        }
         .grayish{
             color: rgb(143, 143, 143);
         }
-        
+        @media screen and (max-width:767px){
+            fieldset{
+        border: none;
+        }
+        }
+        @media screen and (min-width:768px){
+            fieldset{
+        width: 50%;
+        border: none;
+        margin: 0 auto;
+        }
+        }
     </style>
 </head>
 <body>
@@ -42,10 +50,9 @@
 
     </header>
     
-
+<fieldset>
     <script>
         const pnu = "{{pnu}}".split(',');
-        console.log(pnu);
         str = "";
 
        /* 
@@ -58,15 +65,13 @@
 
         for (let i = 0 ; i < pnu.length ; i += 2){
             str += '<div id = "videos"><h4 class = grayish>' + pnu[i] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i+1] + '" type = "video/mp4"></br></video></br></div>'
-            console.log(pnu[i], pnu[i+1]);
-        }      
+        }     
         document.write(str);
-
     
         
             
     </script>
-
+</fieldset>
     
 </body>
 </html>

@@ -50,20 +50,29 @@ exports.register = (req, res, next) => {
             });
         }
 
-        //비밀번호 해쉬
-        // let hashedPassword = await bcrypt.hash(password, 8);
-        // console.log(hashedPassword);
-
-        db.query('insert into Users set ?', {Email : email, Pwd: password, NickName: nickname, ProfileImg : insertimgpath}, (error, results) => {
+        db.query('select NickName from Users where NickName = ?', [nickname], async(error, results2) => {
             if(error) {
                 console.log(error);
-            }else {
-                return res.render('register', {
-                    message: '회원가입 되었습니다'
-                });
-                
             }
-        })
+            if(results2.length > 0){
+                return res.render('register', {
+                    message : '이미 사용되고 있는 닉네임입니다'
+                });
+            }
+            console.log(results2);
+            db.query('insert into Users set ?', {Email : email, Pwd: password, NickName: nickname, ProfileImg : insertimgpath}, (error, results) => {
+                if(error) {
+                    console.log(error);
+                }else {
+                    return res.render('register', {
+                        message: '회원가입 되었습니다'
+                    });
+                    
+                }
+            })
+        });
+
+
     });
 
 }
@@ -131,6 +140,7 @@ exports.upload = (req, res) => {
             //{buildingname : buildingname}
             {buildingname : buildingname, username : username});
     })
+
     
 }
 
@@ -161,7 +171,6 @@ exports.videolist = (req, res) => {
                 pnu.push(datanickname, datapath);
 
             }
-            console.log(pnu);
 
             return res.render('videolist', 
                 {location : location, pnu : pnu});
@@ -207,13 +216,10 @@ exports.mapp = (req, res, next) => {
 }
 
 exports.mypage = (req, res) => {
-
-
     var paths=[];
     var imgpaths = [];
 
     db.query('select PKey, ProfileImg from Users where NickName = ?', [username], async(error, result) => {
-        
         var pkey2=[];
         for(var data of result){
             pkey2.push(data.PKey);
@@ -225,19 +231,15 @@ exports.mypage = (req, res) => {
             }
             
         }
-        //console.log(pkey2);
-        //console.log(imgpaths);
 
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
-
         
             for(var data2 of result){
                 paths.push(data2.Path);
             }
-            console.log(paths);
         });
     });    
-    
+
     return res.render('mypage', {
         username : username, paths : paths, imgpaths : imgpaths
     });
@@ -255,8 +257,40 @@ exports.revise = (req, res) => {
     });
 }
 exports.mypagere = (req, res) => {
-    
-    res.render('mypagere');
+    const {nickname} = req.body;
+    var paths=[];
+    var imgpaths=[];
+
+    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+        username = nickname
+        console.log(username);
+        db.query('select PKey, ProfileImg from users where NickName = ?', [username], async(error, result) => {
+            var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
+            }
+            console.log(imgpaths);
+            
+
+            db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
+            
+                for(var data2 of results){
+                    paths.push(data2.Path);
+                }
+                res.render('mypage', {
+                    username : username, paths : paths, imgpaths : imgpaths
+                });
+            });
+        });
+    });
+
 
 }
 

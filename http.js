@@ -14,21 +14,6 @@ const mysql = require("mysql");
 const dotenv = require("dotenv");
 dotenv.config({path : './.env'});
 
-// const multer = require('multer');
-// const mul = multer({
-//     storage : multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, 'video/');
-//         },
-//         filename : function (req, file, cb) {
-//             let today = new Date();
-//             let milliseconds = today.getMilliseconds();
-//             cb(null, milliseconds + ".mp4");
-//             // insertpath = "/video/" + milliseconds + ".mp4";
-//         }
-//     })
-// });
-
 
 // //gps
 // const exiftool = require('node-exiftool');
