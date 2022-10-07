@@ -163,14 +163,66 @@
         <fieldset>
         <div class="div1">
         <label for="camInput" id="camInputLabel">동영상 선택</label>
-        <input type="file" name="uploadfile" accept="video/*";capture="camera" id="camInput">
-                
+        <input type="file" name="uploadfile" onchange = "videochange()" accept="video/*";capture="camera" id="camInput">
+        <!--<h5>태그</h5>-->
+        <input type = "text" name = "comment" cols = "30" rows = "10" placeholder = "태그">
+        {{!-- <input type="button" value = "New Windeow" onclick = "new_window();">  --}}
+         <!--
+         <script>
+            function new_window() {
+                window.open(
+                    "play",
+                    "width = 400, height = 300, top = 50, left = 50"
+                );
+            }
+         </script>
+
+         -->
+
+         <!--       
         <script>
                 const username = "{{username}}";
                 console.log(username);
                 stri = '<input id = "username" name = "username" value ="' + username + '" ></input>';
                 document.write(stri);
 
+        </script>-->
+
+        <script>
+            //var filename;
+            function videochange() {
+                /*
+
+                const fileInfo = promisify(stat);
+
+                var fileInput = document.getElementById("camInput").files;
+                //filename = "../video/" + fileInput[0].name
+                //console.log(filename);
+                const {size} = await fileInfo(file);
+                const range = req.headers.range;
+                if(range){
+                    let [start, end] = range.replace(/bytes=/, '').split('-');
+                    start = parseInt(start, 10);
+                    end = end ? parseInt(end, 10) : size-1;
+
+                    res.writeHead(206, {
+                    'Content-Range': `bytes ${start}-${end}/${size}`,
+                    'Accept-Ranges': 'bytes',
+                    'Content-Length': (start-end) + 1,
+                    'Content-Type': 'video/mp4'
+                    })
+
+                    createReadStream(filename, {start, end}).pipe(res);
+                }else{
+                    res.writeHead(200, {
+                    'Content-Length': size,
+                    'Content-Type': 'video/mp4'
+                    });  
+                    createReadStream(filename).pipe(res);
+                }
+                */
+            }
+            
         </script>
     
         </div></fieldset>

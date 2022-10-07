@@ -10,24 +10,9 @@ const bcrypt = require('bcryptjs');
 
 //app.js랑 합침
 const path = require("path");
-const mysql = require("mysql2");
+const mysql = require("mysql");
 const dotenv = require("dotenv");
 dotenv.config({path : './.env'});
-
-// const multer = require('multer');
-// const mul = multer({
-//     storage : multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, 'video/');
-//         },
-//         filename : function (req, file, cb) {
-//             let today = new Date();
-//             let milliseconds = today.getMilliseconds();
-//             cb(null, milliseconds + ".mp4");
-//             // insertpath = "/video/" + milliseconds + ".mp4";
-//         }
-//     })
-// });
 
 
 // //gps
@@ -172,7 +157,9 @@ app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use(express.static('./'));
 
-
+app.get('/search', function(req, res){
+  searchvideo();
+});
 app.get('/og', function (req, res){
   sendOGVideo(req, res);
 });

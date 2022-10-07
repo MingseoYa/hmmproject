@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require("mysql");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -7,31 +7,16 @@ const {promisify} = require('util');
 const multiparty = require('multiparty');
 const bodyParser = require('body-parser');
 
-// const multer = require('multer');
-// const mul = multer({
-//     storage : multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, 'video/');//계정 다시 한번 보기
-//         },
-//         filename : function (req, file, cb) {
-//             let today = new Date();
-//             let milliseconds = today.getMilliseconds();
-//             cb(null, milliseconds + ".mp4");
-//             // insertpath = "/video/" + milliseconds + ".mp4";
-//         }
-//     })
-// });
-
 const db = mysql.createConnection({
-    host : "localhost",
-    user : "root",
-    password : "0000",
-    database : "losho"
+    host : process.env.DATABASE_HOST,
+    user : process.env.DATABASE_USER,
+    password : process.env.DATABASE_PASSWORD,
+    database : process.env.DATABASE
 });
 
 var username;
 var filename;
-var insertimgpath;
+//var insertimgpath;
 
 //회원가입버튼 눌렀을 때
 exports.register = (req, res, next) => {
@@ -87,10 +72,6 @@ exports.register = (req, res, next) => {
             })
         });
 
-        //비밀번호 해쉬
-        // let hashedPassword = await bcrypt.hash(password, 8);
-        // console.log(hashedPassword);
-
 
     });
 
@@ -144,36 +125,26 @@ exports.login = (req, res) => {
     });
 }
 
+
 //when click + button
 exports.upload = (req, res) => {
-    // const {latitude, longitude} = req.body;
-    //     db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',[latitude, longitude], async(error, results) => {
+    const {longitude, latitude} = req.body;
+   
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+        [longitude, latitude], async(error, results) => {
 
-    //         var buildingname=[];
-    //         for(var data of results){
-    //             buildingname.push(data.Name);
-    //             console.log(data.Name);
-    //         }
-    //         //console.log(buildingname);
-    //         res.render('upload', 
-    //             //{buildingname : buildingname}
-    //             {buildingname : buildingname, username : username});
-    //     })
+            var buildingname=[];
+            for(var data of results){
+                buildingname.push(data.Name);
+                console.log(data.Name);
+            }
+            //console.log(buildingname);
+            res.render('upload', 
+                //{buildingname : buildingname}
+                {buildingname : buildingname, username : username});
+        })
 
     console.log(username);
-
-    db.query('select Name from BuildingLoc', async(error, results) => {
-
-        var buildingname=[];
-        for(var data of results){
-            buildingname.push(data.Name);
-        }
-        //console.log(buildingname);
-        res.render('upload', 
-            //{buildingname : buildingname}
-            {buildingname : buildingname, username : username});
-    })
-    
 }
 
 //마커 더보기 눌렀을 때 
@@ -217,6 +188,7 @@ exports.videolist = (req, res) => {
 exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
+    var comment = req.body.comment;
     //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
@@ -235,7 +207,7 @@ exports.mapp = (req, res, next) => {
             pkey.push(data.PKey);
         }
         //console.log(pkey);
-        db.query('insert into Video(UserPKey, BuildingLocPKey, Path) values(?,?,?)', [upkey[0], pkey, insertpath], async(error, results) => {
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment) values(?,?,?,?)', [upkey[0], pkey, insertpath, comment], async(error, results) => {
             // var res = {size : req.file.size};
             // res.json(size);
             //console.log(req.file);
@@ -248,11 +220,19 @@ exports.mapp = (req, res, next) => {
 
 exports.mypage = (req, res) => {
     var paths=[];
-    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
+    var imgpaths = [];
 
+    db.query('select PKey, ProfileImg from Users where NickName = ?', [username], async(error, result) => {
         var pkey2=[];
         for(var data of result){
             pkey2.push(data.PKey);
+            if (data.ProfileImg == null){
+                imgpaths.push("/image/sample_profile.jpg");
+            }
+            else{
+                imgpaths.push(data.ProfileImg);
+            }
+            
         }
 
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
@@ -261,10 +241,10 @@ exports.mypage = (req, res) => {
                 paths.push(data2.Path);
             }
         });
-    });
-    
+    });    
+
     return res.render('mypage', {
-        username : username, paths : paths, insertimgpath : insertimgpath
+        username : username, paths : paths, imgpaths : imgpaths
     });
 }
 
@@ -274,37 +254,83 @@ exports.map = (req, res) => {
 }
 
 exports.revise = (req, res) => {
+    var imgpaths = [];
 
+    db.query('select ProfileImg from users where NickName = ?', [username], async(error, result) => {
+        var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
+            }
+            console.log(imgpaths);
+    });
     res.render('revise', {
         username : username
     });
 }
 exports.mypagere = (req, res) => {
-    const {nickname} = req.body;
-    console.log(nickname)
-    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
-        
-    });
-    username = nickname
+    const {nickname, uploadfile} = req.body;
     var paths=[];
-    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
-        
-        var pkey2=[];
-        for(var data of result){
-            pkey2.push(data.PKey);
-        }
+    var imgpaths=[];
 
-        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
-        
-            for(var data2 of result){
-                paths.push(data2.Path);
+    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+        username = nickname
+        console.log(username);
+        db.query('update users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
+            var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
             }
+            console.log(imgpaths);
+            
+
+            db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
+            
+                for(var data2 of results){
+                    paths.push(data2.Path);
+                }
+                res.render('mypage', {
+                    username : username, paths : paths, imgpaths : imgpaths
+                });
+            });
         });
     });
-    
-    console.log(username)
-    res.render('mypage', {
-        username : nickname, paths : paths, insertimgpath : insertimgpath
-    });
+
 
 }
+
+//검색버튼 눌렀을 때
+// function searchvideo() {
+//     var searchword = document.getElementById("search-input").value;
+//     //str = ""
+//     videos.innerText = searchword;
+//     console.log(searchword);
+    
+//     db.query('select Path, Comment from Video' , async(error, result) => {
+//         var comment = "";
+//         var videopath = [];
+//         for(var data of result){
+//             comment.push(data.Comment.split('#'));
+//             if(comment.includes(searchword)){
+//                 videopath.push(data.Path);
+
+//             }
+//         }
+//         console.log(videopath);
+
+//     });
+
+//  }
