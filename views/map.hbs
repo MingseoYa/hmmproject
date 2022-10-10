@@ -29,16 +29,6 @@
         color:#6799FF;
       }
     
-      .upButton{
-        color:skyblue;
-        border:1px solid skyblue;
-        background-color:white;
-        border-radius:10px;
-        width:200px;
-        height:80px;
-        font-size:30px;
-        padding: 0;
-      }
 
       #camInputLabel {
         position: absolute;
@@ -50,10 +40,10 @@
         color: rgb(135, 177, 235);
         background-color: white;
         cursor: pointer;
-        height: 100px; width: 100px;
-        line-height: 100px;
+        height: 80px; width: 80px;
+        line-height: 80px;
         text-align: center;
-        font-size: 30px;
+        font-size: 50px;
         bottom:2%;
       }
       #myPageMove {
@@ -100,6 +90,36 @@
         margin-left: 3%;
         color: rgb(135, 177, 235);
       }
+
+      /*검색창*/
+      #search{
+        border: solid 1.5px rgb(143, 143, 143);
+        cursor: pointer;
+        display: inline-block;
+        line-height: 40px;
+        text-align: center;
+        font-size: 20px;
+        top: 1%;
+      }
+      
+      .search-box {
+        height : 500px;
+        width : 400px;
+        right : 0px;
+        top : 70px;
+        opacity : 0;
+        z-index: -3;
+        position : absolute;
+        background-color : white;
+        
+      }
+    
+      .search-input {
+        font-size : 14px;
+        padding : 10px;
+        border-bottom : 1px solid;
+      }
+      
     </style>
         <script>
           function initMap() {
@@ -180,14 +200,24 @@ building=locations[i][0]>
 
   <nav>
     <div class="logo"><h1 class="nam">Local Shorts'</h1></div>
+
+
+  <div onclick = "toggleSearch()">
+    <img class = "search" src="/image/search_icon.jpg" alt = "" width = "35px" height = "35px">
+  </div>
+
     <div class="icon" onclick="toggleNotifi()">
         <img src="img/bell2.png" alt=""> <span>5</span>
     </div>
+
+
     <div class="myPage">
       <form action="/auth/mypage" method = "POST">
       <button id="myPageMove" type = "submit"><img id="mp" src="../auth/img/mypage.png" alt=""></button>
       </form>
     </div>
+
+    <!--알람창-->
     <div class="notifi-box" id="box">
         <h2>Notification <span><div id="sum">5</div></span></h2>
         <script>
@@ -201,6 +231,41 @@ building=locations[i][0]>
           }
         </script>
         
+    </div>
+
+    <!--검색창-->
+
+    
+    <div class="search-box" id = "search-box">
+    <!--<form action = "/auth/search" method = "POST">-->
+      <input type = "text" name = "searchword" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
+      <a href = "/search"><button type = "submit" onclick = "searchvideo()">검색</button></a>
+    <!--</form>-->
+      <div id = "videos">
+        <script>
+          var searchbox = document.getElementById("search-box");
+          var videos = document.getElementById("videos");
+          var left = false;
+          var open = 0;
+          function toggleSearch(){
+            if (left) {//열려있으면
+              //searchbox.style.width = '0px';
+              searchbox.style.zIndex = -3;
+              searchbox.style.opacity = 0;
+              left = false;
+            }else{//닫혀있으면
+              //searchbox.style.width = '400px';
+              searchbox.style.opacity = 1;
+              searchbox.style.zIndex = 2;
+              left = true;
+            }
+          }
+        
+          
+        </script>
+        <script src = "/controllers/auth.js"></script>
+      </div>
+      
     </div>
 </nav> 
 <script src="notification.js"></script>
