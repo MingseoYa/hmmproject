@@ -23,10 +23,10 @@ const bodyParser = require('body-parser');
 // });
 
 const db = mysql.createConnection({
-    host : "localhost"
+    host : "localhost",
     user : "root",
     password : "0000",
-    database : "losho"
+    database : "test"
 });
 
 var username;
@@ -133,8 +133,11 @@ exports.login = (req, res) => {
 
 //when click + button
 exports.upload = (req, res) => {
-    const {latitude, longitude} = req.body;
-        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',[latitude, longitude], async(error, results) => {
+    const {longitude, latitude} = req.body;
+    console.log(longitude + ", " + latitude);
+   
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+        [longitude, latitude], async(error, results) => {
 
             var buildingname=[];
             for(var data of results){
@@ -204,7 +207,7 @@ exports.videolist = (req, res) => {
 exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
-    //console.log(location);
+    console.log("선택 값:" + location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
 

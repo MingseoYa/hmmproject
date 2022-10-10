@@ -7,7 +7,7 @@
   <meta charset = 'utf-8'>
 
   <title>Local Shorts'</title>
-
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1CRIgIqQf_ppOohrDv3FICLc9Lst-pXs&callback=initMap&libraries=&v=weekly"
@@ -40,27 +40,16 @@
         padding: 0;
       }
 
-
-      #camInput {
-        position: absolute;
-        border: 1px solid skyblue;
-        border-radius: 50%;
-        height: 100px; width: 100px;
-        padding: 0;
-        border: 0;
-        bottom:2%;
-        display: none;
-      }
-
       #camInputLabel {
         position: absolute;
+        left:50%;
+        transform: translate(-50%,0);
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
         background: white;
         color: rgb(135, 177, 235);
         background-color: white;
         cursor: pointer;
-        display: inline-block;
         height: 100px; width: 100px;
         line-height: 100px;
         text-align: center;
@@ -86,8 +75,7 @@
         margin: 0 auto;
       }
       .div1{
-        width: 100px;
-        margin: 0 auto;
+
       }
       
       #map {
@@ -218,35 +206,58 @@ building=locations[i][0]>
 <script src="notification.js"></script>
 <!-- map -->
 
-    <div id="map"></div>
+  <div id="map"></div>
 
 <!-- video upload -->
      
-        <div class="div1">
-          <form action="/auth/upload" method = "POST">
-          <script>
-        var latitude;
-        var longitude;
+    <div class="div1">
+      <form action="/auth/upload" method = "POST">
+        <script>
+          var longitude;
+          var latitude;
+          var str = "";
 
-        if (navigator.geolocation) { // GPS를 지원하면
-          navigator.geolocation.getCurrentPosition(function(position) {
-              latitude = position.coords.latitude;
-              longitude = position.coords.longitude;
-              console.log(latitude + ", " + longitude);
+          function getLocation() {
+                if (navigator.geolocation) { // GPS를 지원하면
+                navigator.geolocation.getCurrentPosition(function(position) {
+                longitude = position.coords.longitude;
+                latitude = position.coords.latitude;  
+                 console.log("if안에서" + latitude + ", " + longitude);
+                //console.log(longitude+ + ", " + latitude);
+                str = "<input type = 'hidden' id = 'latitude' name = 'latitude' value = " + latitude + "><input type='hidden' id = 'longitude' name = 'longitude' value = " + longitude + ">";
+                document.getElementById('geo').innerHTML=str;
+                console.log(str);
+                });
+              } else {
+                  alert('GPS를 지원하지 않습니다');
+              }                         
+          }
+
+          getLocation()
+          
+           //$(document).ready(function(){
+              //console.log("안녕하세요");
+                //if (navigator.geolocation) { // GPS를 지원하면
+                //navigator.geolocation.getCurrentPosition(function(position) {
+                //longitude = position.coords.longitude;
+                //latitude = position.coords.latitude;
+                //console.log("if안에서" + latitude + ", " + longitude);
+                //console.log(longitude+ + ", " + latitude);
+                //});
+              //} else {
+               //   alert('GPS를 지원하지 않습니다');
+              //}
+              //}); 
               
-          }, function(error) {
-              console.error(error);
-          }, {
-              enableHighAccuracy: false,
-              maximumAge: 0,
-              timeout: Infinity
-          });
-        } else {
-            alert('GPS를 지원하지 않습니다');
-        }
-    </script>
-          <input type="hidden" name = "latitude" value="${latitude}"/>
-          <input type="hidden" name = "longitude" value="${longitude"/>
+            //$(window).on('load', function(){
+            //var str = "";
+            //str = '<input type = "hidden" id = "latitude" name = "latitude" value = ' + latitude + '/><input type="hidden" id = "longitude" name = "longitude" value = ' + longitude + '/>';
+            //document.write(str);
+            //console.log(str);
+            //console.log("if밖에서" + latitude + ", " + longitude);
+            //});
+          </script>
+          <p id="geo"></p>
           <button type= "submit" id="camInputLabel">+</button>
           </form>
         </div>
