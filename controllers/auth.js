@@ -233,16 +233,18 @@ exports.mypage = (req, res) => {
         }
 
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
-        
+            
             for(var data2 of result){
                 paths.push(data2.Path);
             }
+            //console.log(paths);
+            res.render('mypage', {
+                username : username, paths : paths, imgpaths : imgpaths
+            });
         });
     });    
 
-    return res.render('mypage', {
-        username : username, paths : paths, imgpaths : imgpaths
-    });
+
 }
 
 exports.map = (req, res) => {
@@ -294,25 +296,23 @@ exports.mypagere = (req, res) => {
 
 }
 
-//검색버튼 눌렀을 때
-// function searchvideo() {
-//     var searchword = document.getElementById("search-input").value;
-//     //str = ""
-//     videos.innerText = searchword;
-//     console.log(searchword);
-    
-//     db.query('select Path, Comment from Video' , async(error, result) => {
-//         var comment = "";
-//         var videopath = [];
-//         for(var data of result){
-//             comment.push(data.Comment.split('#'));
-//             if(comment.includes(searchword)){
-//                 videopath.push(data.Path);
+exports.search = (req, res) => {
+    const {word} = req.body;
+    console.log(word);
 
-//             }
-//         }
-//         console.log(videopath);
-
-//     });
-
-// }
+    var videopath = [];
+    db.query('select Path, Comment from Video', async(error, result) => {
+        
+        for(var data of result) {
+        if (data.Comment != null){
+            if (data.Comment.includes(word)){
+            videopath.push(data.Path);
+            }
+        }
+        }
+        console.log(videopath);
+        res.render("searchvideo", {
+            word : word, videopath : videopath
+        })
+    })
+}

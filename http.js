@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+//var cons = require('consolidate');
+
 //app.js랑 합침
 const path = require("path");
 const mysql = require("mysql");
@@ -152,17 +154,58 @@ app.use(express.static(publicDirectory));//express가 path사용하도록
 app.use(express.urlencoded({ extended : false }));
 app.use(express.json());
 
+//app.engine('hbs', cons.hbs);
+//app.engine('php', cons.php);
+
 app.set('view engine', 'hbs');
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use(express.static('./'));
+// app.get('/og', function (req, res){
+//   sendOGVideo(req, res);
+// });
 
-app.get('/search', function(req, res){
-  searchvideo();
-});
-app.get('/og', function (req, res){
-  sendOGVideo(req, res);
-});
+
+// app.get('/search', function(req, res){
+//   //var videopath = searchvideo(req.query.word);
+//   var word = req.query.word;
+//   console.log(word);
+
+//   var videopath = [];
+//   db.query('select Path, Comment from Video', async(error, result) => {
+    
+//     for(var data of result) {
+//       if (data.Comment != null){
+//         if (data.Comment.includes(word)){
+//           videopath.push(data.Path);
+//         }
+//       }
+//     }
+//     console.log(videopath);
+//   })
+  // res.render('map', {
+  //   videopath : videopath
+  // })
+
+//});
+
+// function searchvideo(word) {
+//   var videopath = [];
+
+//   db.query('select Path, Comment from Video', async(error, result) => {
+    
+//     for(var data of result) {
+//       if (data.Comment != null){
+//         if (data.Comment.includes(word)){
+//           videopath.push(data.Path);
+//         }
+//       }
+//     }
+//     console.log(videopath);
+    
+//   })
+//   return videopath;
+// }
 
 app.listen(5050, function(){
   console.log('server running on port5050');

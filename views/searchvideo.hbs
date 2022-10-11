@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searchvideo</title>
+    <style>
+        #title{
+            color : rgb(135, 177, 235)
+        }
+        #novideo{
+            color : rgb(143, 143, 143);
+        }
+    </style>
+</head>
+<body>
+
+    <h2 id = "title">#{{word}}#의 검색결과입니다</h2>
+
+    <script language = "javascript">
+        var videopath = "{{videopath}}";
+        if (videopath.length !== 0) {
+            videopath = videopath.split(",");
+            var a = videopath;
+
+            if (a.length%2==0){
+                for (var i = videopath.length-1; i > 0; i -= 2){
+                    document.write('<div class="video"> \
+                        <video class="video" width="46%"loop controls> \
+                        <source src="'+videopath[i]+'" \
+                        type="video/mp4"></video>\
+                        <video class="video" width="46%" loop controls> \
+                        <source src="'+videopath[i-1]+'" \
+                        type="video/mp4"></video></div>')
+                }
+            }
+            else{
+                for (var i = videopath.length-1; i > 1; i -= 2){
+                    document.write('<div class="video"> \
+                        <video class="video" width="46%"loop controls> \
+                        <source src="'+videopath[i]+'" \
+                        type="video/mp4"></video>\
+                        <video class="video" width="46%" loop controls> \
+                        <source src="'+videopath[i-1]+'" \
+                        type="video/mp4"></video></div>')
+                }
+                document.write('<div class="video"> \
+                        <video class="video" width="46%"loop controls> \
+                        <source src="'+videopath[0]+'" \
+                        type="video/mp4"></video>')
+            }
+        }else{
+          document.write("<h5 id = 'novideo'>검색결과가 없습니다.</h5>");
+
+        }
+
+        
+    </script>
+
+    
+</body>
+</html>
