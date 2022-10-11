@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -128,22 +128,32 @@ exports.login = (req, res) => {
 
 //when click + button
 exports.upload = (req, res) => {
-    const {longitude, latitude} = req.body;
+    // const {longitude, latitude} = req.body;
    
-        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
-        [longitude, latitude], async(error, results) => {
+    //     db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+    //     [longitude, latitude], async(error, results) => {
 
-            var buildingname=[];
-            for(var data of results){
-                buildingname.push(data.Name);
-                console.log(data.Name);
-            }
-            //console.log(buildingname);
-            res.render('upload', 
-                //{buildingname : buildingname}
-                {buildingname : buildingname, username : username});
-        })
+    //         var buildingname=[];
+    //         for(var data of results){
+    //             buildingname.push(data.Name);
+    //             console.log(data.Name);
+    //         }
+    //         //console.log(buildingname);
+    //         res.render('upload', 
+    //             //{buildingname : buildingname}
+    //             {buildingname : buildingname, username : username});
+    //     })
+    db.query('select Name from BuildingLoc', async(error, results) => {
 
+        var buildingname=[];
+        for(var data of results){
+            buildingname.push(data.Name);
+        }
+        //console.log(buildingname);
+        res.render('upload', 
+            //{buildingname : buildingname}
+            {buildingname : buildingname, username : username});
+    })
     console.log(username);
 }
 
@@ -268,10 +278,9 @@ exports.revise = (req, res) => {
                     imgpaths.push(data.ProfileImg);
                 }
             }
-            console.log(imgpaths);
     });
     res.render('revise', {
-        username : username
+        username : username, imgpaths : imgpaths
     });
 }
 exports.mypagere = (req, res) => {
