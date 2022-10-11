@@ -136,6 +136,9 @@ border: none;
 margin: 0 auto;
 }
 }
+#novideo{
+  color : rgb(143, 143, 143);
+}
 
 </style>
 <header>
@@ -182,23 +185,13 @@ margin: 0 auto;
     <script language = "javascript">
         // 경로를 받을 배열
         // var pathAry = new Array();
-        var paths = "{{paths}}".split(',');
-        //document.write(paths[0]);///
-        var a = paths;
+        var paths = "{{paths}}";
+        if (paths.length !==0){
+          paths = paths.split(',');
+          var a = paths;
 
-        if (a.length%2==0){
-          for (var i = paths.length-1; i > 0; i -= 2){
-              document.write('<div class="video"> \
-                  <video class="video" width="46%"loop controls> \
-                  <source src="'+paths[i]+'" \
-                  type="video/mp4"></video>\
-                  <video class="video" width="46%" loop controls> \
-                  <source src="'+paths[i-1]+'" \
-                  type="video/mp4"></video></div>')
-            }
-        }
-        else{
-            for (var i = paths.length-1; i > 1; i -= 2){
+          if (a.length%2==0){
+            for (var i = paths.length-1; i > 0; i -= 2){
                 document.write('<div class="video"> \
                     <video class="video" width="46%"loop controls> \
                     <source src="'+paths[i]+'" \
@@ -206,14 +199,29 @@ margin: 0 auto;
                     <video class="video" width="46%" loop controls> \
                     <source src="'+paths[i-1]+'" \
                     type="video/mp4"></video></div>')
-            }
-            document.write('<div class="video"> \
-                    <video class="video" width="46%"loop controls> \
-                    <source src="'+paths[0]+'" \
-                    type="video/mp4"></video>')
+              }
+          }
+          else{
+              for (var i = paths.length-1; i > 1; i -= 2){
+                  document.write('<div class="video"> \
+                      <video class="video" width="46%"loop controls> \
+                      <source src="'+paths[i]+'" \
+                      type="video/mp4"></video>\
+                      <video class="video" width="46%" loop controls> \
+                      <source src="'+paths[i-1]+'" \
+                      type="video/mp4"></video></div>')
+              }
+              document.write('<div class="video"> \
+                      <video class="video" width="46%"loop controls> \
+                      <source src="'+paths[0]+'" \
+                      type="video/mp4"></video>')
+          }
+
+        }else{
+          document.write("<h5 id = 'novideo'>등록된 영상이 없습니다.</h5>");
         }
-       
         
+         
          
     </script>
     <!-- <div class="div1"><button onclick = "location.href='map.html'" id="camInputLabel" >X</button></div> -->
