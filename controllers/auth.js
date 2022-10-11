@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require("mysql");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -327,9 +327,7 @@ exports.search = (req, res) => {
     const {word} = req.body;
     console.log(word);
 
-<<<<<<< HEAD
-//  }
-=======
+
     var videopath = [];
     db.query('select Path, Comment from Video', async(error, result) => {
         
@@ -346,4 +344,4 @@ exports.search = (req, res) => {
         })
     })
 }
->>>>>>> 1e903ce31bb2875f47fe109ba47ca02f58f18406
+
