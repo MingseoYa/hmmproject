@@ -77,6 +77,7 @@ exports.register = (req, res, next) => {
 
 }
 
+
 //로그인버튼눌렀을 때
 exports.login = (req, res) => {
 
@@ -128,22 +129,11 @@ exports.login = (req, res) => {
 
 //when click + button
 exports.upload = (req, res) => {
-    // const {longitude, latitude} = req.body;
+    const {longitude, latitude} = req.body;
+    console.log(longitude + ", " + latitude);
    
-    //     db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
-    //     [longitude, latitude], async(error, results) => {
-
-    //         var buildingname=[];
-    //         for(var data of results){
-    //             buildingname.push(data.Name);
-    //             console.log(data.Name);
-    //         }
-    //         //console.log(buildingname);
-    //         res.render('upload', 
-    //             //{buildingname : buildingname}
-    //             {buildingname : buildingname, username : username});
-    //     })
-    db.query('select Name from BuildingLoc', async(error, results) => {
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+        [longitude, latitude], async(error, results) => {
 
         var buildingname=[];
         for(var data of results){
@@ -285,6 +275,7 @@ exports.revise = (req, res) => {
         username : username, imgpaths : imgpaths
     });
 }
+
 exports.mypagere = (req, res) => {
     const {nickname, uploadfile} = req.body;
     var paths=[];
@@ -306,7 +297,6 @@ exports.mypagere = (req, res) => {
                 }
             }
             console.log(imgpaths);
-            
 
             db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
             
@@ -317,11 +307,11 @@ exports.mypagere = (req, res) => {
                     username : username, paths : paths, imgpaths : imgpaths
                 });
             });
-        });
     });
 
-
+});
 }
+
 
 exports.search = (req, res) => {
     const {word} = req.body;

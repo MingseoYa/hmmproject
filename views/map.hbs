@@ -8,7 +8,7 @@
 
   <title>Local Shorts'</title>
   <script src="http://code.jquery.com/jquery-latest.js"></script> 
-
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
   <script src="/soundtag/p5.min.js"></script>
   <script src="/soundtag/p5.dom.min.js"></script>
@@ -36,7 +36,6 @@
         color:#6799FF;
       }
     
-
 
       #camInputLabel {
         position: absolute;
@@ -69,7 +68,7 @@
         line-height: 50px;
         text-align: center;
         font-size: 15px;
-        bottom: 3%;
+        bottom: 2%;
       }
       #myPageMove {
         background-color: rgb(244, 244, 244);
@@ -90,23 +89,17 @@
         margin: 0 auto;
       }
       .div1{
-        width: 100px;
-        margin: 0 auto;
+
       }
-      
+    
       #map {
         height: 89.8%;
         position: fixed;
-        
+        margin-bottom: 0;
       }
 
       /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+
       #moreBtn{
         border:none;
         background-color: transparent;
@@ -148,6 +141,7 @@
       #detector{
  	      display: none; 
       }
+      
     </style>
         <script>
           function initMap() {
@@ -276,6 +270,7 @@ building=locations[i][0]>
     </form>
 
 
+
       <div id = "videos">
 
         <script>
@@ -305,40 +300,43 @@ building=locations[i][0]>
     </div>
 </nav> 
 <script src="notification.js"></script>
-<script src="/soundtag/sketch.js"></script>
 <!-- map -->
 
-    <div id="map"></div>
+  <div id="map"></div>
 
 <!-- video upload -->
      
-        <div class="div1">
-          <form action="/auth/upload" method = "POST">
-          <!--<script>
-         var latitude;
-        var longitude;
+    <div class="div1">
+      <form action="/auth/upload" method = "POST">
+        <script>
+          var longitude;
+          var latitude;
+          var str = "";
 
-        if (navigator.geolocation) { // GPS를 지원하면
-          navigator.geolocation.getCurrentPosition(function(position) {
-              latitude = position.coords.latitude;
-              longitude = position.coords.longitude;
-              console.log(latitude + "_" + longitude);
-          }, function(error) {
-              console.error(error);
-          }, {
-              enableHighAccuracy: false,
-              maximumAge: 0,
-              timeout: Infinity
-          });
-        } else {
-            alert('GPS를 지원하지 않습니다');
-        }
-    </script>
-    -->
+          function getLocation() {
+                if (navigator.geolocation) { // GPS를 지원하면
+                navigator.geolocation.getCurrentPosition(function(position) {
+                longitude = position.coords.longitude;
+                latitude = position.coords.latitude;  
+                 console.log("if안에서" + latitude + ", " + longitude);
+                //console.log(longitude+ + ", " + latitude);
+                str = "<input type = 'hidden' id = 'latitude' name = 'latitude' value = " + latitude + "><input type='hidden' id = 'longitude' name = 'longitude' value = " + longitude + ">";
+                document.getElementById('geo').innerHTML=str;
+                console.log(str);
+                });
+              } else {
+                  alert('GPS를 지원하지 않습니다');
+              }                         
+          }
 
-          <button type= "submit" id ="camInputLabel">+</button>
-          </form>          
-        </div>
+          getLocation()
+          
+          </script>
+
+          <p id="geo"></p>
+          <button type= "submit" id="camInputLabel">+</button>
+        </form>
+      </div>
 
             <script src="/soundtag/sketch.js"></script>
     
@@ -348,11 +346,49 @@ building=locations[i][0]>
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents ♭</span><span id="sharp">cents ♯</span></div>
 		</div>
 
-          <div id = "butt">
-            
-          <button type = "submit" id = "moveSound">TAG</button>
-          </form>
-        </div>
+{{!-- <script src="/soundtag/soundtag.js"></script> --}}
+    <div id = "tagging">
+        
+      <button type = "submit" id = "moveSound">TAG</button>
+      </form>
+    </div>
+
+    <script>
+      let note2 = "";
+let noteSpan2;
+
+function setup() {
+  createCanvas(0, 0);
+  getAudioContext().resume();
+  toggleLiveInput();
+  noteSpan2 = select('#pitch');
+  // textSize(48);
+}
+
+var appear = false;
+function draw() {
+  background(220);
+
+  
+    note2 = noteSpan2.html();
+    if(note2>=18000 && note2<22000){
+        tagging.style.opacity = 1;
+      console.log(note2);
+    } 
+    else if(note2>=22000 && note2<24000){
+        tagging.style.opacity = 1;
+      console.log(note2);
+    } 
+    else if(note2>=0 && note2<18000){
+      setTimeout(function(){
+        tagging.style.opacity = 0;
+      console.log(note2);
+      }, 3000)  
+    }
+
+  }
+
+    </script>
       
 </body>
 </html>
