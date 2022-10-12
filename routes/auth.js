@@ -51,7 +51,7 @@ router.post('/revise', authController.revise);
 router.post('/map', authController.map);
 router.post('/revise', authController.revise);
 router.post('/mapp' , mul.single('uploadfile'), authController.mapp);
-//router.post('/search', authController.search);
+router.post('/search', authController.search);
 router.post('/revise', authController.revise);
 router.post('/mypagere', authController.mypagere);
 //router.post('/settings', authController.settings);

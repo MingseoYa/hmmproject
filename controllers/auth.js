@@ -126,6 +126,7 @@ exports.login = (req, res) => {
     });
 }
 
+
 //when click + button
 exports.upload = (req, res) => {
     const {longitude, latitude} = req.body;
@@ -143,8 +144,7 @@ exports.upload = (req, res) => {
             //{buildingname : buildingname}
             {buildingname : buildingname, username : username});
     })
-
-    
+    console.log(username);
 }
 
 //마커 더보기 눌렀을 때 
@@ -236,16 +236,18 @@ exports.mypage = (req, res) => {
         }
 
         db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
-        
+            
             for(var data2 of result){
                 paths.push(data2.Path);
             }
+            //console.log(paths);
+            res.render('mypage', {
+                username : username, paths : paths, imgpaths : imgpaths
+            });
         });
     });    
 
-    return res.render('mypage', {
-        username : username, paths : paths, imgpaths : imgpaths
-    });
+
 }
 
 exports.map = (req, res) => {
@@ -254,21 +256,47 @@ exports.map = (req, res) => {
 }
 
 exports.revise = (req, res) => {
+    var imgpaths = [];
 
+    db.query('select ProfileImg from users where NickName = ?', [username], async(error, result) => {
+        var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
+            }
+    });
     res.render('revise', {
-        username : username
+        username : username, imgpaths : imgpaths
     });
 }
 
 exports.mypagere = (req, res) => {
-    const {nickname} = req.body;
+    const {nickname, uploadfile} = req.body;
     var paths=[];
-    db.query('select PKey from Users where NickName = ?', [username], async(error, result) => {
-        
-        var pkey2=[];
-        for(var data of result){
-            pkey2.push(data.PKey);
-        }
+    var imgpaths=[];
+
+    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+        username = nickname
+        console.log(username);
+        db.query('update users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
+            var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
+            }
+            console.log(imgpaths);
 
             db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
             
@@ -280,4 +308,29 @@ exports.mypagere = (req, res) => {
                 });
             });
     });
+
 }
+
+
+exports.search = (req, res) => {
+    const {word} = req.body;
+    console.log(word);
+
+
+    var videopath = [];
+    db.query('select Path, Comment from Video', async(error, result) => {
+        
+        for(var data of result) {
+        if (data.Comment != null){
+            if (data.Comment.includes(word)){
+            videopath.push(data.Path);
+            }
+        }
+        }
+        console.log(videopath);
+        res.render("searchvideo", {
+            word : word, videopath : videopath
+        })
+    })
+}
+
