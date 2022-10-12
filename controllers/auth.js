@@ -125,10 +125,24 @@ exports.login = (req, res) => {
     });
 }
 
+
 //when click + button
 exports.upload = (req, res) => {
-    console.log(username);
+    // const {longitude, latitude} = req.body;
+   
+    //     db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+    //     [longitude, latitude], async(error, results) => {
 
+    //         var buildingname=[];
+    //         for(var data of results){
+    //             buildingname.push(data.Name);
+    //             console.log(data.Name);
+    //         }
+    //         //console.log(buildingname);
+    //         res.render('upload', 
+    //             //{buildingname : buildingname}
+    //             {buildingname : buildingname, username : username});
+    //     })
     db.query('select Name from BuildingLoc', async(error, results) => {
 
         var buildingname=[];
@@ -140,8 +154,7 @@ exports.upload = (req, res) => {
             //{buildingname : buildingname}
             {buildingname : buildingname, username : username});
     })
-
-    
+    console.log(username);
 }
 
 //마커 더보기 눌렀을 때 
@@ -253,20 +266,34 @@ exports.map = (req, res) => {
 }
 
 exports.revise = (req, res) => {
+    var imgpaths = [];
 
+    db.query('select ProfileImg from users where NickName = ?', [username], async(error, result) => {
+        var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
+            }
+    });
     res.render('revise', {
-        username : username
+        username : username, imgpaths : imgpaths
     });
 }
 exports.mypagere = (req, res) => {
-    const {nickname} = req.body;
+    const {nickname, uploadfile} = req.body;
     var paths=[];
     var imgpaths=[];
 
     db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         username = nickname
         console.log(username);
-        db.query('select PKey, ProfileImg from users where NickName = ?', [username], async(error, result) => {
+        db.query('update users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
             var pkey2=[];
             for(var data of result){
                 pkey2.push(data.PKey);
@@ -300,6 +327,7 @@ exports.search = (req, res) => {
     const {word} = req.body;
     console.log(word);
 
+
     var videopath = [];
     db.query('select Path, Comment from Video', async(error, result) => {
         
@@ -316,3 +344,4 @@ exports.search = (req, res) => {
         })
     })
 }
+

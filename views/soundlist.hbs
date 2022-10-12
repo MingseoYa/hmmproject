@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .naming{
+        color: rgb(135, 177, 235);
+        margin-left: 3%;
+        }
+        header {  
+            height: 10%;
+            color: rgb(135, 177, 235);
+            background-color: white;
+            font-weight: bold;
+            /*display: flex;*/
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: solid 1.5px rgb(143, 143, 143);
+            position : sticky;
+            top : 0;
+        }
+        body{
+            margin: 0;
+            height: 100%;
+        }
+
+        .grayish{
+            color: rgb(143, 143, 143);
+        }
+        @media screen and (max-width:767px){
+            fieldset{
+        border: none;
+        }
+        }
+        @media screen and (min-width:768px){
+            fieldset{
+        width: 50%;
+        border: none;
+        margin: 0 auto;
+        }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2 class="naming">{{location}}</h4>
+
+    </header>
+    
+<fieldset>
+    <script>
+        const pnu = "{{pnu}}".split(',');
+        str = "";
+
+       /* 
+        for (let i = pnu.length; i > 0; i -= 1){
+            str += '<div id = "videos"><h4>' + pnu[i-1] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i-1] + '" type = "video/mp4"></br></video></br></div>'
+            console.log(pnu[i]);
+        } 
+        */
+
+
+        for (let i = 0 ; i < pnu.length ; i += 2){
+            str += '<div id = "videos"><h4 class = grayish>' + pnu[i] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i+1] + '" type = "video/mp4"></br></video></br></div>'
+        }     
+        document.write(str);
+    
+        
+            
+    </script>
+</fieldset>
+    
+</body>
+</html>

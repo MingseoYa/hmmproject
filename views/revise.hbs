@@ -16,6 +16,7 @@
             border-radius: 50%;
             display: flex;
             margin: 50px auto;
+            cursor: pointer;
         }
 
 
@@ -78,6 +79,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revise</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <header>
 
@@ -87,8 +89,19 @@
 <body>
     <div class="lay">
         {{!-- <button><img class="prof_img" src="../auth/img/profile.jpg"></button> --}}
+<<<<<<< HEAD
+            <script>
+      var imgpaths = "{{imgpaths}}";
+      str = "";
+      str = '<label for="camInput" id="camInputLabel"><img class="prof_img" src='+imgpaths+'></label>\
+        <input type="file" onchange="+imgchange()+" name="uploadfile" accept="image/*"; capture="camera" id="camInput">'
+      document.write(str);
+    </script>
+        
+=======
         <label for="camInput" id="camInputLabel"><img class="prof_img" src="/image/sample_profile.jpg"></label>
         <input type="file" name="uploadfile" accept="image/*";capture="camera" id="camInput">
+>>>>>>> 1e903ce31bb2875f47fe109ba47ca02f58f18406
 
         <form action="/auth/mypagere" method="POST">
         
@@ -97,6 +110,23 @@
             <button class="bt" type="submit">변경하기</button>
         </form>
     </div>
-    
+      <script>
+          
+        function imgchange() {
+            var fileInput = document.getElementById("camInput").files;
+            console.log(fileInput[0]);
+            
+        }
+
+        $('#camInput').on('change', function() {
+            //ext = $(this).val().split('.').pop().toLowerCase();
+            file = $('#camInput').prop("files")[0];
+            blobURL = window.URL.createObjectURL(file);
+            $('#imageview').attr('src', blobURL);
+            $(this).slideUp();
+            console.log(file.name);
+            
+        });
+      </script>
 </body>
 </html>
