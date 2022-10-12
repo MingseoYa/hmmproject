@@ -43,7 +43,13 @@
         .div1{
             float:left;
         }
+        #hiddenBtn{
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            color: blue;
 
+        }
         @media screen and (max-width:767px){
             fieldset{
                 width: 80%;
@@ -117,13 +123,7 @@
         font-size: 15px;
         text-align: center;
         }
-        /* fieldset{
-        width: 80%;
-        border: none;
-        border-radius: 10px;
-        margin: 10px auto;
-        background: white;
-        } */
+
 
         img{
         width: 20px; height: 20px;
@@ -228,50 +228,46 @@
         </div></fieldset>
         <fieldset>
             <label><input type="checkbox" name="post" checked>게시물</label><p></p>
+            <div id="originSelect" display="block">
             <a>위치: </a>
-            {{!-- <form method="post" action="/auth/play" target="iframe1"> --}}
-            
-
-            <select name="loc">
+            <select name="loc" id="loc">
+                <optgroup label="주변 건물">
                 <script>
                     const b_name = "{{buildingname}}".split(',');
                     str = "";
                     for (var name of b_name){
                         str += '<option value = "' + name +'">' + name + '</option> </br>'
-
                     }
-                    console.log(str);
-                    
+                    console.log(str);   
                     document.write(str);
-                    
-                            
+            
                 </script>
-
+            </optgroup>
+            <optgroup label="직접 선택">
+            <option value="대강의동">대강의동</option>
+            <option value="차미리사기념관">차미리사기념관</option>
+            <option value="인문과학대학">인문과학대학</option>
+            <option value="도서관">도서관</option>
+            <option value="학생회관">학생회관</option>
+            <option value="자연과학대">자연과학대학</option>
+            <option value="약학대학">약학대학</option>
+            <option value="대학본부">대학본부</option>
+            <option value="예술대학">예술대학</option>
+            <option value="유아교육관">유아교육관</option>
+            <option value="기숙사">기숙사</option>
+            <option value="언어교육원">언어교육원</option>
+            <option value="덕우당">덕우당</option>
+            <option value="운동장">운동장</option>
+            <option value="스머프동산">스머프동산</option>
+            <option value="정보미디어대학">정보미디어대학</option>
+            <option value="영근터">영근터</option>
+            <option value="라온센터">라온센터</option>
+            <option value="약학관아트홀">약학관아트홀</option>
+            <option value="하나누리관">하나누리관</option>
+            <option value="민주동산">민주동산</option>
+            </optgroup>
             </select><br>
-            <a>직접 선택: </a>
-            <select name="loc2" id="loc2">
-            <option value="1">대강의동</option>
-            <option value="2">차미리사기념관</option>
-            <option value="3">인문과학대학</option>
-            <option value="4">도서관</option>
-            <option value="5">학생회관</option>
-            <option value="6">자연과학대학</option>
-            <option value="7">약학대학</option>
-            <option value="8">대학본부</option>
-            <option value="9">예술대학</option>
-            <option value="10">유아교육관</option>
-            <option value="11">기숙사</option>
-            <option value="12">언어교육원</option>
-            <option value="13">덕우당</option>
-            <option value="14">운동장</option>
-            <option value="15">스머프동산</option>
-            <option value="16">정보미디어대학</option>
-            <option value="17">영근터</option>
-            <option value="18">라온센터</option>
-            <option value="19">약학관아트홀</option>
-            <option value="20">하나누리관</option>
-            <option value="21">민주동산</option>
-        </select>
+
                 {{!-- <input id="selectLoc" type='submit'> --}}
                 {{!-- <iframe id="iframe1" name="iframe1" style="display:none"></iframe> --}}
             {{!-- </form> --}}
