@@ -309,6 +309,7 @@ exports.mypagere = (req, res) => {
             });
     });
 
+});
 }
 
 
