@@ -68,7 +68,7 @@
         line-height: 50px;
         text-align: center;
         font-size: 15px;
-        bottom: 3%;
+        bottom: 2%;
       }
       #myPageMove {
         background-color: rgb(244, 244, 244);
@@ -96,16 +96,11 @@
       #map {
         height: 89.8%;
         position: fixed;
-        
+        margin-bottom: 0;
       }
 
       /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+
       #moreBtn{
         border:none;
         background-color: transparent;
@@ -131,7 +126,7 @@
         /*height : 500px;
         width : 400px;*/
         right : 0px;
-        top : 70px;
+        top : 50px;
         opacity : 0;
         z-index: -3;
         position : absolute;
@@ -147,6 +142,7 @@
       #detector{
  	      display: none; 
       }
+      
     </style>
         <script>
           function initMap() {
@@ -270,9 +266,10 @@ building=locations[i][0]>
       <input type = "text" name = "word" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
 
       <button type = "submit">검색</button>
+      </form>
+      
       <div id = "searchresult" class = "searchresult"></div>
 
-    </form>
 <!--
       <script>
         function getelement(){
@@ -315,7 +312,6 @@ building=locations[i][0]>
     </div>
 </nav> 
 <script src="notification.js"></script>
-<script src="/soundtag/sketch.js"></script>
 <!-- map -->
 
     <div id="map"></div>
@@ -358,11 +354,49 @@ building=locations[i][0]>
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents ♭</span><span id="sharp">cents ♯</span></div>
 		</div>
 
-          <div id = "butt">
-            
-          <button type = "submit" id = "moveSound">TAG</button>
-          </form>
-        </div>
+{{!-- <script src="/soundtag/soundtag.js"></script> --}}
+    <div id = "tagging">
+        
+      <button type = "submit" id = "moveSound">TAG</button>
+      </form>
+    </div>
+
+    <script>
+      let note2 = "";
+let noteSpan2;
+
+function setup() {
+  createCanvas(0, 0);
+  getAudioContext().resume();
+  toggleLiveInput();
+  noteSpan2 = select('#pitch');
+  // textSize(48);
+}
+
+var appear = false;
+function draw() {
+  background(220);
+
+  
+    note2 = noteSpan2.html();
+    if(note2>=18000 && note2<22000){
+        tagging.style.opacity = 1;
+      console.log(note2);
+    } 
+    else if(note2>=22000 && note2<24000){
+        tagging.style.opacity = 1;
+      console.log(note2);
+    } 
+    else if(note2>=0 && note2<18000){
+      setTimeout(function(){
+        tagging.style.opacity = 0;
+      console.log(note2);
+      }, 3000)  
+    }
+
+  }
+
+    </script>
       
 </body>
 </html>
