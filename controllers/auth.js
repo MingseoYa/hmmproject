@@ -310,10 +310,7 @@ exports.mypagere = (req, res) => {
             });
         });
     });
-
-});
 }
-
 
 
 exports.search = (req, res) => {
