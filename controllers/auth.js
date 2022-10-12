@@ -311,6 +311,7 @@ exports.mypagere = (req, res) => {
         });
     });
 
+});
 }
 
 
