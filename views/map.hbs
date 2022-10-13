@@ -68,6 +68,8 @@
         text-align: center;
         font-size: 15px;
         bottom: 2%;
+        display:block;
+        
       }
       #myPageMove {
         background-color: rgb(244, 244, 244);
@@ -377,13 +379,10 @@ building=locations[i][0]>
 		</div>
 
 {{!-- <script src="/soundtag/soundtag.js"></script> --}}
-    <div id = "tagging">
-        
-      <button type = "submit" id = "moveSound">TAG</button>
-      </form>
-    </div>
-
-    <script>
+  <div id = "tagging">
+    <form action = "/auth/soundlist" method = "POST">
+    <button type = "submit" id = "moveSound"  name = "sound">TAG</button>
+     <script>
       let note2 = "";
 let noteSpan2;
 
@@ -395,23 +394,38 @@ function setup() {
   // textSize(48);
 }
 
-var appear = false;
+
 function draw() {
   background(220);
 
-  
+var sound = 0;
+var strSound = ""
     note2 = noteSpan2.html();
-    if(note2>=18000 && note2<22000){
-        tagging.style.opacity = 1;
+    if(note2>=16000 && note2<20000){
+      tagging.style.display = 'block';
       console.log(note2);
+      var sound =18000;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
+      document.getElementById('soundVar').innerHTML=strSound;
+    } 
+    else if(note2>=20000 && note2<22000){
+      tagging.style.display = 'block';
+      console.log(note2);
+      var sound =20000;
+          strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
+    document.getElementById('soundVar').innerHTML=strSound;
     } 
     else if(note2>=22000 && note2<24000){
-        tagging.style.opacity = 1;
+      tagging.style.display = 'block';
       console.log(note2);
+      var sound =22000;
+          strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
+    document.getElementById('soundVar').innerHTML=strSound;
+  
     } 
     else if(note2>=0 && note2<18000){
       setTimeout(function(){
-        tagging.style.opacity = 0;
+        tagging.style.display = 'none';
       console.log(note2);
       }, 3000)  
     }
@@ -419,6 +433,11 @@ function draw() {
   }
 
     </script>
+    <p id="soundVar"></p>
+    </form>      
+  </div>
+
+   
       
 </body>
 </html>

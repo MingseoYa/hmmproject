@@ -335,3 +335,9 @@ exports.search = (req, res) => {
     })
 }
 
+exports.soundlist = (req, res) => {
+    const {sound} = req.body;
+    res.render("soundlist",{sound : sound})
+    console.log("auth" + sound);
+
+}
