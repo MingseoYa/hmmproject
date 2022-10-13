@@ -297,6 +297,7 @@ exports.mypagere = (req, res) => {
                 }
             }
             console.log(imgpaths);
+            
 
             db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
             
@@ -307,9 +308,8 @@ exports.mypagere = (req, res) => {
                     username : username, paths : paths, imgpaths : imgpaths
                 });
             });
+        });
     });
-
-});
 }
 
 
@@ -341,3 +341,4 @@ exports.soundlist = (req, res) => {
     console.log("auth" + sound);
 
 }
+
