@@ -192,6 +192,8 @@ exports.mapp = (req, res, next) => {
     //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
+    var sound = req.body.sound;
+    console.log(sound);
 
     //사용자key
     var upkey=[];
@@ -297,6 +299,7 @@ exports.mypagere = (req, res) => {
                 }
             }
             console.log(imgpaths);
+            
 
             db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
             
@@ -307,9 +310,8 @@ exports.mypagere = (req, res) => {
                     username : username, paths : paths, imgpaths : imgpaths
                 });
             });
+        });
     });
-
-});
 }
 
 
@@ -334,7 +336,6 @@ exports.search = (req, res) => {
         })
     })
 }
-
 exports.soundlist = (req, res) => {
     const {sound} = req.body;
     res.render("soundlist",{sound : sound})

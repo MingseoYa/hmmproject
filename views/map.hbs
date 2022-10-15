@@ -56,7 +56,7 @@
       #moveSound {
         position: absolute;
         left:10%;
-        transform: translate(-50%,0);
+        transform: translate(-30%,0);
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
         background: white;
@@ -68,7 +68,7 @@
         text-align: center;
         font-size: 15px;
         bottom: 2%;
-        display:block;
+        display: flex auto;
         
       }
       #myPageMove {
@@ -270,18 +270,7 @@ building=locations[i][0]>
       
       <div id = "searchresult" class = "searchresult"></div>
 
-<!--
-      <script>
-        function getelement(){
-          var searchinput = document.getElementById("search-input").value;
-          console.log(searchinput);
-          $('#searchresult').load(location.href = "/search?word="+searchinput);  
-    
-        }
-        
 
-      </script>
--->
 
       <div id = "videos">
 
@@ -343,34 +332,13 @@ building=locations[i][0]>
 
           getLocation()
           
-           //$(document).ready(function(){
-              //console.log("안녕하세요");
-                //if (navigator.geolocation) { // GPS를 지원하면
-                //navigator.geolocation.getCurrentPosition(function(position) {
-                //longitude = position.coords.longitude;
-                //latitude = position.coords.latitude;
-                //console.log("if안에서" + latitude + ", " + longitude);
-                //console.log(longitude+ + ", " + latitude);
-                //});
-              //} else {
-               //   alert('GPS를 지원하지 않습니다');
-              //}
-              //}); 
-              
-            //$(window).on('load', function(){
-            //var str = "";
-            //str = '<input type = "hidden" id = "latitude" name = "latitude" value = ' + latitude + '/><input type="hidden" id = "longitude" name = "longitude" value = ' + longitude + '/>';
-            //document.write(str);
-            //console.log(str);
-            //console.log("if밖에서" + latitude + ", " + longitude);
-            //});
           </script>
           <p id="geo"></p>
           <button type= "submit" id="camInputLabel">+</button>
           </form>
         </div>
 
-            <script src="/soundtag/sketch.js"></script>
+      <script src="/soundtag/sketch.js"></script>
     
     <div id="detector" class="vague">
 			<div class="pitch"><span id="pitch">--</span>Hz</div>
@@ -378,7 +346,6 @@ building=locations[i][0]>
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents ♭</span><span id="sharp">cents ♯</span></div>
 		</div>
 
-{{!-- <script src="/soundtag/soundtag.js"></script> --}}
   <div id = "tagging">
     <form action = "/auth/soundlist" method = "POST">
     <button type = "submit" id = "moveSound"  name = "sound">TAG</button>
