@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+      <script src="/soundtag/p5.min.js"></script>
+  <script src="/soundtag/p5.dom.min.js"></script>
+  <script src="/soundtag/p5.sound.min.js"></script>
+  <script src="/soundtag/pitchdetect.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -166,6 +170,12 @@
             background:white;
             cursor: pointer;
         }
+        .vague{
+            opacity: 0;
+        }
+        #pitch, #note, #detune_amt{
+            opacity: 0;
+        }
     </style>
 
 
@@ -261,7 +271,7 @@
         </fieldset>
         
         
-        <fieldset>
+        <fieldset class="st" disabled="disabled">
             <label><input type="checkbox" name="soundtag">현재 공간에 영상 등록</label>
             <h4>공개범위</h4>
             <label><input type="radio" name="s_range" value="s_all">전체</label>
@@ -271,6 +281,63 @@
 
     </form>
 
+     <script src="/soundtag/sketch.js"></script>
+    
+    <div id="detector" class="vague">
+			<div class="pitch"><span id="pitch"></span></div>
+			<div class="note"><span id="note"></span></div>   
+			<div id="detune"><span id="detune_amt"></span></div>
+		</div>
+
+             <script>
+      let note2 = "";
+let noteSpan2;
+
+function setup() {
+  createCanvas(0, 0);
+  getAudioContext().resume();
+  toggleLiveInput();
+  noteSpan2 = select('#pitch');
+  // textSize(48);
+}
+
+
+function draw() {
+  background(220);
+
+var sound = 0;
+var strSound = ""
+    note2 = noteSpan2.html();
+    if(note2>=16000 && note2<20000){
+      console.log(note2);
+      var sound =18000;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+      $('.st').removeAttr('disabled');
+    } 
+    else if(note2>=20000 && note2<22000){
+      console.log(note2);
+      var sound =20000;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+    $('.st').removeAttr('disabled');
+    } 
+    else if(note2>=22000 && note2<24000){
+      console.log(note2);
+      var sound =22000;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+    $('.st').removeAttr('disabled');
+  
+    } 
+    else if(note2>=0 && note2<18000){
+      setTimeout(function(){
+      console.log(note2);
+      $('.st').attr('disabled', 'true');
+      }, 3000)  
+    }
+
+  }
+
+    </script>
+    
 
 </body>
 </html>

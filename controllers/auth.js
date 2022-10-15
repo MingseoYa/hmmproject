@@ -192,6 +192,8 @@ exports.mapp = (req, res, next) => {
     //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
+    var sound = req.body.sound;
+    console.log(sound);
 
     //사용자key
     var upkey=[];
@@ -341,4 +343,3 @@ exports.soundlist = (req, res) => {
     console.log("auth" + sound);
 
 }
-
