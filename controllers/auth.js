@@ -77,7 +77,6 @@ exports.register = (req, res, next) => {
 
 }
 
-
 //로그인버튼눌렀을 때
 exports.login = (req, res) => {
 
@@ -126,7 +125,6 @@ exports.login = (req, res) => {
     });
 }
 
-
 //when click + button
 exports.upload = (req, res) => {
     const {longitude, latitude} = req.body;
@@ -150,9 +148,6 @@ exports.upload = (req, res) => {
 //마커 더보기 눌렀을 때 
 exports.videolist = (req, res) => {
 
-    //var pnu = [];//비디오 경로랑 계정주 같이 저장하려고
-    //var datapath;
-    //var datanickname;
     var {location} = req.body; //건물정보 가져오기
 
     var bpkey = []; //해당건물이름 하나 저장
@@ -165,7 +160,7 @@ exports.videolist = (req, res) => {
             bpkey.push(data.PKey);
         }
 
-        db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
+        db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ? and Video.UpdateType = ?', [bpkey, 1], async(error, results) => {
 
             for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
                 //console.log(data);
@@ -186,10 +181,11 @@ exports.videolist = (req, res) => {
 
 //공유버튼 눌렀을 때 
 exports.mapp = (req, res, next) => {
-    //username = req.body.username;
+
     var location = req.body.loc;
     var comment = req.body.comment;
-    //console.log(location);
+    var uploadtype = req.body.uploadType; //게시물인지 사운드태그인지
+
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
 
@@ -206,13 +202,10 @@ exports.mapp = (req, res, next) => {
         for(var data of result){
             pkey.push(data.PKey);
         }
-        //console.log(pkey);
-        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment) values(?,?,?,?)', [upkey[0], pkey, insertpath, comment], async(error, results) => {
-            // var res = {size : req.file.size};
-            // res.json(size);
-            //console.log(req.file);
-            //res.set(‘Content-Type’, ‘text/plain’)
-            //console.log(type(req.file));
+        
+        //updatetype도 들어가도록 추가
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment, UploadType) values(?,?,?,?,?)', [upkey[0], pkey, insertpath, comment, uploadtype], async(error, results) => {
+
             res.render('map');
         })
     })
@@ -256,35 +249,20 @@ exports.map = (req, res) => {
 }
 
 exports.revise = (req, res) => {
-    var imgpaths = [];
 
-    db.query('select ProfileImg from users where NickName = ?', [username], async(error, result) => {
-        var pkey2=[];
-            for(var data of result){
-                pkey2.push(data.PKey);
-
-                if (data.ProfileImg == null){
-                    imgpaths.push("/image/sample_profile.jpg");
-                }
-                else{
-                    imgpaths.push(data.ProfileImg);
-                }
-            }
-    });
     res.render('revise', {
-        username : username, imgpaths : imgpaths
+        username : username
     });
 }
-
 exports.mypagere = (req, res) => {
-    const {nickname, uploadfile} = req.body;
+    const {nickname} = req.body;
     var paths=[];
     var imgpaths=[];
 
     db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         username = nickname
         console.log(username);
-        db.query('update users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
+        db.query('select PKey, ProfileImg from users where NickName = ?', [username], async(error, result) => {
             var pkey2=[];
             for(var data of result){
                 pkey2.push(data.PKey);
@@ -310,27 +288,51 @@ exports.mypagere = (req, res) => {
             });
         });
     });
-}
 
+
+}
 
 exports.search = (req, res) => {
     const {word} = req.body;
     console.log(word);
 
-
     var videopath = [];
-    db.query('select Path, Comment from Video', async(error, result) => {
+    //게시글로 올린것만 나오도록하기!!!!!!
+    db.query('select Path, Comment from Video where updateType = 1', async(error, result) => {
         
         for(var data of result) {
-        if (data.Comment != null){
-            if (data.Comment.includes(word)){
-            videopath.push(data.Path);
+            if (data.Comment != null){
+                if (data.Comment.includes(word)){
+                videopath.push(data.Path);
+                }
             }
-        }
         }
         console.log(videopath);
         res.render("searchvideo", {
             word : word, videopath : videopath
         })
     })
+}
+
+//map에서 tag버튼을 눌렀을 때
+exports.soundlist = (req, res) => {
+    const {updatetype} = req.body;
+    var pnu = [];//경로랑 유저닉네임 같이 저장
+    
+
+    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.UpdateType = ?', [updatetype], async(error, results) => {
+
+        for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
+            //console.log(data);
+            datapath = data.Path;
+            datanickname = data.NickName;
+            pnu.push(datanickname, datapath);
+
+        }
+
+        return res.render('videolist', 
+            {location : location, pnu : pnu});
+
+    })
+
 }

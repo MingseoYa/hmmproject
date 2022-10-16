@@ -265,9 +265,9 @@ building=locations[i][0]>
       <input type = "text" name = "word" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
 
       <button type = "submit">검색</button>
-      <div id = "searchresult" class = "searchresult"></div>
 
     </form>
+    <div id = "searchresult" class = "searchresult"></div>
 
 
 
@@ -355,38 +355,38 @@ building=locations[i][0]>
 
     <script>
       let note2 = "";
-let noteSpan2;
+      let noteSpan2;
 
-function setup() {
-  createCanvas(0, 0);
-  getAudioContext().resume();
-  toggleLiveInput();
-  noteSpan2 = select('#pitch');
-  // textSize(48);
-}
+      function setup() {
+        createCanvas(0, 0);
+        getAudioContext().resume();
+        toggleLiveInput();
+        noteSpan2 = select('#pitch');
+        // textSize(48);
+      }
 
-var appear = false;
-function draw() {
-  background(220);
+      var appear = false;
+      function draw() {
+        background(220);
 
-  
-    note2 = noteSpan2.html();
-    if(note2>=18000 && note2<22000){
-        tagging.style.opacity = 1;
-      console.log(note2);
-    } 
-    else if(note2>=22000 && note2<24000){
-        tagging.style.opacity = 1;
-      console.log(note2);
-    } 
-    else if(note2>=0 && note2<18000){
-      setTimeout(function(){
-        tagging.style.opacity = 0;
-      console.log(note2);
-      }, 3000)  
-    }
+        
+        note2 = noteSpan2.html();
+        if(note2>=18000 && note2<22000){
+            tagging.style.opacity = 1;
+          console.log(note2);
+        } 
+        else if(note2>=22000 && note2<24000){
+            tagging.style.opacity = 1;
+          console.log(note2);
+        } 
+        else if(note2>=0 && note2<18000){
+          setTimeout(function(){
+            tagging.style.opacity = 0;
+          console.log(note2);
+          }, 3000)  
+        }
 
-  }
+      }
 
     </script>
       
