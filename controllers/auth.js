@@ -189,6 +189,9 @@ exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
     var comment = req.body.comment;
+    var uploadType = req.body.uploadType;
+    console.log("uploadType: " + uploadType);
+    
     //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;

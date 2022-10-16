@@ -268,19 +268,6 @@ building=locations[i][0]>
       
       <div id = "searchresult" class = "searchresult"></div>
 
-<!--
-      <script>
-        function getelement(){
-          var searchinput = document.getElementById("search-input").value;
-          console.log(searchinput);
-          $('#searchresult').load(location.href = "/search?word="+searchinput);  
-    
-        }
-        
-
-      </script>
--->
-
       <div id = "videos">
 
         <script>
@@ -339,29 +326,8 @@ building=locations[i][0]>
               }                         
           }
 
-          getLocation()
+          getLocation();
           
-           //$(document).ready(function(){
-              //console.log("안녕하세요");
-                //if (navigator.geolocation) { // GPS를 지원하면
-                //navigator.geolocation.getCurrentPosition(function(position) {
-                //longitude = position.coords.longitude;
-                //latitude = position.coords.latitude;
-                //console.log("if안에서" + latitude + ", " + longitude);
-                //console.log(longitude+ + ", " + latitude);
-                //});
-              //} else {
-               //   alert('GPS를 지원하지 않습니다');
-              //}
-              //}); 
-              
-            //$(window).on('load', function(){
-            //var str = "";
-            //str = '<input type = "hidden" id = "latitude" name = "latitude" value = ' + latitude + '/><input type="hidden" id = "longitude" name = "longitude" value = ' + longitude + '/>';
-            //document.write(str);
-            //console.log(str);
-            //console.log("if밖에서" + latitude + ", " + longitude);
-            //});
           </script>
           <p id="geo"></p>
           <button type= "submit" id="camInputLabel">+</button>
