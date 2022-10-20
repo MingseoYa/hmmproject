@@ -132,7 +132,7 @@ exports.upload = (req, res) => {
     const {longitude, latitude} = req.body;
     console.log(longitude + ", " + latitude);
    
-        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from BuildingLoc ORDER BY dist LIMIT 3',
         [longitude, latitude], async(error, results) => {
 
         var buildingname=[];
