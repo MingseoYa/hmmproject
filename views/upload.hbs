@@ -299,6 +299,7 @@ function setup() {
   getAudioContext().resume();
   toggleLiveInput();
   noteSpan2 = select('#pitch');
+  console.log(noteSpan2);//
   // textSize(48);
 }
 
@@ -310,6 +311,7 @@ var sound = 0;
 var strSound = ""
     note2 = noteSpan2.html();
     console.log("draw들어옴");
+    
     if(note2>=16000 && note2<20000){
       console.log("A");
       console.log(note2);
