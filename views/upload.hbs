@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+      <script src="/soundtag/p5.min.js"></script>
+  <script src="/soundtag/p5.dom.min.js"></script>
+  <script src="/soundtag/p5.sound.min.js"></script>
+  <script src="/soundtag/pitchdetect.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -166,6 +170,12 @@
             background:white;
             cursor: pointer;
         }
+        .vague{
+            opacity: 0;
+        }
+        #pitch, #note, #detune_amt{
+            opacity: 0;
+        }
     </style>
 
 
@@ -177,6 +187,7 @@
         <h1 id="nam">Local Shorts'</h1>
       </header>
       
+      <!--form-->
     <form id ="form1" enctype="multipart/form-data" method="POST" action="/auth/mapp" id="videoSub">
         <div class="div2">
         <button id = "upButton" class="upButton" type = "submit" disabled="disabled">공유</button>
@@ -229,7 +240,7 @@
             <optgroup label="직접 선택">
             <option value="대강의동">대강의동</option>
             <option value="차미리사기념관">차미리사기념관</option>
-            <option value="인문과학대학">인문과학대학</option>
+            <option value="인문사회대학">인문사회대학</option>
             <option value="도서관">도서관</option>
             <option value="학생회관">학생회관</option>
             <option value="자연과학대">자연과학대학</option>
@@ -261,15 +272,75 @@
         </fieldset>
         
         
-        <fieldset>
+        <fieldset class="st" disabled="disabled">
             <label><input type="checkbox" name="soundtag">현재 공간에 영상 등록</label>
             <h4>공개범위</h4>
             <label><input type="radio" name="s_range" value="s_all">전체</label>
             <label><input type="radio" name="s_range" value="s_friend">친구</label>
             <label><input type="radio" name="s_range" value="s_select">특정친구</label>
         </fieldset>
+        <script src="/soundtag/sketch.js"></script>
+    
+        <div id="detector" class="vague">
+			<div class="pitch"><span id="pitch"></span></div>
+			<div class="note"><span id="note"></span></div>   
+			<div id="detune"><span id="detune_amt"></span></div>
+		</div>
 
-    </form>
+        <script>
+            let note2 = "";
+            let noteSpan2;
+
+            function setup() {
+            createCanvas(0, 0);
+            getAudioContext().resume();
+            toggleLiveInput();
+            noteSpan2 = select('#pitch');
+            // textSize(48);
+            }
+
+
+            function draw() {
+                background(220);
+
+                var sound = 0;
+                var strSound = ""
+                note2 = noteSpan2.html();
+                if(note2>=16500 && note2<18000){//19000Hz
+                //console.log(note2);
+                    var sound =2;
+                    
+                    strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+                    document.getElementById('soundVar').innerHTML=strSound;
+
+                    console.log(strSound);
+                    $('.st').removeAttr('disabled');
+                } 
+                else if(note2>=22500 && note2<24000){//20000Hz
+                    console.log(note2);
+                    var sound =3;
+                    strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+                    console.log(strSound);
+                    document.getElementById('soundVar').innerHTML=strSound;
+                    $('.st').removeAttr('disabled');
+                } 
+                else if(note2>=0 && note2<16500){
+                    setTimeout(function(){
+                        //console.log(note2);                                                                                                        
+                        strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = 1 >"
+                        console.log(strSound);
+                        document.getElementById('soundVar').innerHTML=strSound;
+
+
+                        $('.st').attr('disabled', 'true');
+                    }, 3000)  
+                }
+
+            }
+
+        </script>
+            <p id="soundVar"></p>   
+    </form> <!---/auth/mapp-->
 
 
 </body>

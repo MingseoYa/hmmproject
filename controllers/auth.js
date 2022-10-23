@@ -184,10 +184,12 @@ exports.mapp = (req, res, next) => {
 
     var location = req.body.loc;
     var comment = req.body.comment;
-    var uploadtype = req.body.uploadType; //게시물인지 사운드태그인지
+    var sound = req.body.sound; //게시물인지 사운드태그인지
+    console.log(sound);
 
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
+
 
     //사용자key
     var upkey=[];
@@ -204,7 +206,7 @@ exports.mapp = (req, res, next) => {
         }
         
         //updatetype도 들어가도록 추가
-        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment, UploadType) values(?,?,?,?,?)', [upkey[0], pkey, insertpath, comment, uploadtype], async(error, results) => {
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment, UpdateType) values(?,?,?,?,?)', [upkey[0], pkey, insertpath, comment, sound], async(error, results) => {
 
             res.render('map');
         })
@@ -314,13 +316,20 @@ exports.search = (req, res) => {
     })
 }
 
+
 //map에서 tag버튼을 눌렀을 때
 exports.soundlist = (req, res) => {
-    const {updatetype} = req.body;
+    const {sound} = req.body; //sound는 1,2,3,4
+    console.log(sound);
     var pnu = [];//경로랑 유저닉네임 같이 저장
+
+    // const {sound} = req.body;
+    // res.render("soundlist",{sound : sound})
+    // console.log("auth" + sound);
+
     
 
-    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.UpdateType = ?', [updatetype], async(error, results) => {
+    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.UpdateType = ?', [sound], async(error, results) => {
 
         for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
             //console.log(data);
@@ -329,9 +338,10 @@ exports.soundlist = (req, res) => {
             pnu.push(datanickname, datapath);
 
         }
+        //console.log(sound);
 
-        return res.render('videolist', 
-            {location : location, pnu : pnu});
+        return res.render('soundlist', 
+            {pnu : pnu, sound : sound});
 
     })
 
