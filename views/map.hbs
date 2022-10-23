@@ -56,7 +56,6 @@
       #moveSound {
         position: absolute;
         left:10%;
-        transform: translate(-30%,0);
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
         background: white;
@@ -65,7 +64,6 @@
         cursor: pointer;
         height: 50px; width: 50px;
         line-height: 50px;
-        text-align: center;
         font-size: 15px;
         bottom: 2%;
         display: flex auto;
@@ -368,7 +366,7 @@ function draw() {
 var sound = 0;
 var strSound = ""
     note2 = noteSpan2.html();
-    if(note2>=16000 && note2<20000){
+    if(note2>=18000 && note2<20000){
       tagging.style.display = 'block';
       console.log(note2);
       var sound =18000;
@@ -394,7 +392,7 @@ var strSound = ""
       setTimeout(function(){
         tagging.style.display = 'none';
       console.log(note2);
-      }, 3000)  
+      }, 100)  
     }
 
   }

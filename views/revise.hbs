@@ -89,25 +89,25 @@
 <body>
     <div class="lay">
         {{!-- <button><img class="prof_img" src="../auth/img/profile.jpg"></button> --}}
-<<<<<<< HEAD
-            <script>
-      var imgpaths = "{{imgpaths}}";
-      str = "";
-      str = '<label for="camInput" id="camInputLabel"><img class="prof_img" src='+imgpaths+'></label>\
-        <input type="file" onchange="+imgchange()+" name="uploadfile" accept="image/*"; capture="camera" id="camInput">'
-      document.write(str);
-    </script>
-        
-=======
-        <label for="camInput" id="camInputLabel"><img class="prof_img" src="/image/sample_profile.jpg"></label>
-        <input type="file" name="uploadfile" accept="image/*";capture="camera" id="camInput">
->>>>>>> 1e903ce31bb2875f47fe109ba47ca02f58f18406
+      <script>
+        var imgpaths = "{{imgpaths}}";
+        str = "";
+        str = '<label for="camInput" id="camInputLabel"><img class="prof_img" src='+imgpaths+' id = "imageview"></label>'
+        document.write(str);
+      </script>
+      <form action="/auth/mypagere" enctype="multipart/form-data" method="POST">
 
-        <form action="/auth/mypagere" method="POST">
-        
-            <input type="text" placeholder="NickName..." id="nickname" class="des" name = "nickname"/>
-            <br>
-            <button class="bt" type="submit">변경하기</button>
+        <input type="file" onchange="imgchange()" name="uploadfile" accept="image/*"; capture="camera" id="camInput">
+
+        <script>
+          var nickname2 = "{{username}}";
+          str = "";
+          str = '<input type="text" value='+nickname2+' placeholder="NickName..." id="nickname" class="des" name = "nickname"/>';
+          document.write(str);
+        </script>
+          
+          <br>
+          <button class="bt" type="submit">변경하기</button>
         </form>
     </div>
       <script>
