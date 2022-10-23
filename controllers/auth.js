@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require("mysql");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -290,17 +290,15 @@ exports.revise = (req, res) => {
     imgpaths = [];
 
     db.query('select ProfileImg from Users where NickName = ?', [username], async(error, result) => {
-        var pkey2=[];
-            for(var data of result){
-                pkey2.push(data.PKey);
+        for(var data of result){
 
-                if (data.ProfileImg == null){
-                    imgpaths.push("/image/sample_profile.jpg");
-                }
-                else{
-                    imgpaths.push(data.ProfileImg);
-                }
+            if (data.ProfileImg == null){
+                imgpaths.push("/image/sample_profile.jpg");
             }
+            else{
+                imgpaths.push(data.ProfileImg);
+            }
+        }
     });
     res.render('revise', {
         username : username, imgpaths : imgpaths
@@ -313,12 +311,37 @@ exports.mypagere = (req, res, next) => {
     var paths=[];
     var imgpaths=[];
 
-    db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
-        username = nickname
-        console.log(username);
+    // if(username != nickname){
+    //     db.query('select NickName from Users where NickName = ?', [nickname], async(error, results2) => {
+    //         if(error) {
+    //             console.log(error);
+    //         }
+    //         // if(results2.length > 0){
+    //         //     db.query('select ProfileImg from Users where NickName = ?', [username], async(error, result) => {
+    //         //         for(var data of result){
+    //         //             imgpaths.push(data.ProfileImg);
+    //         //             console.log(imgpaths);
+    //         //         }
+    //         //         return res.render('revise', {
+    //         //             username : username, imgpaths : imgpaths,
+    //         //             message : '이미 사용되고 있는 닉네임입니다'
+    //         //         });
+    //         //     });
+    //         // }
+    //         else{
+    //             db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+    //                 username = nickname
+    //             });
+    //         }
+    //     });
+    // }
 
-
-    });
+    if(username != nickname){
+        db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+            username = nickname
+        });
+    }
+    
     if(req.file != null){
         insertimgpath = "/profileimg/" + req.file.filename; //데베에 들어갈 경로
         db.query('update Users set ProfileImg = ? where NickName = ?', [insertimgpath, username], async(error, result) => {            
