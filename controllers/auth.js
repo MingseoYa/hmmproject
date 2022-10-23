@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -297,7 +297,7 @@ exports.mypagere = (req, res, next) => {
     });
     if(req.file != null){
         insertimgpath = "/profileimg/" + req.file.filename; //데베에 들어갈 경로
-        db.query('update users set ProfileImg = ? where NickName = ?', [insertimgpath, username], async(error, result) => {            
+        db.query('update Users set ProfileImg = ? where NickName = ?', [insertimgpath, username], async(error, result) => {            
         });
     }
     

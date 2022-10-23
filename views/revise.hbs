@@ -89,7 +89,7 @@
 <body>
     <div class="lay">
         {{!-- <button><img class="prof_img" src="../auth/img/profile.jpg"></button> --}}
-        
+
       <script>
         var imgpaths = "{{imgpaths}}";
         str = "";
@@ -106,7 +106,9 @@
           str = '<input type="text" value='+nickname2+' placeholder="NickName..." id="nickname" class="des" name = "nickname"/>';
           document.write(str);
         </script>
-          
+        {{#if message}}
+            <h5 class = "alert">{{message}}</h5>
+        {{/if}}
           <br>
           <button class="bt" type="submit">변경하기</button>
         </form>
