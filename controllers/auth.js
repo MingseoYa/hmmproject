@@ -130,7 +130,7 @@ exports.upload = (req, res) => {
     const {longitude, latitude} = req.body;
     console.log(longitude + ", " + latitude);
    
-        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from buildingloc ORDER BY dist LIMIT 3',
+        db.query('select Name, ST_DISTANCE_SPHERE(POINT(?, ?), gpsPoint) AS dist from BuildingLoc ORDER BY dist LIMIT 3',
         [longitude, latitude], async(error, results) => {
 
         var buildingname=[];
@@ -151,8 +151,10 @@ exports.videolist = (req, res) => {
     var {location} = req.body; //건물정보 가져오기
 
     var bpkey = []; //해당건물이름 하나 저장
-    var datapath;
-    var datanickname;
+    var datapath; //영상 경로
+    var datanickname; //닉네임
+    var insertDate; //업로드 일자
+    var profileImg; //프로필이미지 경로
     var pnu = [];//경로랑 유저닉네임 같이 저장
 
     db.query('select PKey from BuildingLoc where Name = ?', [location], async(error, result) => {
@@ -160,20 +162,22 @@ exports.videolist = (req, res) => {
             bpkey.push(data.PKey);
         }
 
-        db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ? and Video.UpdateType = ?', [bpkey, 1], async(error, results) => {
+        db.query('select NickName, Path, Video.InsertDate, Users.ProfileImg from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
             for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
                 //console.log(data);
                 datapath = data.Path;
                 datanickname = data.NickName;
-                pnu.push(datanickname, datapath);
-
+                insertDate = data.InsertDate;
+                profileImg = data.ProfileImg;
+                pnu.push(profileImg, datanickname, datapath, insertDate);
             }
 
             return res.render('videolist', 
                 {location : location, pnu : pnu});
 
         })
+        
     })
     
 }
@@ -206,7 +210,7 @@ exports.mapp = (req, res, next) => {
         }
         
         //updatetype도 들어가도록 추가
-        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment, UpdateType) values(?,?,?,?,?)', [upkey[0], pkey, insertpath, comment, sound], async(error, results) => {
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment, UploadType) values(?,?,?,?,?)', [upkey[0], pkey, insertpath, comment, sound], async(error, results) => {
 
             res.render('map');
         })
@@ -247,13 +251,26 @@ exports.mypage = (req, res) => {
 
 exports.map = (req, res) => {
     res.render('map');
-
 }
 
 exports.revise = (req, res) => {
+    imgpaths = [];
 
+    db.query('select ProfileImg from Users where NickName = ?', [username], async(error, result) => {
+        var pkey2=[];
+            for(var data of result){
+                pkey2.push(data.PKey);
+
+                if (data.ProfileImg == null){
+                    imgpaths.push("/image/sample_profile.jpg");
+                }
+                else{
+                    imgpaths.push(data.ProfileImg);
+                }
+            }
+    });
     res.render('revise', {
-        username : username
+        username : username, imgpaths : imgpaths
     });
 }
 exports.mypagere = (req, res) => {
@@ -261,10 +278,10 @@ exports.mypagere = (req, res) => {
     var paths=[];
     var imgpaths=[];
 
-    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+    db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         username = nickname
         console.log(username);
-        db.query('select PKey, ProfileImg from users where NickName = ?', [username], async(error, result) => {
+        db.query('update Users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
             var pkey2=[];
             for(var data of result){
                 pkey2.push(data.PKey);

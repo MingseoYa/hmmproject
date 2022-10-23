@@ -90,17 +90,14 @@
     <div class="lay">
         {{!-- <button><img class="prof_img" src="../auth/img/profile.jpg"></button> --}}
 
-            <!--<script>
+    <script>
       var imgpaths = "{{imgpaths}}";
       str = "";
       str = '<label for="camInput" id="camInputLabel"><img class="prof_img" src='+imgpaths+'></label>\
         <input type="file" onchange="+imgchange()+" name="uploadfile" accept="image/*"; capture="camera" id="camInput">'
       document.write(str);
-    </script>-->
-         
-
-        <label for="camInput" id="camInputLabel"><img class="prof_img" src="/image/sample_profile.jpg"></label>
-        <input type="file" name="uploadfile" accept="image/*";capture="camera" id="camInput">
+    </script>
+        
 
 
         <form action="/auth/mypagere" method="POST">

@@ -7,6 +7,7 @@
   <meta charset = 'utf-8'>
 
   <title>Local Shorts'</title>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <script src="http://code.jquery.com/jquery-latest.js"></script> 
   <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
@@ -90,8 +91,8 @@
         line-height: 40px;
         margin: 0 auto;
       }
-      .div1{
-
+      .logo{
+        padding-left:3%;
       }
     
       #map {
@@ -108,7 +109,6 @@
       }
       .nam{
         font-size: 1.2em;
-        margin-left: 3%;
         color: rgb(135, 177, 235);
       }
 
@@ -222,7 +222,8 @@ building=locations[i][0]>
 </head>
 <body>
 
-  <nav>
+  <nav class="header">
+    
     <div class="logo"><h1 class="nam">Local Shorts'</h1></div>
 
 
