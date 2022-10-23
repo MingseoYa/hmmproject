@@ -7,6 +7,7 @@
   <script src="/soundtag/pitchdetect.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <link rel="stylesheet" href="./css/upload.css"> -->
@@ -304,52 +305,55 @@
 			<div id="detune"><span id="detune_amt"></span></div>
 		</div>
 
-             <script>
-      let note2 = "";
-let noteSpan2;
+    <script>
+        let note2 = "";
+	let noteSpan2;
 
-function setup() {
-  createCanvas(0, 0);
-  getAudioContext().resume();
-  toggleLiveInput();
-  noteSpan2 = select('#pitch');
-  // textSize(48);
-}
+	function setup() {
+	  createCanvas(0, 0);
+	  getAudioContext().resume();
+	  toggleLiveInput();
+	  noteSpan2 = select('#pitch');
+	  // textSize(48);
+	}
 
 
-function draw() {
-  background(220);
+	function draw() {
+	  background(220);
 
-var sound = 0;
-var strSound = ""
-    note2 = noteSpan2.html();
-    if(note2>=16000 && note2<20000){
-      console.log(note2);
-      var sound =18000;
-      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
-      $('.st').removeAttr('disabled');
-    } 
-    else if(note2>=20000 && note2<22000){
-      console.log(note2);
-      var sound =20000;
-      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
-    $('.st').removeAttr('disabled');
-    } 
-    else if(note2>=22000 && note2<24000){
-      console.log(note2);
-      var sound =22000;
-      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
-    $('.st').removeAttr('disabled');
-  
-    } 
-    else if(note2>=0 && note2<18000){
-      setTimeout(function(){
-      console.log(note2);
-      $('.st').attr('disabled', 'true');
-      }, 3000)  
-    }
+	    var sound = 0;
+	    var strSound = ""
+	    note2 = noteSpan2.html();
+	    console.log("draw들어옴");
+	    
+	    if(note2>=16000 && note2<20000){
+	      console.log(note2);
+	      var sound =18000;
+	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+	      $('.st').removeAttr('disabled');
+	    } 
+	    else if(note2>=20000 && note2<22000){
+	      console.log(note2);
+	      var sound =20000;
+	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+	    $('.st').removeAttr('disabled');
+	    } 
+	    else if(note2>=22000 && note2<24000){
+	      console.log(note2);
+	      var sound =22000;
+	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+	    $('.st').removeAttr('disabled');
 
-  }
+	    } 
+	    else if(note2>=0 && note2<18000){
+
+	      setTimeout(function(){
+	      console.log(note2);
+	      $('.st').attr('disabled', 'true');
+	      }, 3000)  
+	    }
+
+ 	 }
 
     </script>
     
