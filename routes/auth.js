@@ -55,6 +55,7 @@ router.post('/search', authController.search);
 router.post('/revise', authController.revise);
 router.post('/mypagere', authController.mypagere);
 router.post('/soundlist', authController.soundlist);
+router.post('/friendProfile', authController.friendProfile);
 //router.post('/settings', authController.settings);
 
 //업로드 페이지에서 공유버튼 눌렀을 때
