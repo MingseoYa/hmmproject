@@ -158,8 +158,8 @@ exports.videolist = (req, res) => {
     var bpkey = []; //해당건물이름 하나 저장
     var datapath; //영상 경로
     var datanickname; //닉네임
-    var insertDate; //업로드 일자
     var profileImg; //프로필이미지 경로
+    var comment; //태그
     var pnu = [];//경로랑 유저닉네임 같이 저장
 
     db.query('select PKey from BuildingLoc where Name = ?', [location], async(error, result) => {
@@ -167,15 +167,15 @@ exports.videolist = (req, res) => {
             bpkey.push(data.PKey);
         }
 
-        db.query('select NickName, Path, video.InsertDate, users.ProfileImg from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
+        db.query('select NickName, Path, Users.ProfileImg, Video.Comment from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
             for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
                 //console.log(data);
                 datapath = data.Path;
                 datanickname = data.NickName;
-                insertDate = data.InsertDate;
                 profileImg = data.ProfileImg;
-                pnu.push(profileImg, datanickname, datapath, insertDate);
+                comment = data.Comment;
+                pnu.push(profileImg, datanickname, datapath, comment);
             }
 
             return res.render('videolist', 
@@ -252,6 +252,39 @@ exports.mypage = (req, res) => {
             //console.log(paths);
             res.render('mypage', {
                 username : username, paths : paths, imgpaths : imgpaths
+            });
+        });
+    });    
+
+
+}
+
+exports.friendProfile = (req, res) => {
+    var paths=[];
+    var imgpaths = [];
+    var username;
+    const {friendname} = req.body;
+    db.query('select PKey, ProfileImg from Users where NickName = ?', [friendname], async(error, result) => {
+        var pkey2=[];
+        for(var data of result){
+            pkey2.push(data.PKey);
+            if (data.ProfileImg == null){
+                imgpaths.push("/image/sample_profile.jpg");
+            }
+            else{
+                imgpaths.push(data.ProfileImg);
+            }
+            
+        }
+
+        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
+            
+            for(var data2 of result){
+                paths.push(data2.Path);
+            }
+            //console.log(paths);
+            res.render('mypage', {
+                username : friendname, paths : paths, imgpaths : imgpaths
             });
         });
     });    
