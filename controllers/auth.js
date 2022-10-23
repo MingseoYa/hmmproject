@@ -156,8 +156,10 @@ exports.videolist = (req, res) => {
     var {location} = req.body; //건물정보 가져오기
 
     var bpkey = []; //해당건물이름 하나 저장
-    var datapath;
-    var datanickname;
+    var datapath; //영상 경로
+    var datanickname; //닉네임
+    var insertDate; //업로드 일자
+    var profileImg; //프로필이미지 경로
     var pnu = [];//경로랑 유저닉네임 같이 저장
 
     db.query('select PKey from BuildingLoc where Name = ?', [location], async(error, result) => {
@@ -165,20 +167,22 @@ exports.videolist = (req, res) => {
             bpkey.push(data.PKey);
         }
 
-        db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
+        db.query('select NickName, Path, video.InsertDate, users.ProfileImg from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
             for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
                 //console.log(data);
                 datapath = data.Path;
                 datanickname = data.NickName;
-                pnu.push(datanickname, datapath);
-
+                insertDate = data.InsertDate;
+                profileImg = data.ProfileImg;
+                pnu.push(profileImg, datanickname, datapath, insertDate);
             }
 
             return res.render('videolist', 
                 {location : location, pnu : pnu});
 
         })
+        
     })
     
 }
@@ -189,6 +193,9 @@ exports.mapp = (req, res, next) => {
     //username = req.body.username;
     var location = req.body.loc;
     var comment = req.body.comment;
+    var uploadType = req.body.uploadType;
+    console.log("uploadType: " + uploadType);
+    
     //console.log(location);
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
@@ -254,7 +261,6 @@ exports.mypage = (req, res) => {
 
 exports.map = (req, res) => {
     res.render('map');
-
 }
 
 exports.revise = (req, res) => {
