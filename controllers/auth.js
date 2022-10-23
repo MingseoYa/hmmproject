@@ -167,7 +167,7 @@ exports.videolist = (req, res) => {
             bpkey.push(data.PKey);
         }
 
-        db.query('select NickName, Path, video.InsertDate, users.ProfileImg from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
+        db.query('select NickName, Path, Video.InsertDate, Users.ProfileImg from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
             for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
                 //console.log(data);
