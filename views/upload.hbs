@@ -310,27 +310,20 @@
 	    var strSound = ""
 	    note2 = noteSpan2.html();
 	    console.log("draw들어옴");
-	    console.log(note2);
-
-
+	    
 	    if(note2>=16000 && note2<20000){
-	      console.log("A");
 	      console.log(note2);
 	      var sound =18000;
 	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
 	      $('.st').removeAttr('disabled');
 	    } 
 	    else if(note2>=20000 && note2<22000){
-	      console.log("B");
-
 	      console.log(note2);
 	      var sound =20000;
 	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
 	    $('.st').removeAttr('disabled');
 	    } 
 	    else if(note2>=22000 && note2<24000){
-	      console.log("C");
-
 	      console.log(note2);
 	      var sound =22000;
 	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
@@ -338,9 +331,7 @@
 
 	    } 
 	    else if(note2>=0 && note2<18000){
-	      console.log("D");
-	      console.log(note2);
-	      
+
 	      setTimeout(function(){
 	      console.log(note2);
 	      $('.st').attr('disabled', 'true');
