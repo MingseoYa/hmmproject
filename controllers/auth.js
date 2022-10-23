@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -317,37 +317,37 @@ exports.revise = (req, res) => {
     });
 }
 
-exports.mypagere = (req, res) => {
-    const {nickname, uploadfile} = req.body;
+exports.mypagere = (req, res, next) => {
+    // const {nickname} = req.body;
+    var nickname = req.body.nickname;
     var paths=[];
     var imgpaths=[];
 
     db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         username = nickname
         console.log(username);
-        db.query('update Users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
-            var pkey2=[];
-            for(var data of result){
-                pkey2.push(data.PKey);
 
-                if (data.ProfileImg == null){
-                    imgpaths.push("/image/sample_profile.jpg");
-                }
-                else{
-                    imgpaths.push(data.ProfileImg);
-                }
+
+    });
+    if(req.file != null){
+        insertimgpath = "/profileimg/" + req.file.filename; //데베에 들어갈 경로
+        db.query('update Users set ProfileImg = ? where NickName = ?', [insertimgpath, username], async(error, result) => {            
+        });
+    }
+    
+    db.query('select PKey, ProfileImg from Users where nickname = ?', [nickname], async(error, result1) =>{
+        var pkey2 =[];
+        for(var data of result1){
+            pkey2.push(data.PKey);
+            imgpaths.push(data.ProfileImg);
+        }
+        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
+    
+            for(var data2 of results){
+                paths.push(data2.Path);
             }
-            console.log(imgpaths);
-            
-
-            db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
-            
-                for(var data2 of results){
-                    paths.push(data2.Path);
-                }
-                res.render('mypage', {
-                    username : username, paths : paths, imgpaths : imgpaths
-                });
+            res.render('mypage', {
+                username : username, paths : paths, imgpaths : imgpaths
             });
         });
     });
