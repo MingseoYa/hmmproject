@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -153,8 +153,8 @@ exports.videolist = (req, res) => {
     var bpkey = []; //해당건물이름 하나 저장
     var datapath; //영상 경로
     var datanickname; //닉네임
-    var insertDate; //업로드 일자
     var profileImg; //프로필이미지 경로
+    var comment; //태그
     var pnu = [];//경로랑 유저닉네임 같이 저장
 
     db.query('select PKey from BuildingLoc where Name = ?', [location], async(error, result) => {
@@ -162,15 +162,15 @@ exports.videolist = (req, res) => {
             bpkey.push(data.PKey);
         }
 
-        db.query('select NickName, Path, Video.InsertDate, Users.ProfileImg from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
+        db.query('select NickName, Path, Users.ProfileImg, Video.Comment from Video, Users where Video.UserPKey = Users.PKey and Video.BuildingLocPKey = ?', [bpkey], async(error, results) => {
 
             for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
                 //console.log(data);
                 datapath = data.Path;
                 datanickname = data.NickName;
-                insertDate = data.InsertDate;
                 profileImg = data.ProfileImg;
-                pnu.push(profileImg, datanickname, datapath, insertDate);
+                comment = data.Comment;
+                pnu.push(profileImg, datanickname, datapath, comment);
             }
 
             return res.render('videolist', 
@@ -249,6 +249,39 @@ exports.mypage = (req, res) => {
 
 }
 
+exports.friendProfile = (req, res) => {
+    var paths=[];
+    var imgpaths = [];
+    var username;
+    const {friendname} = req.body;
+    db.query('select PKey, ProfileImg from Users where NickName = ?', [friendname], async(error, result) => {
+        var pkey2=[];
+        for(var data of result){
+            pkey2.push(data.PKey);
+            if (data.ProfileImg == null){
+                imgpaths.push("/image/sample_profile.jpg");
+            }
+            else{
+                imgpaths.push(data.ProfileImg);
+            }
+            
+        }
+
+        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, result) => {
+            
+            for(var data2 of result){
+                paths.push(data2.Path);
+            }
+            //console.log(paths);
+            res.render('mypage', {
+                username : friendname, paths : paths, imgpaths : imgpaths
+            });
+        });
+    });    
+
+
+}
+
 exports.map = (req, res) => {
     res.render('map');
 }
@@ -273,37 +306,38 @@ exports.revise = (req, res) => {
         username : username, imgpaths : imgpaths
     });
 }
-exports.mypagere = (req, res) => {
-    const {nickname} = req.body;
+
+exports.mypagere = (req, res, next) => {
+    // const {nickname} = req.body;
+    var nickname = req.body.nickname;
     var paths=[];
     var imgpaths=[];
 
     db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         username = nickname
         console.log(username);
-        db.query('update Users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
-            var pkey2=[];
-            for(var data of result){
-                pkey2.push(data.PKey);
 
-                if (data.ProfileImg == null){
-                    imgpaths.push("/image/sample_profile.jpg");
-                }
-                else{
-                    imgpaths.push(data.ProfileImg);
-                }
+
+    });
+    if(req.file != null){
+        insertimgpath = "/profileimg/" + req.file.filename; //데베에 들어갈 경로
+        db.query('update Users set ProfileImg = ? where NickName = ?', [insertimgpath, username], async(error, result) => {            
+        });
+    }
+    
+    db.query('select PKey, ProfileImg from Users where nickname = ?', [nickname], async(error, result1) =>{
+        var pkey2 =[];
+        for(var data of result1){
+            pkey2.push(data.PKey);
+            imgpaths.push(data.ProfileImg);
+        }
+        db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
+    
+            for(var data2 of results){
+                paths.push(data2.Path);
             }
-            console.log(imgpaths);
-            
-
-            db.query('select Path from Video where UserPKey = ?', [pkey2], async(error, results) => {
-            
-                for(var data2 of results){
-                    paths.push(data2.Path);
-                }
-                res.render('mypage', {
-                    username : username, paths : paths, imgpaths : imgpaths
-                });
+            res.render('mypage', {
+                username : username, paths : paths, imgpaths : imgpaths
             });
         });
     });
