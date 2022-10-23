@@ -266,7 +266,7 @@ exports.map = (req, res) => {
 exports.revise = (req, res) => {
     var imgpaths = [];
 
-    db.query('select ProfileImg from users where NickName = ?', [username], async(error, result) => {
+    db.query('select ProfileImg from Users where NickName = ?', [username], async(error, result) => {
         var pkey2=[];
             for(var data of result){
                 pkey2.push(data.PKey);
@@ -289,10 +289,10 @@ exports.mypagere = (req, res) => {
     var paths=[];
     var imgpaths=[];
 
-    db.query('update users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
+    db.query('update Users set NickName = ? where NickName = ?', [nickname, username], async(error, results) => {
         username = nickname
         console.log(username);
-        db.query('update users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
+        db.query('update Users set ProfileImg = ? where NickName = ?', [uploadfile, username], async(error, result) => {
             var pkey2=[];
             for(var data of result){
                 pkey2.push(data.PKey);
