@@ -56,7 +56,7 @@
       #moveSound {
         position: absolute;
         left:10%;
-        transform: translate(-50%,0);
+        transform: translate(-30%,0);
         border: 1px solid rgb(135, 177, 235);;
         border-radius: 50%;
         background: white;
@@ -68,6 +68,8 @@
         text-align: center;
         font-size: 15px;
         bottom: 2%;
+        display: flex auto;
+        
       }
       #myPageMove {
         background-color: rgb(244, 244, 244);
@@ -87,8 +89,8 @@
         line-height: 40px;
         margin: 0 auto;
       }
-      .div1{
-
+      .logo{
+        padding-left:3%;
       }
       
       #map {
@@ -105,7 +107,6 @@
       }
       .nam{
         font-size: 1.2em;
-        margin-left: 3%;
         color: rgb(135, 177, 235);
       }
 
@@ -219,7 +220,8 @@ building=locations[i][0]>
 </head>
 <body>
 
-  <nav>
+  <nav class="header">
+    
     <div class="logo"><h1 class="nam">Local Shorts'</h1></div>
 
 
@@ -267,6 +269,8 @@ building=locations[i][0]>
       </form>
       
       <div id = "searchresult" class = "searchresult"></div>
+
+
 
       <div id = "videos">
 
@@ -326,7 +330,7 @@ building=locations[i][0]>
               }                         
           }
 
-          getLocation();
+          getLocation()
           
           </script>
           <p id="geo"></p>
@@ -334,7 +338,7 @@ building=locations[i][0]>
           </form>
         </div>
 
-            <script src="/soundtag/sketch.js"></script>
+      <script src="/soundtag/sketch.js"></script>
     
     <div id="detector" class="vague">
 			<div class="pitch"><span id="pitch">--</span>Hz</div>
@@ -342,14 +346,10 @@ building=locations[i][0]>
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents ♭</span><span id="sharp">cents ♯</span></div>
 		</div>
 
-{{!-- <script src="/soundtag/soundtag.js"></script> --}}
-    <div id = "tagging">
-        
-      <button type = "submit" id = "moveSound">TAG</button>
-      </form>
-    </div>
-
-    <script>
+  <div id = "tagging">
+    <form action = "/auth/soundlist" method = "POST">
+    <button type = "submit" id = "moveSound"  name = "sound">TAG</button>
+     <script>
       let note2 = "";
 let noteSpan2;
 
@@ -361,23 +361,38 @@ function setup() {
   // textSize(48);
 }
 
-var appear = false;
+
 function draw() {
   background(220);
 
-  
+var sound = 0;
+var strSound = ""
     note2 = noteSpan2.html();
-    if(note2>=18000 && note2<22000){
-        tagging.style.opacity = 1;
+    if(note2>=16000 && note2<20000){
+      tagging.style.display = 'block';
       console.log(note2);
+      var sound =18000;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
+      document.getElementById('soundVar').innerHTML=strSound;
+    } 
+    else if(note2>=20000 && note2<22000){
+      tagging.style.display = 'block';
+      console.log(note2);
+      var sound =20000;
+          strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
+    document.getElementById('soundVar').innerHTML=strSound;
     } 
     else if(note2>=22000 && note2<24000){
-        tagging.style.opacity = 1;
+      tagging.style.display = 'block';
       console.log(note2);
+      var sound =22000;
+          strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
+    document.getElementById('soundVar').innerHTML=strSound;
+  
     } 
     else if(note2>=0 && note2<18000){
       setTimeout(function(){
-        tagging.style.opacity = 0;
+        tagging.style.display = 'none';
       console.log(note2);
       }, 3000)  
     }
@@ -385,6 +400,11 @@ function draw() {
   }
 
     </script>
+    <p id="soundVar"></p>
+    </form>      
+  </div>
+
+   
       
 </body>
 </html>
