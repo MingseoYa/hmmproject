@@ -77,7 +77,6 @@ exports.register = (req, res, next) => {
 
 }
 
-
 //로그인버튼눌렀을 때
 exports.login = (req, res) => {
 
@@ -126,7 +125,6 @@ exports.login = (req, res) => {
     });
 }
 
-
 //when click + button
 exports.upload = (req, res) => {
     const {longitude, latitude} = req.body;
@@ -150,9 +148,6 @@ exports.upload = (req, res) => {
 //마커 더보기 눌렀을 때 
 exports.videolist = (req, res) => {
 
-    //var pnu = [];//비디오 경로랑 계정주 같이 저장하려고
-    //var datapath;
-    //var datanickname;
     var {location} = req.body; //건물정보 가져오기
 
     var bpkey = []; //해당건물이름 하나 저장
@@ -190,17 +185,15 @@ exports.videolist = (req, res) => {
 
 //공유버튼 눌렀을 때 
 exports.mapp = (req, res, next) => {
-    //username = req.body.username;
+
     var location = req.body.loc;
     var comment = req.body.comment;
-    var uploadType = req.body.uploadType;
-    console.log("uploadType: " + uploadType);
-    
-    //console.log(location);
+    var sound = req.body.sound; //게시물인지 사운드태그인지
+    console.log(sound);
+
     var insertpath = "/video/" + req.file.filename; //데베에 들어갈 경로
     filename = "./"+ insertpath;
-    var sound = req.body.sound;
-    console.log(sound);
+
 
     //사용자key
     var upkey=[];
@@ -215,13 +208,10 @@ exports.mapp = (req, res, next) => {
         for(var data of result){
             pkey.push(data.PKey);
         }
-        //console.log(pkey);
-        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment) values(?,?,?,?)', [upkey[0], pkey, insertpath, comment], async(error, results) => {
-            // var res = {size : req.file.size};
-            // res.json(size);
-            //console.log(req.file);
-            //res.set(‘Content-Type’, ‘text/plain’)
-            //console.log(type(req.file));
+        
+        //updatetype도 들어가도록 추가
+        db.query('insert into Video(UserPKey, BuildingLocPKey, Path, Comment, UploadType) values(?,?,?,?,?)', [upkey[0], pkey, insertpath, comment, sound], async(error, results) => {
+
             res.render('map');
         })
     })
@@ -297,7 +287,7 @@ exports.map = (req, res) => {
 }
 
 exports.revise = (req, res) => {
-    var imgpaths = [];
+    imgpaths = [];
 
     db.query('select ProfileImg from Users where NickName = ?', [username], async(error, result) => {
         for(var data of result){
@@ -374,23 +364,24 @@ exports.mypagere = (req, res, next) => {
             });
         });
     });
-}
 
+
+}
 
 exports.search = (req, res) => {
     const {word} = req.body;
     console.log(word);
 
-
     var videopath = [];
-    db.query('select Path, Comment from Video', async(error, result) => {
+    //게시글로 올린것만 나오도록하기!!!!!!
+    db.query('select Path, Comment from Video where updateType = 1', async(error, result) => {
         
         for(var data of result) {
-        if (data.Comment != null){
-            if (data.Comment.includes(word)){
-            videopath.push(data.Path);
+            if (data.Comment != null){
+                if (data.Comment.includes(word)){
+                videopath.push(data.Path);
+                }
             }
-        }
         }
         console.log(videopath);
         res.render("searchvideo", {
@@ -399,9 +390,33 @@ exports.search = (req, res) => {
     })
 }
 
+
+//map에서 tag버튼을 눌렀을 때
 exports.soundlist = (req, res) => {
-    const {sound} = req.body;
-    res.render("soundlist",{sound : sound})
-    console.log("auth" + sound);
+    const {sound} = req.body; //sound는 1,2,3,4
+    console.log(sound);
+    var pnu = [];//경로랑 유저닉네임 같이 저장
+
+    // const {sound} = req.body;
+    // res.render("soundlist",{sound : sound})
+    // console.log("auth" + sound);
+
+    
+
+    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.UpdateType = ?', [sound], async(error, results) => {
+
+        for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
+            //console.log(data);
+            datapath = data.Path;
+            datanickname = data.NickName;
+            pnu.push(datanickname, datapath);
+
+        }
+        //console.log(sound);
+
+        return res.render('soundlist', 
+            {pnu : pnu, sound : sound});
+
+    })
 
 }

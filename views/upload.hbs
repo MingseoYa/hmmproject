@@ -204,6 +204,7 @@
         <h1 id="nam">Local Shorts'</h1>
       </header>
       
+      <!--form-->
     <form id ="form1" enctype="multipart/form-data" method="POST" action="/auth/mapp" id="videoSub">
         <div class="div2">
         <button id = "upButton" class="upButton" type = "submit" disabled="disabled">공유</button>
@@ -294,70 +295,61 @@
             <label><input type="radio" name="s_range" value="s_friend">친구</label>
             <label><input type="radio" name="s_range" value="s_select">특정친구</label>
         </fieldset>
-
-    </form>
-
-     <script src="/soundtag/sketch.js"></script>
+        <script src="/soundtag/sketch.js"></script>
     
-    <div id="detector" class="vague">
+        <div id="detector" class="vague">
 			<div class="pitch"><span id="pitch"></span></div>
 			<div class="note"><span id="note"></span></div>   
 			<div id="detune"><span id="detune_amt"></span></div>
 		</div>
 
-    <script>
-        let note2 = "";
-	let noteSpan2;
+             <script>
+      let note2 = "";
+let noteSpan2;
 
-	function setup() {
-	  createCanvas(0, 0);
-	  getAudioContext().resume();
-	  toggleLiveInput();
-	  noteSpan2 = select('#pitch');
-	  // textSize(48);
-	}
+function setup() {
+  createCanvas(0, 0);
+  getAudioContext().resume();
+  toggleLiveInput();
+  noteSpan2 = select('#pitch');
+  // textSize(48);
+}
 
 
-	function draw() {
-	  background(220);
+function draw() {
+  background(220);
 
-	    var sound = 0;
-	    var strSound = ""
-	    note2 = noteSpan2.html();
-	    console.log("draw들어옴");
-	    
-	    if(note2>=16000 && note2<20000){
-	      console.log(note2);
-	      var sound =18000;
-	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
-	      $('.st').removeAttr('disabled');
-	    } 
-	    else if(note2>=20000 && note2<22000){
-	      console.log(note2);
-	      var sound =20000;
-	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
-	    $('.st').removeAttr('disabled');
-	    } 
-	    else if(note2>=22000 && note2<24000){
-	      console.log(note2);
-	      var sound =22000;
-	      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
-	    $('.st').removeAttr('disabled');
-
-	    } 
-	    else if(note2>=0 && note2<18000){
-
-	      setTimeout(function(){
-	      console.log(note2);
-	      $('.st').attr('disabled', 'true');
-	      }, 3000)  
-	    }
+var sound = 0;
+var strSound = ""
+    note2 = noteSpan2.html();
+    if(note2>=16500 && note2<18000){
+      console.log(note2);
+      var sound =2;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+      document.getElementById('soundVar').innerHTML=strSound;
+      $('.st').removeAttr('disabled');
+    } 
+    else if(note2>= 22500 && note2<24000){
+      console.log(note2);
+      var sound =3;
+      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"
+      document.getElementById('soundVar').innerHTML=strSound;
+    $('.st').removeAttr('disabled');
+    } 
+    else if(note2>=0 && note2<16000){
+      setTimeout(function(){
+        console.log(note2);
+        $('.st').attr('disabled', 'true');
+      }, 3000)  
+    }
 
 
  	 }
 
-    </script>
-    
+        </script>
+            <p id="soundVar"></p>   
+    </form> <!---/auth/mapp-->
+
 
 </body>
 </html>
