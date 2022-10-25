@@ -150,9 +150,9 @@
             str = "";
 
 
-            for (let i = 0 ; i < pnu.length ; i += 3){
-                str += '<div id = "videos"><div class="profile"><img class="imgSize" src="' + pnu[i] + '"><h4 class = grayish id = "nickname">\
-                    ' + pnu[i+1] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i+2] + '\
+            for (let i = pnu.length - 1; i > 0 ; i -= 3){
+                str += '<div id = "videos"><div class="profile"><img class="imgSize" src="' + pnu[i-2] + '"><h4 class = grayish id = "nickname">\
+                    ' + pnu[i-1] + '</h4><video class="video" width="100%" loop controls><source src ="' + pnu[i] + '\
                     " type = "video/mp4"></br></video></br></div><hr>'
             }     
             document.write(str);
