@@ -380,7 +380,7 @@ exports.search = (req, res) => {
         })
     }
 
-    db.query('select Path, Comment from Video where updateType = 1', async(error, result) => {
+    db.query('select Path, Comment from Video where uploadType = 1', async(error, result) => {
 
         for(var data of result) {
             if (data.Comment != null){
