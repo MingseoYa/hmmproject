@@ -400,6 +400,7 @@ exports.search = (req, res) => {
 //map에서 tag버튼을 눌렀을 때
 exports.soundlist = (req, res) => {
     const {sound} = req.body; //sound는 1,2,3,4
+    var string = ""
     console.log(sound);
     var pnu = [];//경로랑 유저닉네임 같이 저장
 
@@ -419,9 +420,14 @@ exports.soundlist = (req, res) => {
 
         }
         //console.log(sound);
+        if (sound == "2") {
+            string = "스튜디오3";
+        }else if (sound == "3") {
+            string = "파우더룸";
+        }
 
         return res.render('soundlist', 
-            {pnu : pnu, sound : sound});
+            {pnu : pnu, sound : string});
 
     })
 

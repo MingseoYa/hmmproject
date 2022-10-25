@@ -75,24 +75,15 @@
             padding: 5px;
         }
         #nickname{
-            border: none;
             display: inline-block;
             margin: 0;
             height: 30px;
             line-height: 30px;
             margin-left: 5px;
-            color: rgb(75, 75, 75); 
-            background-color: transparent;
-        }
-        #nickname:hover{
-            cursor: pointer;
         }
         .video{
             border-radius: 10px;
-        }
-        .formName{
-            width: 0; height: 0;
-            display: inline-block
+            
         }
     </style>
 </head>
@@ -114,14 +105,13 @@
             str = "";
             
             for (let i = 0 ; i < pnu.length ; i += 4){
+                console.log(pnu[i+2]);
                 str += '<div id = "videos"><div class="profile"><img class="imgSize" src="' + pnu[i] + '\
-                        "><form class="formName" action="/auth/friendProfile" method = "POST"><button type = "submit" value="' + pnu[i+1] + '" id = "nickname" name = "friendname">' + pnu[i+1] + '\
-                        </button></form></div><video class="video" width="100%" loop controls><source src ="' + pnu[i+2] + '\
-                        " type = "video/mp4"><br></video><br><h5 class="comment">' + pnu[i+3] + '</h5></div><hr>'
+                        "><h4 class = "grayish" id = "nickname">' + pnu[i+1] + '\
+                        </h4></div><video class="video" width="100%" loop controls><source src ="' + pnu[i+2] + '\
+                        " type = "video/mp4"><br></video><br><h5 class="grayish">' + pnu[i+3] + '</h5></div><hr>'
             }     
-            
             document.write(str);
-            
 
         }else{
             document.write("<h5 id = 'novideo'>등록된 영상이 없습니다.</h5>");
