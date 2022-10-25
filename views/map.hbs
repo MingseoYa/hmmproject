@@ -124,7 +124,7 @@
         /*height : 500px;
         width : 400px;*/
         right : 0px;
-        top : 50px;
+        top : 70px;
         opacity : 0;
         z-index: -3;
         position : absolute;
@@ -265,8 +265,8 @@ building=locations[i][0]>
       <input type = "text" name = "word" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
 
       <button type = "submit">검색</button>
+
       </form>
-      
       <div id = "searchresult" class = "searchresult"></div>
 
 
@@ -362,41 +362,34 @@ function setup() {
 
 
 function draw() {
-  background(220);
+        background(220);
 
-var sound = 0;
-var strSound = ""
-    note2 = noteSpan2.html();
-    if(note2>=18000 && note2<20000){
-      tagging.style.display = 'block';
-      console.log(note2);
-      var sound =18000;
-      strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
-      document.getElementById('soundVar').innerHTML=strSound;
-    } 
-    else if(note2>=20000 && note2<22000){
-      tagging.style.display = 'block';
-      console.log(note2);
-      var sound =20000;
+        var sound = 0;
+        var strSound = ""
+        note2 = noteSpan2.html();
+        if(note2>=16500 && note2<18000){
+          tagging.style.display = 'block';
+          console.log(note2);
+          var sound =2;
           strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
-    document.getElementById('soundVar').innerHTML=strSound;
-    } 
-    else if(note2>=22000 && note2<24000){
-      tagging.style.display = 'block';
-      console.log(note2);
-      var sound =22000;
+          document.getElementById('soundVar').innerHTML=strSound;
+        } 
+        else if(note2>=22500 && note2<24000){
+          tagging.style.display = 'block';
+          console.log(note2);
+          var sound =3;
           strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
-    document.getElementById('soundVar').innerHTML=strSound;
-  
-    } 
-    else if(note2>=0 && note2<18000){
-      setTimeout(function(){
-        tagging.style.display = 'none';
-      console.log(note2);
-      }, 100)  
-    }
+          document.getElementById('soundVar').innerHTML=strSound;
 
-  }
+        } 
+        else if(note2>=0 && note2<16500){
+          setTimeout(function(){
+            tagging.style.display = 'none';
+          console.log(note2);
+          }, 3000)  
+        }
+
+      }
 
     </script>
     <p id="soundVar"></p>
