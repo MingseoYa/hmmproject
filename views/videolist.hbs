@@ -105,12 +105,12 @@
             pnu = pnu.split(',');
             str = "";
             
-            for (let i = 0 ; i < pnu.length ; i += 4){
+            for (let i = pnu.length - 1 ; i > 0; i -= 4){
                 console.log(pnu[i+2]);
-                str += '<div id = "videos"><div class="profile"><img class="imgSize" src="' + pnu[i] + '\
-                        "><h4 class = "grayish" id = "nickname">' + pnu[i+1] + '\
-                        </h4></div><video class="video" width="100%" loop controls><source src ="' + pnu[i+2] + '\
-                        " type = "video/mp4"><br></video><br><h5 class="grayish">' + pnu[i+3] + '</h5></div><hr>'
+                str += '<div id = "videos"><div class="profile"><img class="imgSize" src="' + pnu[i-3] + '\
+                        "><h4 class = "grayish" id = "nickname">' + pnu[i-2] + '\
+                        </h4></div><video class="video" width="100%" loop controls><source src ="' + pnu[i-1] + '\
+                        " type = "video/mp4"><br></video><br><h5 class="grayish">' + pnu[i] + '</h5></div><hr>'
             }     
             document.write(str);
 
