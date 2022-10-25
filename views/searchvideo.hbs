@@ -39,7 +39,7 @@
             
         }
         body{
-            padding-top: 75px;
+            padding-top: 120px;
             height: 90%;
             margin: 0;
         }
@@ -65,17 +65,17 @@
             display: inline-block;
         }
         #search-input{
+            width: 40vw;
+            height: 3.5vh;
             margin-left: 25px;
-            border : none;
-            border-bottom: solid 2px rgb(143, 143, 143);
-            border-radius: 5px;
+            border: 0;
+            border-radius: 15px;
+            outline: none;
+            background-color: rgb(233, 233, 233);
         }
         #search{
-            background-color:rgb(236, 243, 255);
-            color:rgb(135, 177, 235);
             border:none;
-            border-radius: 5px;
-            height: 30px;
+            background-color: transparent;
         }
         #box{
             margin-left: 20%;
@@ -94,9 +94,9 @@
         <div id="box">
         <form id = "form1" action = "/auth/search" method = "POST">
         
-        <input type = "text" name = "word" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
+        <input type = "text" name = "word" id = "search-input" placeholder="검색어를 입력하세요.">
 
-        <button  id="search" type = "submit">검색</button>
+        <button  id="search" class = "searchBtn" type = "submit"><img class = "searchImg" src="/image/search-icon-png-18.png" alt = "" width = "25vw" height = "25vh"></button>
         
         </form>
         </div>
