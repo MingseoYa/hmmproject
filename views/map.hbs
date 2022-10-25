@@ -83,18 +83,9 @@
         top: 1%;
         margin-right: 10px;
       }
-      #SerchMove {
-        background-color: rgb(244, 244, 244);
-        border: solid 1.5px rgb(143, 143, 143);
 
-        display: inline-block;
-        cursor: pointer;
-
-
-      }
       #mp{
-        width: 25px;
-        line-height: 40px;
+        width: 30px;
         margin: 0 auto;
       }
       .logo{
@@ -114,7 +105,7 @@
         background-color: transparent;
       }
       .nam{
-        font-size: 1.2em;
+        font-size: 3vh;
         color: rgb(135, 177, 235);
       }
 
@@ -150,6 +141,8 @@
  	      display: none; 
       }
       #SearchMove{
+        padding-top: 5px;
+        margin-right: 10px;
         border: none;
         background-color: transparent;
       }
@@ -239,13 +232,13 @@ building=locations[i][0]>
 
     <div>
       <form action = "/auth/search" method = "POST">
-        <button id = "SearchMove" type = "submit"><img class = "search" src="/image/search_icon.jpg" alt = "" width = "35px" height = "35px"></button>
+        <button id = "SearchMove" type = "submit"><img class = "search" src="/image/search-icon-png-18.png" alt = "" width = "35px" height = "35px"></button>
       </form>
     </div>
 
-    <div class="icon" onclick="toggleNotifi()">
+    {{!-- <div class="icon" onclick="toggleNotifi()">
         <img src="img/bell2.png" alt=""> <span>5</span>
-    </div>
+    </div> --}}
 
 
     <div class="myPage">
@@ -256,20 +249,20 @@ building=locations[i][0]>
 
     <!--알람창-->
     
-    <div class="notifi-box" id="box">
+    {{!-- <div class="notifi-box" id="box">
         <h2>Notification <span><div id="sum">5</div></span></h2>
         <script>
-          for(var i = 0; i< 5; i++){
-            var a = i + 1
-            document.write('<div class="notifi-item">');
-            document.write('<img src="img/avatar'+ a +'.jpg" alt="img">');
-            document.write('<div class="text"><h4>avatar'+ a +'</h4>');
-            document.write('<p>avatar'+ a +'님이 공유한 영상을 확인하세요');
-            document.write('</p></div></div>');
+         // for(var i = 0; i< 5; i++){
+          //  var a = i + 1
+            //document.write('<div class="notifi-item">');
+            //document.write('<img src="img/avatar'+ a +'.jpg" alt="img">');
+            //document.write('<div class="text"><h4>avatar'+ a +'</h4>');
+            //document.write('<p>avatar'+ a +'님이 공유한 영상을 확인하세요');
+            //document.write('</p></div></div>');
           }
-        </script>
+        </script> --}}
         
-    </div>
+    {{!-- </div> --}}
 
     <!--검색창-->
 
@@ -367,7 +360,7 @@ c			<div class="note"><span id="note">-</span></div>
 
   <div id = "tagging">
     <form action = "/auth/soundlist" method = "POST">
-    <button type = "submit" id = "moveSound" >TAG</button>
+    <button type = "submit" id = "moveSound">TAG</button>
      <script>
       let note2 = "";
 let noteSpan2;
