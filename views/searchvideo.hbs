@@ -50,7 +50,6 @@
         }
         @media screen and (min-width:768px){
             fieldset{
-        width: 50%;
         border: none;
         margin: 0 auto;
         }
@@ -78,6 +77,11 @@
             border-radius: 5px;
             height: 30px;
         }
+        #box{
+            margin-left: 20%;
+            display: inline-block;
+
+        }
     </style>
 </head>
 <body>
@@ -87,13 +91,15 @@
             <button id="bbaek" >&lt;</button>
         </form>
 
-        <form action = "/auth/search" method = "POST">
+        <div id="box">
+        <form id = "form1" action = "/auth/search" method = "POST">
         
         <input type = "text" name = "word" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
 
         <button  id="search" type = "submit">검색</button>
-
+        
         </form>
+        </div>
     </div>
     </header>
 
