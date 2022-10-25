@@ -84,6 +84,15 @@
         top: 1%;
         margin-right: 10px;
       }
+      #SerchMove {
+        background-color: rgb(244, 244, 244);
+        border: solid 1.5px rgb(143, 143, 143);
+
+        display: inline-block;
+        cursor: pointer;
+
+
+      }
       #mp{
         width: 25px;
         line-height: 40px;
@@ -140,6 +149,10 @@
       }
       #detector{
  	      display: none; 
+      }
+      #SearchMove{
+        border: none;
+        background-color: transparent;
       }
       
     </style>
@@ -225,9 +238,11 @@ building=locations[i][0]>
     <div class="logo"><h1 class="nam">Local Shorts'</h1></div>
 
 
-  <div onclick = "toggleSearch()">
-    <img class = "search" src="/image/search_icon.jpg" alt = "" width = "35px" height = "35px">
-  </div>
+    <div>
+      <form action = "/auth/search" method = "POST">
+        <button id = "SearchMove" type = "submit"><img class = "search" src="/image/search_icon.jpg" alt = "" width = "35px" height = "35px"></button>
+      </form>
+    </div>
 
     <div class="icon" onclick="toggleNotifi()">
         <img src="img/bell2.png" alt=""> <span>5</span>
@@ -259,7 +274,7 @@ building=locations[i][0]>
 
     <!--검색창-->
 
-    
+{{!--      
     <div class="search-box" id = "search-box">
     <form action = "/auth/search" method = "POST">
     
@@ -268,12 +283,13 @@ building=locations[i][0]>
       <button type = "submit">검색</button>
 
     </form>
-    <div id = "searchresult" class = "searchresult"></div>
+    <div id = "searchresult" class = "searchresult"></div> --}}
 
 
 
       <div id = "videos">
 
+      <!--
         <script>
           var searchbox = document.getElementById("search-box");
           var videos = document.getElementById("videos");
@@ -295,6 +311,10 @@ building=locations[i][0]>
         
           
         </script>
+
+      -->
+
+
         {{!-- <script src = "/controllers/auth.js"></script> --}}
       </div>
       
@@ -368,14 +388,14 @@ building=locations[i][0]>
         var sound = 0;
         var strSound = ""
         note2 = noteSpan2.html();
-        if(note2>=16500 && note2<18000){
+        if(note2>=16000 && note2<18000){ //19000
           tagging.style.display = 'block';
           console.log(note2);
           var sound =2;
           strSound = "<input type = 'hidden' id = 'sound' name = 'sound' value = " + sound + ">"  
           document.getElementById('soundVar').innerHTML=strSound;
         } 
-        else if(note2>=22500 && note2<24000){
+        else if(note2>=22500 && note2<24000){ //20000
           tagging.style.display = 'block';
           console.log(note2);
           var sound =3;

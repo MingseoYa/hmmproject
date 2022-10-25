@@ -348,7 +348,7 @@ exports.mypagere = (req, res, next) => {
         });
     }
     
-    db.query('select PKey, ProfileImg from Users where nickname = ?', [nickname], async(error, result1) =>{
+    db.query('select PKey, ProfileImg from Users where NickName = ?', [nickname], async(error, result1) =>{
         var pkey2 =[];
         for(var data of result1){
             pkey2.push(data.PKey);
@@ -369,13 +369,19 @@ exports.mypagere = (req, res, next) => {
 }
 
 exports.search = (req, res) => {
-    const {word} = req.body;
+    var {word} = req.body;
+    console.log(typeof(word));
     console.log(word);
 
     var videopath = [];
-    //게시글로 올린것만 나오도록하기!!!!!!
+    if (word == "") {
+        return res.render("searchvideo", {
+            word : word, videopath : videopath
+        })
+    }
+
     db.query('select Path, Comment from Video where updateType = 1', async(error, result) => {
-        
+
         for(var data of result) {
             if (data.Comment != null){
                 if (data.Comment.includes(word)){

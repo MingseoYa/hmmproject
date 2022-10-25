@@ -12,11 +12,95 @@
         #novideo{
             color : rgb(143, 143, 143);
         }
+        #bbaek {
+            width: 52px;
+            font-weight: bold;
+            border: none;
+            background: rgb(255, 255, 255);
+            color: gray;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            font-size: 20px;
+            top:1%;
+        }
+        header {  
+            height: 10%;
+            position : fixed;
+            width: 100%;
+            background-color: white;
+            top : 0;
+            left: 0;
+
+            border-bottom: solid 1.5px rgb(218, 218, 218);
+            color: rgb(135, 177, 235);
+            display: flex;
+            align-items: center;
+            
+        }
+        body{
+            padding-top: 75px;
+            height: 90%;
+            margin: 0;
+        }
+        @media screen and (max-width:767px){
+            fieldset{
+        border: none;
+        }
+        }
+        @media screen and (min-width:768px){
+            fieldset{
+        width: 50%;
+        border: none;
+        margin: 0 auto;
+        }
+        }
+        .video{
+            border-radius: 10px;
+            
+        }
+        .search-box{
+            width: 100%;
+        }
+        form{
+            display: inline-block;
+        }
+        #search-input{
+            margin-left: 25px;
+            border : none;
+            border-bottom: solid 2px rgb(143, 143, 143);
+            border-radius: 5px;
+        }
+        #search{
+            background-color:rgb(236, 243, 255);
+            color:rgb(135, 177, 235);
+            border:none;
+            border-radius: 5px;
+            height: 30px;
+        }
     </style>
 </head>
 <body>
+    <header>
+    <div class="search-box" id = "search-box">
+        <form action="/auth/map" method = "POST">
+            <button id="bbaek" >&lt;</button>
+        </form>
 
-    <h2 id = "title">#{{word}}#의 검색결과입니다</h2>
+        <form action = "/auth/search" method = "POST">
+        
+        <input type = "text" name = "word" class = "search-input" id = "search-input" placeholder="검색어를 입력하세요.">
+
+        <button  id="search" type = "submit">검색</button>
+
+        </form>
+    </div>
+    </header>
+
+    <fieldset>
+    <div id = "searchresult" class = "searchresult"></div>
+
+    {{!-- <h2 id = "title">#{{word}}#의 검색결과입니다</h2> --}}
 
     <script language = "javascript">
         var videopath = "{{videopath}}";
@@ -58,6 +142,6 @@
         
     </script>
 
-    
+    </fieldset>
 </body>
 </html>
