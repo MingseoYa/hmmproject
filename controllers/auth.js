@@ -414,7 +414,7 @@ exports.soundlist = (req, res) => {
 
     
 
-    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.Type = ?', [sound], async(error, results) => {
+    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.UploadType = ?', [sound], async(error, results) => {
 
         for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
             //console.log(data);
