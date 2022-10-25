@@ -16,7 +16,6 @@
   <script src="/soundtag/p5.sound.min.js"></script>
   <script src="/soundtag/pitchdetect.js"></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1CRIgIqQf_ppOohrDv3FICLc9Lst-pXs&callback=initMap&libraries=&v=weekly"
     defer
@@ -101,7 +100,7 @@
       .logo{
         padding-left:3%;
       }
-    
+      
       #map {
         height: 89.8%;
         position: fixed;
@@ -355,34 +354,34 @@ building=locations[i][0]>
           </script>
           <p id="geo"></p>
           <button type= "submit" id="camInputLabel">+</button>
-        </form>
-      </div>
+          </form>
+        </div>
 
       <script src="/soundtag/sketch.js"></script>
     
     <div id="detector" class="vague">
 			<div class="pitch"><span id="pitch">--</span>Hz</div>
-			<div class="note"><span id="note">-</span></div>   
+c			<div class="note"><span id="note">-</span></div>   
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents ♭</span><span id="sharp">cents ♯</span></div>
 		</div>
 
   <div id = "tagging">
     <form action = "/auth/soundlist" method = "POST">
-    <button type = "submit" id = "moveSound">TAG</button>
+    <button type = "submit" id = "moveSound" >TAG</button>
      <script>
       let note2 = "";
-      let noteSpan2;
+let noteSpan2;
 
-      function setup() {
-        createCanvas(0, 0);
-        getAudioContext().resume();
-        toggleLiveInput();
-        noteSpan2 = select('#pitch');
-        // textSize(48);
-      }
+function setup() {
+  createCanvas(0, 0);
+  getAudioContext().resume();
+  toggleLiveInput();
+  noteSpan2 = select('#pitch');
+  // textSize(48);
+}
 
 
-      function draw() {
+function draw() {
         background(220);
 
         var sound = 0;
@@ -413,8 +412,8 @@ building=locations[i][0]>
       }
 
     </script>
-    <p id="soundVar"></p>   
-    </form>  
+    <p id="soundVar"></p>
+    </form>      
   </div>
 
    

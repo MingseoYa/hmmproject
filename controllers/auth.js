@@ -403,6 +403,8 @@ exports.soundlist = (req, res) => {
     var string = ""
     console.log(sound);
     var pnu = [];//경로랑 유저닉네임 같이 저장
+    var datapath;
+    var datanickname;
 
     // const {sound} = req.body;
     // res.render("soundlist",{sound : sound})
@@ -410,7 +412,7 @@ exports.soundlist = (req, res) => {
 
     
 
-    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.UpdateType = ?', [sound], async(error, results) => {
+    db.query('select NickName, Path from Video, Users where Video.UserPKey = Users.PKey and Video.Type = ?', [sound], async(error, results) => {
 
         for(var data of results){//한줄만 뽑히잖니';;;;;경로, 유저키
             //console.log(data);
